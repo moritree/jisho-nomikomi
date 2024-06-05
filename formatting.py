@@ -3,6 +3,7 @@ from jisho_api.word.request import WordRequest
 
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level']
 DEFINITION_SEPARATOR_STR = "; "
+TYPE_SEPARATOR_STR = ", "
 
 
 def word_formatted(word: WordRequest, csv_format: list[str], senses: int) -> list[str]:
@@ -18,22 +19,32 @@ def char_separated_str(ss: list[str], separator: str) -> str:
 
 
 def get_field(word: WordRequest, field: str, senses: int) -> str:
+    sense_count = word.data[0].senses.__len__()
     match field:
         case 'vocab':
             return word.data[0].japanese[0].word
         case 'kana':
             return word.data[0].japanese[0].reading
         case 'translation':
-            if senses == 1:
+            if senses == 1 or sense_count == 1:
                 return char_separated_str(word.data[0].senses[0].english_definitions, DEFINITION_SEPARATOR_STR)
             # one string with <br> separating sense definitions
             return reduce(lambda x, y: x + "<br>" + y,
                           # each sense mapped to the format "def; def; ..."
-                          [char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
+                          [f"({word.data[0].senses.index(line).__str__()}) "
+                           + char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
                            # sublist of senses list according to n sought
                            for line in (word.data[0].senses[:senses] if senses > 0 else word.data[0].senses)])
         case 'part_of_speech':
-            return word.data[0].senses[0].parts_of_speech.__str__()
+            if senses == 1 or sense_count == 1:
+                return char_separated_str(word.data[0].senses[0].parts_of_speech, TYPE_SEPARATOR_STR)
+            # one string with <br> separating parts of speech, corresponding to sense definitions
+            return reduce(lambda x, y: x + "<br>" + y,
+                          # each sense mapped to the format "def; def; ..."
+                          [f"({word.data[0].senses.index(line).__str__()}) "
+                           + char_separated_str(line.parts_of_speech, TYPE_SEPARATOR_STR)
+                           # sublist of senses list according to n sought
+                           for line in (word.data[0].senses[:senses] if senses > 0 else word.data[0].senses)])
         case 'jlpt_level':
             if word.data[0].jlpt.__len__() > 0:
                 return word.data[0].jlpt[0][-2:].upper()

@@ -16,6 +16,6 @@ setup(
 
 # python3 -m venv .venv
 # . .venv/bin/activate
-# pip install --editable .
+# pip3 install --editable .
 
 # run the last line again when command names are changed/added/etc
