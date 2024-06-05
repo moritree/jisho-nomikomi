@@ -10,7 +10,7 @@ import click
 @click.option('-o', '--output-filename', default='out.csv', show_default=True)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
               help="Overwrite the contents of any existing output file")
-def word_file(japanese, output_filename, overwrite):
+def word_card(japanese, output_filename, overwrite):
     w = Word.request(japanese)
     click.echo(f'Writing card row for {japanese}')
     try:

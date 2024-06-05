@@ -9,7 +9,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'word_file = application:word_file',
+            'word_card = application:word_card',
         ],
     },
 )
@@ -17,3 +17,5 @@ setup(
 # python3 -m venv .venv
 # . .venv/bin/activate
 # pip install --editable .
+
+# run the last line again when command names are changed/added/etc
