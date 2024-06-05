@@ -8,8 +8,9 @@ A command line tool for generating Anki cards with information from [jisho.org](
 
 # Usage ⚙️ 使い方
 ## Commands
-### `word_card`
-Generate a card from the given word.
+You can run any command with the option `--help` for documentation.
+### `word [OPTIONS] [WORDS]...`
+Generate a card for each of the given words, and save them to the output CSV.
 
 ## Installation
 To test the CLI, you can make a new virtualenv and then install the package. From a terminal within the project folder:
