@@ -11,7 +11,7 @@ import click
 @click.option('-ow', '--overwrite', is_flag=True, default=False, help="Overwrite an existing output file")
 def word_file(japanese, output_filename, overwrite):
     w = Word.request(japanese)
-    print('writing to csv: ' + w.data[0].japanese[0].word)
+    click.echo(f'Writing card row for {japanese}')
     try:
         write_item_to_csv(output_filename, formatting.word_formatted(w, formatting.VALID_FIELDS), overwrite)
     except RuntimeError as e:
