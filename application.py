@@ -21,7 +21,7 @@ def cards_from_words(words, output_filename, overwrite, senses):
     for w in words:
         wr = Word.request(w)
         if wr.data[0].japanese[0].word:
-            click.echo(f'Found: {wr.data[0].japanese[0].word} ({wr.data[0].japanese[0].reading})')
+            click.echo(f'Found: {wr.data[0].japanese[0].word}（{wr.data[0].japanese[0].reading}）')
         else:
             click.echo(f'Found: {wr.data[0].japanese[0].reading}')
         rows.append(formatting.word_formatted(wr, formatting.VALID_FIELDS, senses))
