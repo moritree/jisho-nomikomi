@@ -28,9 +28,9 @@ def cards_from_words(words, output_filename, overwrite, senses):
             click.echo(f'Found: {wr.data[0].japanese[0].reading}')
         rows.append(formatting.word_formatted(wr, formatting.VALID_FIELDS, senses))
 
-    click.echo(f'Writing...')
+    click.echo(f'Writing {rows.__len__()} words to {output_filename}...')
     failed = write_rows(output_filename, rows, overwrite)
     if failed:
-        print(f'Failed to write rows {reduce(lambda a, b: a.__str__() + ", " + b.__str__(), 
-                                             [rows.index(line) for line in failed])}.')
+        print(f'Failed to write row(s) {reduce(lambda a, b: a.__str__() + ", " + b.__str__(),
+                                               [rows.index(line) for line in failed])}.')
     click.echo('Done.')
