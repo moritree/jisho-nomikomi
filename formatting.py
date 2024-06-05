@@ -15,11 +15,18 @@ def word_formatted(word: WordRequest, csv_format: list[str], senses: int) -> lis
 
 
 def char_separated_str(ss: list[str], separator: str) -> str:
+    if ss.__len__() == 0:
+        return ""
+    if ss.__len__() == 1:
+        return ss[0]
     return reduce(lambda x, y: x + separator + y, ss)
 
 
 def get_field(word: WordRequest, field: str, senses: int) -> str:
     sense_count = word.data[0].senses.__len__()
+    # sublist of senses list according to n sought
+    sublist = word.data[0].senses[:min(senses, sense_count - 1)] if senses > 0 \
+        else word.data[0].senses
     match field:
         case 'vocab':
             return word.data[0].japanese[0].word
@@ -33,8 +40,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
                           # each sense mapped to the format "def; def; ..."
                           [f"({word.data[0].senses.index(line).__str__()}) "
                            + char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
-                           # sublist of senses list according to n sought
-                           for line in (word.data[0].senses[:senses] if senses > 0 else word.data[0].senses)])
+                           for line in sublist])
         case 'part_of_speech':
             if senses == 1 or sense_count == 1:
                 return char_separated_str(word.data[0].senses[0].parts_of_speech, TYPE_SEPARATOR_STR)
@@ -43,8 +49,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
                           # each sense mapped to the format "def; def; ..."
                           [f"({word.data[0].senses.index(line).__str__()}) "
                            + char_separated_str(line.parts_of_speech, TYPE_SEPARATOR_STR)
-                           # sublist of senses list according to n sought
-                           for line in (word.data[0].senses[:senses] if senses > 0 else word.data[0].senses)])
+                           for line in sublist])
         case 'jlpt_level':
             if word.data[0].jlpt.__len__() > 0:
                 return word.data[0].jlpt[0][-2:].upper()
