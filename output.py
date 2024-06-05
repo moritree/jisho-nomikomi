@@ -1,6 +1,18 @@
 import csv
 import io
 import os
+from pathlib import Path
+
+
+CACHE_DIR: Path = Path.home() / '.nomikomi'
+CACHE_FILENAME = 'cache.csv'
+
+
+def cache_tokens(tokens: list[str]):
+    CACHE_DIR.mkdir(exist_ok=True)
+    with open(CACHE_DIR / CACHE_FILENAME, 'w') as cache_file:
+        writer = csv.writer(cache_file, dialect='unix')
+        writer.writerow(tokens)
 
 
 def line_exists(filename: str, line: str) -> bool:

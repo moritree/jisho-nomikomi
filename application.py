@@ -3,7 +3,7 @@ from functools import reduce
 from jisho_api.word import Word
 
 import formatting
-from output import write_rows
+from output import write_rows, cache_tokens
 import click
 
 
@@ -34,3 +34,10 @@ def cards_from_words(words, output_filename, overwrite, senses):
         print(f'Failed to write row(s) {reduce(lambda a, b: a.__str__() + ", " + b.__str__(),
                                                [rows.index(line) for line in failed])}.')
     click.echo('Done.')
+
+
+@click.command()
+@click.argument('text', nargs=-1)
+def tokens(text):
+    print(text)
+    cache_tokens(text)

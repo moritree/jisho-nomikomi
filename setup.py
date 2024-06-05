@@ -10,6 +10,7 @@ setup(
     entry_points={
         'console_scripts': [
             'word = application:cards_from_words',
+            'tokens = application:tokens',
         ],
     },
 )
