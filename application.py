@@ -23,3 +23,4 @@ def word_card(japanese, output_filename, overwrite, senses):
         write_item_to_csv(output_filename, formatting.word_formatted(w, formatting.VALID_FIELDS, senses), overwrite)
     except RuntimeError as e:
         print("Failed to write: " + e.__str__())
+    click.echo('Done.')
