@@ -6,9 +6,10 @@ import click
 
 
 @click.command()
-@click.option('-j', '--japanese')
+@click.option('-j', '--japanese', help="Japanese word (kanji, kana, romaji)")
 @click.option('-o', '--output-filename', default='out.csv', show_default=True)
-@click.option('-ow', '--overwrite', is_flag=True, default=False, help="Overwrite an existing output file")
+@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
+              help="Overwrite the contents of any existing output file")
 def word_file(japanese, output_filename, overwrite):
     w = Word.request(japanese)
     click.echo(f'Writing card row for {japanese}')
