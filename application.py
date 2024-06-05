@@ -1,7 +1,9 @@
+from functools import reduce
+
 from jisho_api.word import Word
 
 import formatting
-from output import write_item
+from output import write_rows
 import click
 
 
@@ -27,13 +29,8 @@ def cards_from_words(words, output_filename, overwrite, senses):
         rows.append(formatting.word_formatted(wr, formatting.VALID_FIELDS, senses))
 
     click.echo(f'Writing...')
-    for row in rows:
-        try:
-            write_item(output_filename, row, overwrite)
-        except RuntimeError as e:
-            print(f"Failed to write row for {words[rows.index(row)]}: {e.__str__()}")
-
-        # don't overwrite every SINGLE word as we go, that would be silly
-        if overwrite:
-            overwrite = False
+    failed = write_rows(output_filename, rows, overwrite)
+    if failed:
+        print(f'Failed to write rows {reduce(lambda a, b: a.__str__() + ", " + b.__str__(), 
+                                             [rows.index(line) for line in failed])}.')
     click.echo('Done.')
