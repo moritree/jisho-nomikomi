@@ -5,6 +5,7 @@ VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level']
 
 def word_formatted(word: WordRequest, csv_format: list[str]) -> list[str]:
     it_list = []
+    # print(word)
     for field in csv_format:
         it_list.append(get_field(word, field))
 
@@ -22,6 +23,7 @@ def get_field(word: WordRequest, field: str) -> str:
         case 'part_of_speech':
             return word.data[0].senses[0].parts_of_speech.__str__()
         case 'jlpt_level':
-            return word.data[0].jlpt[0]
+            if word.data[0].jlpt.__len__() > 0:
+                return word.data[0].jlpt[0]
         case _:
             raise RuntimeError('Unknown field: ' + field)

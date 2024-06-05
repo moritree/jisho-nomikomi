@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 def csv_header(tags: str = None, deck: str = None) -> str:  # Anki header data
@@ -10,9 +11,11 @@ def csv_header(tags: str = None, deck: str = None) -> str:  # Anki header data
     ])
 
 
-def write_csv(filename: str, rows: list[str]):
-    with (open(filename, 'w', newline='')) as csvfile:
-        csvfile.write(csv_header())
+def write_csv(filename: str, rows: list[str], overwrite: bool = False):
+    already_exists = os.path.isfile(filename)
+    with (open(filename, 'w' if overwrite else 'a', newline='')) as csvfile:
+        if not already_exists or overwrite:
+            csvfile.write(csv_header())
 
         writer = csv.writer(csvfile, dialect='unix')
         writer.writerow(rows)
