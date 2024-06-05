@@ -5,7 +5,6 @@ VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level']
 
 def word_formatted(word: WordRequest, csv_format: list[str]) -> list[str]:
     it_list = []
-    # print(word)
     for field in csv_format:
         it_list.append(get_field(word, field))
 

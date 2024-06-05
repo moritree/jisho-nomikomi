@@ -1,7 +1,7 @@
 from jisho_api.word import Word
 
 import formatting
-from output import write_csv
+from output import write_item_to_csv
 import click
 
 
@@ -12,4 +12,7 @@ import click
 def word_file(japanese, output_filename, overwrite):
     w = Word.request(japanese)
     print('writing to csv: ' + w.data[0].japanese[0].word)
-    write_csv(output_filename, formatting.word_formatted(w, formatting.VALID_FIELDS), overwrite)
+    try:
+        write_item_to_csv(output_filename, formatting.word_formatted(w, formatting.VALID_FIELDS), overwrite)
+    except RuntimeError as e:
+        print("Failed to write: " + e.__str__())
