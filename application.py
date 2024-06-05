@@ -1,7 +1,7 @@
 from jisho_api.word import Word
 
 import formatting
-from output import write_item_to_csv
+from output import write_item
 import click
 
 
@@ -29,7 +29,7 @@ def cards_from_words(words, output_filename, overwrite, senses):
     click.echo(f'Writing...')
     for row in rows:
         try:
-            write_item_to_csv(output_filename, row, overwrite)
+            write_item(output_filename, row, overwrite)
         except RuntimeError as e:
             print(f"Failed to write row for {words[rows.index(row)]}: {e.__str__()}")
 

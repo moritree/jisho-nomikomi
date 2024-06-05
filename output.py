@@ -20,17 +20,17 @@ def csv_formatted_item(item: list[str]) -> str:
     return out.read()
 
 
-def write_item_to_csv(filename: str, item: list[str], overwrite: bool = False):
+def write_item(filename: str, item: list[str], overwrite: bool = False):
     already_exists = os.path.isfile(filename)
-    with (open(filename, 'w' if overwrite else 'a', newline='')) as csvfile:
+    with (open(filename, 'w' if overwrite else 'a', newline='')) as file:
         # don't need to write anything if this item already exists in the file
         if line_exists(filename, csv_formatted_item(item)):
             raise RuntimeError('Line for this word already exists')
         # write Anki header if necessary
         if not already_exists or overwrite:
-            csvfile.write(csv_header())
+            file.write(csv_header())
         # write row in csv format
-        csvfile.write(csv_formatted_item(item))
+        file.write(csv_formatted_item(item))
 
 
 def line_exists(filename: str, line: str) -> bool:
