@@ -9,7 +9,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'word = application:word',
+            'word = application:cards_from_words',
         ],
     },
 )
