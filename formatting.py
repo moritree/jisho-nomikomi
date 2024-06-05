@@ -38,7 +38,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
             # one string with <br> separating sense definitions
             return reduce(lambda x, y: x + "<br>" + y,
                           # each sense mapped to the format "def; def; ..."
-                          [f"({word.data[0].senses.index(line).__str__()}) "
+                          [f"({(word.data[0].senses.index(line) + 1).__str__()}) "
                            + char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
                            for line in sublist])
         case 'part_of_speech':
@@ -47,7 +47,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
             # one string with <br> separating parts of speech, corresponding to sense definitions
             return reduce(lambda x, y: x + "<br>" + y,
                           # each sense mapped to the format "def; def; ..."
-                          [f"({word.data[0].senses.index(line).__str__()}) "
+                          [f"({(word.data[0].senses.index(line) + 1).__str__()}) "
                            + char_separated_str(line.parts_of_speech, TYPE_SEPARATOR_STR)
                            for line in sublist])
         case 'jlpt_level':
