@@ -5,9 +5,9 @@ import os
 
 def csv_header(tags: str = None, deck: str = None) -> str:  # Anki header data
     return ''.join([
-        'separator:comma',
-        f'\ndeck:{deck}' if deck else '',
-        f'\ntags:{tags}' if tags else '',
+        '#separator:comma',
+        f'\n#deck:{deck}' if deck else '',
+        f'\n#tags:{tags}' if tags else '',
         '\n'
     ])
 
