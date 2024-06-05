@@ -1,6 +1,4 @@
 from functools import reduce
-
-import click
 from jisho_api.word.request import WordRequest
 
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level']
@@ -38,6 +36,6 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
             return word.data[0].senses[0].parts_of_speech.__str__()
         case 'jlpt_level':
             if word.data[0].jlpt.__len__() > 0:
-                return word.data[0].jlpt[0]
+                return word.data[0].jlpt[0][-2:].upper()
         case _:
             raise RuntimeError('Unknown field: ' + field)
