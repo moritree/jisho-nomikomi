@@ -1,16 +1,11 @@
 import csv
 import io
-import os
-import shutil
 from functools import reduce
-from pathlib import Path
 
+from config import CACHE_DIR, TOKEN_CACHE_FILENAME
 from formatting import CSV_DIALECT, csv_header
 from reading import line_exists
 
-CACHE_DIR: Path = Path.home() / '.nomikomi'
-CACHE_FILENAME = 'cache.csv'
-TOKEN_CACHE_FILENAME = 'token_cache.csv'
 DEFAULT_OUTFILE = 'out.csv'
 
 
@@ -33,9 +28,9 @@ def csv_formatted_item(item: list[str]) -> str:
     return out.read()
 
 
-def write_export(file, lines: list[list[str]], deck=None, tags=None):
+def write_export(file, lines: list[list[str]]):
     # write header
-    file.write(csv_header(deck=deck, tags=tags))
+    file.write(csv_header())
     for line in lines:
         file.write(csv_formatted_item(line))
 

@@ -1,8 +1,10 @@
 import json
-
-from output import CACHE_DIR
+from pathlib import Path
 
 CONFIG_FILENAME = 'config.json'
+CACHE_DIR: Path = Path.home() / '.nomikomi'
+CACHE_FILENAME = 'cache.csv'
+TOKEN_CACHE_FILENAME = 'token_cache.csv'
 
 
 def update_settings(items: dict):

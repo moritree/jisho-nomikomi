@@ -1,6 +1,8 @@
 from functools import reduce
 from jisho_api.word.request import WordRequest
 
+from config import read_config
+
 CSV_DIALECT = 'unix'
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
 DEFINITION_SEPARATOR_STR = '; '
@@ -63,13 +65,12 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
             return ''
 
 
-def csv_header(tags: str = None, deck: str = None) -> str:  # Anki header data
-    header_data = {
-        'separator': 'comma'
-    }
-    if deck:
-        header_data.update({'deck': deck})
-    if tags:
-        header_data.update({'tags': tags})
+def csv_header() -> str:  # Anki header data
+    header_data = {'separator': 'comma'}
+    header_data.update(read_config())
+
+    # space separated tags
+    if header_data['tags']:
+        header_data['tags'] = reduce(lambda a, b: a + ' ' + b, header_data['tags'])
 
     return reduce(lambda a, b: a + '\n' + b, [f'#{item[0]}: {item[1]}' for item in header_data.items()]) + '\n'

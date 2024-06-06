@@ -5,9 +5,9 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from config import update_settings, read_config
+from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, TOKEN_CACHE_FILENAME
 from output import (write_rows, cache_tokens, DEFAULT_OUTFILE,
-                    TOKEN_CACHE_FILENAME, CACHE_DIR, CACHE_FILENAME, write_export)
+                    write_export)
 import click
 
 from reading import read_csv
@@ -85,9 +85,8 @@ def library():
 
 @click.command('export-cards')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
-@click.option('-d', '--deck', type=str, default=None, help='Deck tag for anki header (optional)')
 @click.option('-c', '--clear', is_flag=True, default=False, help='Clear cache after export')
-def export(output_file, deck, clear):
+def export(output_file, clear):
     """Export the current cached 'library' of cards to a CSV file."""
     # Can't export from a nonexistent cache
     if not os.path.isfile(CACHE_DIR / CACHE_FILENAME):
@@ -96,7 +95,7 @@ def export(output_file, deck, clear):
 
     # Export to csv file
     click.echo(f'Exporting cached cards to {output_file.name}...')
-    write_export(output_file, read_csv(CACHE_DIR / CACHE_FILENAME), deck=deck)
+    write_export(output_file, read_csv(CACHE_DIR / CACHE_FILENAME))
     click.echo('Done.')
 
     # Clear cache
@@ -118,7 +117,7 @@ def config(tags, view, deck):
     if deck:
         updates.update({'deck': deck})
     if tags:
-        updates.update({'tags': [tags]})
+        updates.update({'tags': tags})
 
     if updates:
         click.echo(f'Updating {reduce(lambda a, b: a + ',' + b, updates.keys())}')
