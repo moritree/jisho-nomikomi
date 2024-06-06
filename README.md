@@ -12,6 +12,14 @@ You can run any command with the option `--help` for documentation.
 ### `word [OPTIONS] [WORDS]...`
 Generate a card for each of the given words, and save them to the output CSV.
 
+### `token [OPTIONS] [INDICES]...`
+Generate a card for each of the cached tokens (corresponding to a given index).  
+With no arguments, generate for all.
+
+### `tokenise [TEXT]...`
+*(`tokenize` is also accepted spelling)*
+
+Collect and cache tokens from the given Japanese text. 
 ## Installation
 To test the CLI, you can make a new virtualenv and then install the package. From a terminal within the project folder:
 ```
