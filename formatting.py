@@ -1,6 +1,7 @@
 from functools import reduce
 from jisho_api.word.request import WordRequest
 
+CSV_DIALECT = 'unix'
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level']
 DEFINITION_SEPARATOR_STR = '; '
 TYPE_SEPARATOR_STR = ', '
