@@ -56,7 +56,9 @@ def word(words, overwrite, senses):
               help='Overwrite cache contents if they already exist')
 @click.option('-ss', '--senses', default=1, show_default=True,
               help='Number of sense definitions to include on the card (<=0 means all listed)')
-def token(text, overwrite, senses):
+@click.option('-all', is_flag=True, default=False,
+              help='Cache every found token without asking user to select indices')
+def token(text, overwrite, senses, all):
     """
     Split the provided text into Japanese tokens, and write user selected set of them to cache.
     """
@@ -70,7 +72,7 @@ def token(text, overwrite, senses):
 
     # get indices
     prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for',
-                                     default='', show_default=False).split())
+                                     default='', show_default=False).split()) if not all else []
     indices = []
     for i in prompted_indices:
         try:
