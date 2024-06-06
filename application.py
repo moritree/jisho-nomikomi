@@ -49,3 +49,10 @@ def tokens(text):
         return
     indexed_string = cache_tokens([token.token for token in token_request.data])
     click.echo(indexed_string)
+
+
+@click.command()
+@click.argument('indices', nargs=-1, type=int)
+def from_tokens(indices):
+
+    return

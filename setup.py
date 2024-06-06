@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='application',
     version='0.1.0',
-    py_modules=['application', 'formatting', 'output'],
+    py_modules=['application', 'formatting', 'output', 'reading'],
     install_requires=[
         'Click', 'jisho-api'
     ],
