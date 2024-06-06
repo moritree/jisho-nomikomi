@@ -31,4 +31,4 @@ def read_config():
 
 def get_config_value(key: str) -> str:
     with open(CACHE_DIR / CONFIG_FILENAME, 'r') as file:
-        return json.load(file).get(str)
+        return json.load(file).get(key)

@@ -13,7 +13,7 @@ import click
 from reading import read_csv
 
 
-def gen_words(words: list[str], overwrite, senses):
+def gen_words(words: list[str], overwrite: bool, senses):
     # generate csv rows for each word
     rows: list[list[str]] = []
     conf_cols = get_config_value('columns')
@@ -30,7 +30,7 @@ def gen_words(words: list[str], overwrite, senses):
     click.echo(f'Writing {rows.__len__()} words to cache...')
     failed = write_rows(CACHE_DIR / CACHE_FILENAME, rows, overwrite)
     if failed:
-        print(f'Failed to write row(s) {reduce(lambda a, b: a.__str__() + ", " + b.__str__(),
+        click.echo(f'Failed to write row(s) {reduce(lambda a, b: a.__str__() + ", " + b.__str__(),
                                                [rows.index(line) for line in failed])} (duplicate).')
     click.echo('Done.')
 
@@ -165,6 +165,13 @@ def fields(fields, valid_options):
             click.echo(f'Couldn\'t update config, field {field} is invalid.')
             return
 
+    original_vocab_field = get_config_value('columns') or formatting.VALID_FIELDS.index('vocab')
+
     # Make update
     update_settings({'columns': fields})
     click.echo('Updated fields.')
+
+    # Regenerate all cards if fields are changed
+    click.echo('Regenerating cards to match new field configuration')
+    lines = [line[original_vocab_field] for line in read_csv(CACHE_DIR / CACHE_FILENAME)]
+    gen_words(lines, True, 1)
