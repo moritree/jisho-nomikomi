@@ -15,7 +15,7 @@ import click
               help="Overwrite the contents of any existing output file")
 @click.option('-ss', '--senses', default=1, show_default=True,
               help="Number of sense definitions to include on the card (<=0 means all listed)")
-def cards_from_words(words, output_filename, overwrite, senses):
+def word(words, output_filename, overwrite, senses):
     """
     Create a card from the jisho.org entry on each of WORDS - this can be in English or Japanese (kanji, kana, romaji)
     """
@@ -38,6 +38,15 @@ def cards_from_words(words, output_filename, overwrite, senses):
 
 
 @click.command()
+@click.argument('indices', nargs=-1, type=int)
+def token(indices):
+    """
+    Create a card from the jisho.org entry for each of the specified cached tokens.
+    """
+    return
+
+
+@click.command()
 @click.argument('text', nargs=-1)
 def tokenise(text):
     """
@@ -49,10 +58,3 @@ def tokenise(text):
         return
     indexed_string = cache_tokens([token.token for token in token_request.data])
     click.echo(indexed_string)
-
-
-@click.command()
-@click.argument('indices', nargs=-1, type=int)
-def from_tokens(indices):
-
-    return

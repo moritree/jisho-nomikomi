@@ -9,9 +9,10 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'word = application:cards_from_words',
-            'tokenise = application:tokens',
-            'tokenize = application:tokens',
+            'word = application:word',
+            'token = application:token',
+            'tokenise = application:tokenise',
+            'tokenize = application:tokenise',
         ],
     },
 )
