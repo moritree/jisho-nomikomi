@@ -1,9 +1,8 @@
 import csv
-import io
 from functools import reduce
 
 from config import CACHE_DIR, TOKEN_CACHE_FILENAME
-from formatting import CSV_DIALECT, csv_header
+from formatting import CSV_DIALECT, csv_header, csv_formatted_item
 from reading import line_exists
 
 DEFAULT_OUTFILE = 'out.csv'
@@ -19,15 +18,6 @@ def cache_tokens(tokens: list[str]) -> str:
         writer = csv.writer(cache_file, dialect=CSV_DIALECT)
         writer.writerow(tokens)
         return reduce(lambda a, b : a + '  ' + b, [f'({tokens.index(token)}) {token}' for token in tokens])
-
-
-def csv_formatted_item(item: list[str]) -> str:
-    """Returns the item formatted as a valid row to write to a .csv file."""
-    out = io.StringIO()
-    writer = csv.writer(out, dialect=CSV_DIALECT)
-    writer.writerow(item)
-    out.seek(0)
-    return out.read()
 
 
 def write_export(file, lines: list[list[str]]):

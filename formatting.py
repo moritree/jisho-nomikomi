@@ -1,3 +1,5 @@
+import csv
+import io
 from functools import reduce
 from jisho_api.word.request import WordRequest
 
@@ -75,3 +77,12 @@ def csv_header() -> str:  # Anki header data
             header_data[key] = ' '.join(value)
 
     return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
+
+
+def csv_formatted_item(item: list[str]) -> str:
+    """Returns the item formatted as a valid row to write to a .csv file."""
+    out = io.StringIO()
+    writer = csv.writer(out, dialect=CSV_DIALECT)
+    writer.writerow(item)
+    out.seek(0)
+    return out.read()

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Update README.md with fixed parameter names">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Comments &amp; docstrings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,14 +140,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00035" summary="Function for reading rows from csv">
-      <option name="closed" value="true" />
-      <created>1717638949284</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1717638949284</updated>
     </task>
     <task id="LOCAL-00036" summary="Constant for csv dialect, no more duplicate string literals">
       <option name="closed" value="true" />
@@ -532,14 +525,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717673423303</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Comments &amp; docstrings">
+      <option name="closed" value="true" />
+      <created>1717673823202</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1717673823202</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Comments before it's too late" />
     <MESSAGE value="Config nested command, more flexible" />
     <MESSAGE value="Validate fields before updating config" />
     <MESSAGE value="Update README.md with config command information." />
@@ -564,7 +564,8 @@
     <MESSAGE value="-rm options for header config commands, rather than deleting when no argument given" />
     <MESSAGE value="Update README.md with command documentation for new &amp; nested commands. Also, it's prettier and more compact." />
     <MESSAGE value="Update README.md with fixed parameter names" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README.md with fixed parameter names" />
+    <MESSAGE value="Comments &amp; docstrings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comments &amp; docstrings" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
