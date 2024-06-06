@@ -5,6 +5,7 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
+from config import update_settings, read_config
 from output import (write_rows, cache_tokens, DEFAULT_OUTFILE,
                     TOKEN_CACHE_FILENAME, CACHE_DIR, CACHE_FILENAME, write_export)
 import click
@@ -103,3 +104,22 @@ def export(output_file, deck, clear):
         click.echo(f'Clearing cache...')
         os.remove(CACHE_DIR / CACHE_FILENAME)
         click.echo('Done.')
+
+
+@click.command()
+@click.argument('tags', nargs=-1)
+@click.option('-v', '--view', is_flag=True, default=False, help='View the current config options.')
+@click.option('-d', '--deck', type=str, default=None, help='Deck tag for anki header')
+def config(tags, view, deck):
+    if view:
+        click.echo(read_config())
+
+    updates = {}
+    if deck:
+        updates.update({'deck': deck})
+    if tags:
+        updates.update({'tags': [tags]})
+
+    if updates:
+        click.echo(f'Updating {reduce(lambda a, b: a + ',' + b, updates.keys())}')
+        update_settings(updates)
