@@ -135,8 +135,22 @@ def deck(deck):
 @click.argument('fields', nargs=-1)
 @click.option('-v', '--valid-options', is_flag=True, default=False,)
 def fields(fields, valid_options):
+    # Supply list of valid options
     if valid_options:
         click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
         return
+
+    # Need at least two field
+    if not fields or fields.__len__() < 2:
+        click.echo('No fields specified.')
+        return
+
+    # Check each provided field is valid
+    for field in fields:
+        if field not in formatting.VALID_FIELDS:
+            click.echo(f'Couldn\'t update config, field {field} is invalid.')
+            return
+
+    # Make update
     update_settings({'columns': fields})
     click.echo('Updated fields.')
