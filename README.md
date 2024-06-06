@@ -27,6 +27,20 @@ View the current cached 'library' of generated cards.
 ### `export [OPTIONS]`
 Export the cached library to a csv file.
 
+### `config`
+#### `config view`
+View the current config settings.
+
+#### `config deck [DECK]`
+Define the deck file header item.
+
+#### `config tags [ALL_TAGS]...`
+Define the tags header item (tags to be applied to every card on import).
+
+#### `config fields [OPTIONS] [FIELDS]...`
+Define the fields to be generated for each card.
+- The option `-v` will display a list of all valid field types.
+
 ## Installation
 To test the CLI, you can make a new virtualenv and then install the package. From a terminal within the project folder:
 ```
