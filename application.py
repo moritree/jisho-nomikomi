@@ -5,10 +5,8 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, TOKEN_CACHE_FILENAME, get_config_value, \
-    CONFIG_FILENAME
-from output import (write_rows, cache_tokens, DEFAULT_OUTFILE,
-                    write_export)
+from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, get_config_value, CONFIG_FILENAME
+from output import write_rows, DEFAULT_OUTFILE, write_export
 import click
 
 from reading import read_csv
@@ -53,16 +51,20 @@ def word(words, overwrite, senses):
 
 @click.command()
 @click.argument('text', nargs=-1)
-@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help='Overwrite cache contents if they already exist')
 @click.option('-ss', '--senses', default=1, show_default=True,
-              help='Number of sense definitions to include on the card (<=0 means all listed)')
-@click.option('-all', is_flag=True, default=False,
-              help='Cache every found token without asking user to select indices')
-def token(text, overwrite, senses, all):
+              help='Number of sense definitions to include on the card (less than 1 means all listed).')
+@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
+              help='Overwrite cache contents if they already exist.')
+@click.option('-all', 'all_tokens', is_flag=True, default=False,
+              help='Cache every found token without first asking user to specify indices.')
+def token(text, senses, overwrite, all_tokens):
     """
-    Split the provided text into Japanese tokens, and write user selected set of them to cache.
+    Split the provided text into Japanese tokens, and write user determined set of these to cache.
     """
+    if not text:
+        click.echo('No text provided.')
+        return
+
     text = reduce(lambda a, b: a.__str__() + " " + b.__str__(), text)
     token_request = Tokens.request(text)
 
@@ -77,7 +79,7 @@ def token(text, overwrite, senses, all):
 
     # get indices
     prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for',
-                                     default='', show_default=False).split()) if not all else []
+                                     default='', show_default=False).split()) if not all_tokens else []
     indices = []
     for i in prompted_indices:
         try:
@@ -168,57 +170,73 @@ def header(ctx):
 
 @header.command()
 @click.argument('all-tags', nargs=-1)
-def tags(all_tags):
-    """Update the tags list. For tags that will be automatically applied to each card on import.
-    If no tags are specified, the field is removed."""
-    update_settings({'tags': all_tags if all_tags else None})
-    click.echo('Updated tags.')
+@click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
+def tags(all_tags, remove):
+    """Update the tags list. For tags that will be automatically applied to each card on import."""
+    if remove:
+        update_settings({'tags': None})
+        click.echo('Removed tags field.')
+    elif all_tags:
+        update_settings({'tags': all_tags})
+        click.echo('Updated tags.')
+    else:
+        click.echo('No tags to update. Include at least one tag argument.')
 
 
 @header.command()
 @click.argument('title', required=False, nargs=-1)
-def deck(title):
-    """Update the deck title. If none is specified, the field is removed."""
-    update_settings({'deck': ' '.join(title) if title else None})
-    click.echo('Updated deck.')
+@click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
+def deck(title, remove):
+    """Update the deck title."""
+    if remove:
+        update_settings({'deck': None})
+        click.echo('Removed deck field.')
+    elif title:
+        update_settings({'deck': ' '.join(title)})
+        click.echo('Updated deck.')
+    else:
+        click.echo('No deck to update. Include at least one deck argument.')
 
 
 @header.command()
 @click.argument('order_format', nargs=-1)
-@click.option('-v', '--valid-options', is_flag=True, default=False, )
-def fields(order_format, valid_options):
+@click.option('-v', '--valid-options', is_flag=True, default=False)
+@click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
+def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
         click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
         return
 
-    # if no fields, clear item
-    if not order_format:
+    if remove:
         update_settings({'columns': None})
-        return
-
-    # need at least two fields
-    if order_format.__len__() < 2:
+        click.echo('Removed fields field.')
+    elif not order_format:
+        # if no fields, clear item
+        click.echo('No columns to update. Include at least one column argument.')
+    elif order_format.__len__() < 2:
+        # need at least two fields
         click.echo('No fields specified.')
-        return
+    else:
+        # try to write fields
+        # check each provided field is valid
+        for field in order_format:
+            if field not in formatting.VALID_FIELDS:
+                click.echo(f'Couldn\'t update config, field {field} is invalid.')
+                return
 
-    # check each provided field is valid
-    for field in order_format:
-        if field not in formatting.VALID_FIELDS:
-            click.echo(f'Couldn\'t update config, field {field} is invalid.')
-            return
+        # index in cache of vocab field
+        original_vocab_field = get_config_value('columns').index('vocab') or formatting.VALID_FIELDS.index('vocab')
 
-    original_vocab_field = get_config_value('columns').index('vocab') or formatting.VALID_FIELDS.index('vocab')
+        # make config update
+        update_settings({'columns': order_format})
+        click.echo('Updated fields.')
 
-    # make config update
-    update_settings({'columns': order_format})
-    click.echo('Updated fields.')
-
-    # regenerate all cards if fields are changed
-    click.echo('Regenerating cards to match new field configuration')
-    lines = [line[original_vocab_field] for line in read_csv(CACHE_DIR / CACHE_FILENAME)]
-    gen_words(lines, True, 1)
+        # regenerate all cached cards
+        click.echo('Regenerating cards to match new field configuration')
+        lines = [line[original_vocab_field] for line in read_csv(CACHE_DIR / CACHE_FILENAME)]
+        gen_words(lines, True, 1)
 
 
 config.add_command(header)
