@@ -5,7 +5,7 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, TOKEN_CACHE_FILENAME
+from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, TOKEN_CACHE_FILENAME, get_config_value
 from output import (write_rows, cache_tokens, DEFAULT_OUTFILE,
                     write_export)
 import click
@@ -16,14 +16,17 @@ from reading import read_csv
 def gen_words(words: list[str], overwrite, senses):
     # generate csv rows for each word
     rows: list[list[str]] = []
+    conf_cols = get_config_value('columns')
+    card_fields = conf_cols if conf_cols is not None else formatting.VALID_FIELDS
     for w in words:
         wr = Word.request(w)
         if wr.data[0].japanese[0].word:
             click.echo(f'Found: {wr.data[0].japanese[0].word}（{wr.data[0].japanese[0].reading}）')
         else:
             click.echo(f'Found: {wr.data[0].japanese[0].reading}')
-        rows.append(formatting.word_formatted(wr, formatting.VALID_FIELDS, senses))
+        rows.append(formatting.word_formatted(wr, card_fields, senses))
 
+    # Write rows
     click.echo(f'Writing {rows.__len__()} words to cache...')
     failed = write_rows(CACHE_DIR / CACHE_FILENAME, rows, overwrite)
     if failed:
@@ -61,7 +64,7 @@ def token(text, overwrite, senses):
         click.echo('No tokens found.')
         return
     click.echo('Found tokens:')
-    click.echo(reduce(lambda a, b: a + '  ' + b, [f'({token_request.index(tk)}) {tk.token}' for tk in token_request]))
+    click.echo('  '.join([f'({token_request.index(tk)}) {tk.token}' for tk in token_request]))
 
     prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for',
                                      default='', show_default=False).split())
