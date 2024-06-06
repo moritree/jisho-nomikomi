@@ -64,12 +64,16 @@ def token(text, overwrite, senses, all):
     Split the provided text into Japanese tokens, and write user selected set of them to cache.
     """
     text = reduce(lambda a, b: a.__str__() + " " + b.__str__(), text)
-    token_request = Tokens.request(text).data
+    token_request = Tokens.request(text)
+
+    # abort if there are no matching tokens
     if token_request is None:
         click.echo('No tokens found.')
         return
+
     click.echo('Found tokens:')
-    click.echo('  '.join([f'({token_request.index(tk)}) {tk.token}' for tk in token_request]))
+    data = token_request.data
+    click.echo('  '.join([f'({data.index(tk)}) {tk.token}' for tk in data]))
 
     # get indices
     prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for',

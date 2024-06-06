@@ -67,7 +67,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
 def csv_header() -> str:  # Anki header data
     """Returns a `#key:value` formatted Anki file header based on configured values."""
     header_data = {'separator': 'comma'}
-    header_data.update(read_config())
+    header_data.update(read_config() or {})
 
     # space separated list items in header
     for key, value in header_data.items():
