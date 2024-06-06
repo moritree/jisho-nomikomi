@@ -131,9 +131,9 @@ def tags(all_tags):
 
 
 @config.command()
-@click.argument('deck', required=False, nargs=1)
+@click.argument('deck', required=False, nargs=-1)
 def deck(deck):
-    update_settings({'deck': reduce(lambda a, b: a + ' ' + b, deck) if deck else None})
+    update_settings({'deck': ' '.join(deck) if deck else None})
     click.echo('Updated deck.')
 
 

@@ -46,20 +46,16 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
             if senses == 1 or sense_count == 1:
                 return char_separated_str(word.data[0].senses[0].english_definitions, DEFINITION_SEPARATOR_STR)
             # one string with <br> separating sense definitions
-            return reduce(lambda x, y: x + '<br>' + y,
-                          # each sense mapped to the format "def; def; ..."
-                          [f'({(word.data[0].senses.index(line) + 1).__str__()}) '
+            return '<br>'.join([f'({(word.data[0].senses.index(line) + 1).__str__()}) '
                            + char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
                            for line in sublist])
         case 'part_of_speech':
             if senses == 1 or sense_count == 1:
                 return char_separated_str(word.data[0].senses[0].parts_of_speech, TYPE_SEPARATOR_STR)
             # one string with <br> separating parts of speech, corresponding to sense definitions
-            return reduce(lambda x, y: x + '<br>' + y,
-                          # each sense mapped to the format "def; def; ..."
-                          [f'({(word.data[0].senses.index(line) + 1).__str__()}) '
-                           + char_separated_str(line.parts_of_speech, TYPE_SEPARATOR_STR)
-                           for line in sublist])
+            return '<br>'.join([f'({(word.data[0].senses.index(line) + 1).__str__()}) '
+                                + char_separated_str(line.parts_of_speech, TYPE_SEPARATOR_STR)
+                                for line in sublist])
         case 'jlpt_level':
             if word.data[0].jlpt.__len__() > 0:
                 return word.data[0].jlpt[0][-2:].upper()
@@ -74,7 +70,7 @@ def csv_header() -> str:  # Anki header data
     header_data.update(read_config())
 
     # space separated tags
-    if header_data['tags']:
+    if header_data.__contains__('tags'):
         header_data['tags'] = reduce(lambda a, b: a + ' ' + b, header_data['tags'])
 
-    return reduce(lambda a, b: a + '\n' + b, [f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
+    return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'

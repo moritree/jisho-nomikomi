@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Allow no specified indexes, defaulting to all.">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Can remove config items by running commands without arguments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,14 +139,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00016" summary="Format multiple sense definition with numbers, corresponding formatted parts of speech">
-      <option name="closed" value="true" />
-      <created>1717583598022</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1717583598022</updated>
     </task>
     <task id="LOCAL-00017" summary="Simplify command, make word argument rather than option">
       <option name="closed" value="true" />
@@ -532,14 +524,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717656947432</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Can remove config items by running commands without arguments">
+      <option name="closed" value="true" />
+      <created>1717657465059</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1717657465059</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Select specified tokens" />
     <MESSAGE value="Generate cards from specified tokens" />
     <MESSAGE value="Separate specific token cache file" />
     <MESSAGE value="Write words to cache rather than output file" />
@@ -564,7 +563,8 @@
     <MESSAGE value="Library view separate command, consistent with other nested command style" />
     <MESSAGE value="Merge tokenise into token, taking additional user input." />
     <MESSAGE value="Allow no specified indexes, defaulting to all." />
-    <option name="LAST_COMMIT_MESSAGE" value="Allow no specified indexes, defaulting to all." />
+    <MESSAGE value="Can remove config items by running commands without arguments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Can remove config items by running commands without arguments" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
