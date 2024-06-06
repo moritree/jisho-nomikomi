@@ -10,6 +10,7 @@ from reading import line_exists
 CACHE_DIR: Path = Path.home() / '.nomikomi'
 CACHE_FILENAME = 'cache.csv'
 CACHE_PATH = CACHE_DIR / CACHE_FILENAME
+DEFAULT_OUTFILE = 'out.csv'
 
 
 def cache_tokens(tokens: list[str]) -> str:

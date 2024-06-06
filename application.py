@@ -4,23 +4,13 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from output import write_rows, cache_tokens, CACHE_PATH
+from output import write_rows, cache_tokens, CACHE_PATH, DEFAULT_OUTFILE
 import click
 
 from reading import read_csv
 
 
-@click.command("word")
-@click.argument('words', nargs=-1)
-@click.option('-o', '--output-filename', default='out.csv', show_default=True)
-@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite the contents of any existing output file")
-@click.option('-ss', '--senses', default=1, show_default=True,
-              help="Number of sense definitions to include on the card (<=0 means all listed)")
-def word(words, output_filename, overwrite, senses):
-    """
-    Create a card from the jisho.org entry on each of WORDS - this can be in English or Japanese (kanji, kana, romaji)
-    """
+def gen_words(words: list[str], output_filename, overwrite, senses):
     # generate csv rows for each word
     rows: list[list[str]] = []
     for w in words:
@@ -39,16 +29,35 @@ def word(words, output_filename, overwrite, senses):
     click.echo('Done.')
 
 
+@click.command("word")
+@click.argument('words', nargs=-1)
+@click.option('-o', '--output-filename', default=DEFAULT_OUTFILE, show_default=True)
+@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
+              help="Overwrite the contents of any existing output file")
+@click.option('-ss', '--senses', default=1, show_default=True,
+              help="Number of sense definitions to include on the card (<=0 means all listed)")
+def word(words, output_filename, overwrite, senses):
+    """
+    Create a card from the jisho.org entry on each of WORDS - this can be in English or Japanese (kanji, kana, romaji)
+    """
+    gen_words(words, output_filename, overwrite, senses)
+
+
 @click.command()
 @click.argument('indices', nargs=-1, type=int)
-def token(indices):
+@click.option('-o', '--output-filename', default=DEFAULT_OUTFILE, show_default=True)
+@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
+              help="Overwrite the contents of any existing output file")
+@click.option('-ss', '--senses', default=1, show_default=True,
+              help="Number of sense definitions to include on the card (<=0 means all listed)")
+def token(indices, output_filename, overwrite, senses):
     """
     Create a card from the jisho.org entry for each of the specified cached tokens.
     """
     tokens = read_csv(CACHE_PATH)[0]
     selected = [tokens[index] for index in indices] if indices else tokens
-    print(selected)
-    return
+    # generate word cards
+    gen_words(selected, output_filename, overwrite, senses)
 
 
 @click.command()
