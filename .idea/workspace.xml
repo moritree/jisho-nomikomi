@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Select specified tokens">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Generate cards from specified tokens">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
@@ -138,7 +138,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
-      <workItem from="1717392409046" duration="36960000" />
+      <workItem from="1717392409046" duration="38036000" />
     </task>
     <task id="LOCAL-00001" summary="Write single predetermined word to csv file">
       <option name="closed" value="true" />
@@ -436,14 +436,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717639444654</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Generate cards from specified tokens">
+      <option name="closed" value="true" />
+      <created>1717640270228</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1717640270228</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Echo more useful feedback" />
     <MESSAGE value="Simplify JLPT output field format to just the level" />
     <MESSAGE value="Tell user when write is done." />
     <MESSAGE value="Hashtags for correctly formatting Anki header items" />
@@ -468,7 +475,8 @@
     <MESSAGE value="Function for reading rows from csv" />
     <MESSAGE value="Constant for csv dialect, no more duplicate string literals" />
     <MESSAGE value="Select specified tokens" />
-    <option name="LAST_COMMIT_MESSAGE" value="Select specified tokens" />
+    <MESSAGE value="Generate cards from specified tokens" />
+    <option name="LAST_COMMIT_MESSAGE" value="Generate cards from specified tokens" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

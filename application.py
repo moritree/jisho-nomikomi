@@ -4,7 +4,7 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from output import write_rows, cache_tokens, CACHE_PATH, DEFAULT_OUTFILE
+from output import write_rows, cache_tokens, DEFAULT_OUTFILE, TOKEN_CACHE_FILENAME, CACHE_DIR
 import click
 
 from reading import read_csv
@@ -54,7 +54,7 @@ def token(indices, output_filename, overwrite, senses):
     """
     Create a card from the jisho.org entry for each of the specified cached tokens.
     """
-    tokens = read_csv(CACHE_PATH)[0]
+    tokens = read_csv(CACHE_DIR / TOKEN_CACHE_FILENAME)[0]
     selected = [tokens[index] for index in indices] if indices else tokens
     # generate word cards
     gen_words(selected, output_filename, overwrite, senses)
@@ -71,5 +71,5 @@ def tokenise(text):
     if token_request is None:
         click.echo('No tokens found.')
         return
-    indexed_string = cache_tokens([token.token for token in token_request.data])
+    indexed_string = cache_tokens([tk.token for tk in token_request.data])
     click.echo(indexed_string)

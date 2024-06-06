@@ -9,7 +9,7 @@ from reading import line_exists
 
 CACHE_DIR: Path = Path.home() / '.nomikomi'
 CACHE_FILENAME = 'cache.csv'
-CACHE_PATH = CACHE_DIR / CACHE_FILENAME
+TOKEN_CACHE_FILENAME = 'token_cache.csv'
 DEFAULT_OUTFILE = 'out.csv'
 
 
@@ -18,7 +18,7 @@ def cache_tokens(tokens: list[str]) -> str:
     associated_index = ((tokens.index(token), token) for token in tokens)
 
     CACHE_DIR.mkdir(exist_ok=True)
-    with open(CACHE_PATH, 'w') as cache_file:
+    with open(CACHE_DIR / TOKEN_CACHE_FILENAME, 'w') as cache_file:
         writer = csv.writer(cache_file, dialect=CSV_DIALECT)
         writer.writerow(tokens)
         return reduce(lambda a, b : a + "  " + b, [f'({tokens.index(token)}) {token}' for token in tokens])
