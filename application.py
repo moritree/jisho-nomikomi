@@ -77,3 +77,9 @@ def tokenise(text):
 def library():
     """View the current cached 'library' of cards"""
     print(read_csv(CACHE_DIR / CACHE_FILENAME))
+
+
+@click.command()
+@click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
+def export(output_file):
+    """Export the current cached 'library' of cards to a CSV file."""
