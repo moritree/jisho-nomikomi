@@ -24,7 +24,7 @@ Collect and cache tokens from the given Japanese text.
 ### `library`
 View the current cached 'library' of generated cards.
 
-### `export [OPTIONS]`
+#### `library export [OPTIONS]`
 Export the cached library to a csv file.
 
 ### `config`

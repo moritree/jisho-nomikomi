@@ -76,18 +76,20 @@ def tokenise(text):
     click.echo(indexed_string)
 
 
-@click.command()
-def library():
-    """View the current cached 'library' of cards"""
-    result = read_csv(CACHE_DIR / CACHE_FILENAME)
-    click.echo(result if result else 'No cached cards.')
+@click.group("library", invoke_without_command=True)
+@click.pass_context
+def library(ctx):
+    """View the current cached 'library' of cards."""
+    if ctx.invoked_subcommand is None:
+        result = read_csv(CACHE_DIR / CACHE_FILENAME)
+        click.echo(result if result else 'No cached cards.')
 
 
-@click.command('export-cards')
+@library.command('export')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
 @click.option('-c', '--clear', is_flag=True, default=False, help='Clear cache after export')
 def export(output_file, clear):
-    """Export the current cached 'library' of cards to a CSV file."""
+    """Export the current cached library to a CSV file."""
     # Can't export from a nonexistent cache
     if not os.path.isfile(CACHE_DIR / CACHE_FILENAME):
         click.echo('No cached cards to export.')
