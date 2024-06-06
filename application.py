@@ -136,7 +136,7 @@ def export(output_file, clear):
         click.echo('Done.')
 
 
-@click.group("config")
+@click.group('config')
 @click.pass_context
 def config(ctx):
     return
@@ -145,31 +145,49 @@ def config(ctx):
 @config.command()
 def view():
     """View the current config options."""
-    click.echo(read_config())
+    click.echo(read_config() or 'No config file to view.')
 
 
 @config.command()
+def clear():
+    """Clear config file."""
+    if os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
+        if click.confirm('Are you sure you want to clear config file?', abort=True):
+            os.remove(CACHE_DIR / CONFIG_FILENAME)
+            click.echo('Config file cleared.')
+    else:
+        click.echo('No config file to clear.')
+
+
+@click.group('header')
+@click.pass_context
+def header(ctx):
+    """Configure items for Anki file header."""
+    return
+
+
+@header.command()
 @click.argument('all-tags', nargs=-1)
 def tags(all_tags):
-    """Update the tags list in the config file, for tags that will be automatically applied to each card on import.
+    """Update the tags list. For tags that will be automatically applied to each card on import.
     If no tags are specified, the field is removed."""
     update_settings({'tags': all_tags if all_tags else None})
     click.echo('Updated tags.')
 
 
-@config.command()
+@header.command()
 @click.argument('deck', required=False, nargs=-1)
 def deck(deck):
-    """Update the deck name in the config file. If no name is specified, the field is removed."""
+    """Update the deck name. If no name is specified, the field is removed."""
     update_settings({'deck': ' '.join(deck) if deck else None})
     click.echo('Updated deck.')
 
 
-@config.command()
+@header.command()
 @click.argument('fields', nargs=-1)
 @click.option('-v', '--valid-options', is_flag=True, default=False, )
 def fields(fields, valid_options):
-    """Update the fields list in the config file. If no values are specified, the field is removed."""
+    """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
         click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
@@ -203,12 +221,4 @@ def fields(fields, valid_options):
     gen_words(lines, True, 1)
 
 
-@config.command()
-def clear():
-    """Clear config file."""
-    if os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
-        if click.confirm('Are you sure you want to clear config file?', abort=True):
-            os.remove(CACHE_DIR / CONFIG_FILENAME)
-            click.echo('Config file cleared.')
-    else:
-        click.echo('No config file to clear.')
+config.add_command(header)
