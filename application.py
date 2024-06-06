@@ -126,14 +126,14 @@ def view():
 @config.command()
 @click.argument('all-tags', nargs=-1)
 def tags(all_tags):
-    update_settings({'tags': all_tags})
+    update_settings({'tags': all_tags if all_tags else None})
     click.echo('Updated tags.')
 
 
 @config.command()
-@click.argument('deck', nargs=1)
+@click.argument('deck', required=False, nargs=1)
 def deck(deck):
-    update_settings({'deck': deck})
+    update_settings({'deck': reduce(lambda a, b: a + ' ' + b, deck) if deck else None})
     click.echo('Updated deck.')
 
 
@@ -146,8 +146,13 @@ def fields(fields, valid_options):
         click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
         return
 
-    # Need at least two field
-    if not fields or fields.__len__() < 2:
+    # If no fields, clear item
+    if not fields:
+        update_settings({'columns': None})
+        return
+
+    # Need at least two fields
+    if fields.__len__() < 2:
         click.echo('No fields specified.')
         return
 

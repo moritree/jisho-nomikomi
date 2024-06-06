@@ -12,7 +12,10 @@ def update_settings(items: dict):
     with open(CACHE_DIR / CONFIG_FILENAME, 'w') as file:
         for key, value in items.items():
             if key in config:
-                config[key] = value
+                if value is None:
+                    config.pop(key)
+                else:
+                    config[key] = value
             else:
                 config.update({key: value})
         json.dump(config, file)
