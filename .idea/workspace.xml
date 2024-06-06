@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Clean output logic">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Consistent single quotes (aa, I keep doing it!)">
       <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -525,14 +522,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717648800577</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Consistent single quotes (aa, I keep doing it!)">
+      <option name="closed" value="true" />
+      <created>1717648912151</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1717648912151</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Japanese brackets for japanese text" />
     <MESSAGE value="Definitions list output as 1-indexed" />
     <MESSAGE value="Update function name" />
     <MESSAGE value="Writing rows handled in output.py instead of application.py" />
@@ -557,7 +561,8 @@
     <MESSAGE value="Descriptive message if trying to view empty cache." />
     <MESSAGE value="Add export command to README.md" />
     <MESSAGE value="Clean output logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean output logic" />
+    <MESSAGE value="Consistent single quotes (aa, I keep doing it!)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Consistent single quotes (aa, I keep doing it!)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
