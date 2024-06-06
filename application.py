@@ -63,8 +63,8 @@ def token(text, overwrite, senses):
     click.echo('Found tokens:')
     click.echo(reduce(lambda a, b: a + '  ' + b, [f'({token_request.index(tk)}) {tk.token}' for tk in token_request]))
 
-    prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for')
-                        .split())
+    prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for',
+                                     default='', show_default=False).split())
     indices = []
     for i in prompted_indices:
         try:
@@ -72,7 +72,7 @@ def token(text, overwrite, senses):
         except ValueError:
             click.echo(f'Invalid index: {i}')
             return
-    selected = [token_request[index].token for index in indices] if indices else token_request
+    selected = [token_request[index].token for index in indices] if indices else [tk.token for tk in token_request]
     # generate word cards
     gen_words(selected, overwrite, senses)
 

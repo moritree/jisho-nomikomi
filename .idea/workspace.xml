@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Library view separate command, consistent with other nested command style">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Merge tokenise into token, taking additional user input.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,14 +139,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00014" summary="Hashtags for correctly formatting Anki header items">
-      <option name="closed" value="true" />
-      <created>1717579375927</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1717579375927</updated>
     </task>
     <task id="LOCAL-00015" summary="Generalise word option, input doesn't need to be Japanese">
       <option name="closed" value="true" />
@@ -531,14 +524,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717655116521</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Merge tokenise into token, taking additional user input.">
+      <option name="closed" value="true" />
+      <created>1717656584868</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1717656584868</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Function for reading rows from csv" />
     <MESSAGE value="Constant for csv dialect, no more duplicate string literals" />
     <MESSAGE value="Select specified tokens" />
     <MESSAGE value="Generate cards from specified tokens" />
@@ -563,7 +563,8 @@
     <MESSAGE value="Update README.md with config command information." />
     <MESSAGE value="Make export a subcommand of library" />
     <MESSAGE value="Library view separate command, consistent with other nested command style" />
-    <option name="LAST_COMMIT_MESSAGE" value="Library view separate command, consistent with other nested command style" />
+    <MESSAGE value="Merge tokenise into token, taking additional user input." />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge tokenise into token, taking additional user input." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

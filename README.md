@@ -13,13 +13,7 @@ You can run any command with the option `--help` for documentation.
 Generate and cache cards for each of the given words.
 
 ### `token [OPTIONS] [INDICES]...`
-Generate a card for each of the cached tokens (corresponding to a given index).  
-With no arguments, generate for all.
-
-### `tokenise [TEXT]...`
-*(`tokenize` is also accepted spelling)*
-
-Collect and cache tokens from the given Japanese text.
+Identify the tokens in a Japanese text, and generate cards for those you select.
 
 ### `library`
 View the current cached 'library' of generated cards.
