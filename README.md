@@ -24,6 +24,9 @@ Collect and cache tokens from the given Japanese text.
 ### `library`
 View the current cached 'library' of generated cards.
 
+### `export [OPTIONS]`
+Export the cached library to a csv file.
+
 ## Installation
 To test the CLI, you can make a new virtualenv and then install the package. From a terminal within the project folder:
 ```
