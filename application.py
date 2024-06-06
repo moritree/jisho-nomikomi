@@ -14,6 +14,7 @@ from reading import read_csv
 
 
 def gen_words(words: list[str], overwrite: bool, senses):
+    """Get and cache info on each word in the provided list of words."""
     # generate csv rows for each word
     rows: list[list[str]] = []
     conf_cols = get_config_value('columns')
@@ -26,7 +27,7 @@ def gen_words(words: list[str], overwrite: bool, senses):
             click.echo(f'Found: {wr.data[0].japanese[0].reading}')
         rows.append(formatting.word_formatted(wr, card_fields, senses))
 
-    # Write rows
+    # write rows
     click.echo(f'Writing {rows.__len__()} words to cache...')
     failed = write_rows(CACHE_DIR / CACHE_FILENAME, rows, overwrite)
     if failed:
@@ -43,7 +44,8 @@ def gen_words(words: list[str], overwrite: bool, senses):
               help='Number of sense definitions to include on the card (<=0 means all listed)')
 def word(words, overwrite, senses):
     """
-    Create a card from the jisho.org entry on each of WORDS - this can be in English or Japanese (kanji, kana, romaji)
+    Create a card from the jisho.org entry on each of WORDS.
+    This can be in English or Japanese (kanji, kana, romaji).
     """
     gen_words(words, overwrite, senses)
 
@@ -56,7 +58,7 @@ def word(words, overwrite, senses):
               help='Number of sense definitions to include on the card (<=0 means all listed)')
 def token(text, overwrite, senses):
     """
-    Create a card from the jisho.org entry for each of the specified cached tokens.
+    Split the provided text into Japanese tokens, and write user selected set of them to cache.
     """
     text = reduce(lambda a, b: a.__str__() + " " + b.__str__(), text)
     token_request = Tokens.request(text).data
@@ -66,6 +68,7 @@ def token(text, overwrite, senses):
     click.echo('Found tokens:')
     click.echo('  '.join([f'({token_request.index(tk)}) {tk.token}' for tk in token_request]))
 
+    # get indices
     prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for',
                                      default='', show_default=False).split())
     indices = []
@@ -76,6 +79,7 @@ def token(text, overwrite, senses):
             click.echo(f'Invalid index: {i}')
             return
     selected = [token_request[index].token for index in indices] if indices else [tk.token for tk in token_request]
+
     # generate word cards
     gen_words(selected, overwrite, senses)
 
@@ -87,7 +91,7 @@ def library():
 
 @library.command()
 def view():
-    """View the current cached 'library' of cards."""
+    """View information on the current cached library of words to be translated into cards."""
     result = read_csv(CACHE_DIR / CACHE_FILENAME)
     click.echo(result if result else 'No cached cards.')
 
@@ -129,6 +133,8 @@ def view():
 @config.command()
 @click.argument('all-tags', nargs=-1)
 def tags(all_tags):
+    """Update the tags list in the config file, for tags that will be automatically applied to each card on import.
+    If no tags are specified, the field is removed."""
     update_settings({'tags': all_tags if all_tags else None})
     click.echo('Updated tags.')
 
@@ -136,6 +142,7 @@ def tags(all_tags):
 @config.command()
 @click.argument('deck', required=False, nargs=-1)
 def deck(deck):
+    """Update the deck name in the config file. If no name is specified, the field is removed."""
     update_settings({'deck': ' '.join(deck) if deck else None})
     click.echo('Updated deck.')
 
@@ -144,22 +151,23 @@ def deck(deck):
 @click.argument('fields', nargs=-1)
 @click.option('-v', '--valid-options', is_flag=True, default=False, )
 def fields(fields, valid_options):
-    # Supply list of valid options
+    """Update the fields list in the config file. If no values are specified, the field is removed."""
+    # supply list of valid options
     if valid_options:
         click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
         return
 
-    # If no fields, clear item
+    # if no fields, clear item
     if not fields:
         update_settings({'columns': None})
         return
 
-    # Need at least two fields
+    # need at least two fields
     if fields.__len__() < 2:
         click.echo('No fields specified.')
         return
 
-    # Check each provided field is valid
+    # check each provided field is valid
     for field in fields:
         if field not in formatting.VALID_FIELDS:
             click.echo(f'Couldn\'t update config, field {field} is invalid.')
@@ -167,11 +175,11 @@ def fields(fields, valid_options):
 
     original_vocab_field = get_config_value('columns').index('vocab') or formatting.VALID_FIELDS.index('vocab')
 
-    # Make update
+    # make config update
     update_settings({'columns': fields})
     click.echo('Updated fields.')
 
-    # Regenerate all cards if fields are changed
+    # regenerate all cards if fields are changed
     click.echo('Regenerating cards to match new field configuration')
     lines = [line[original_vocab_field] for line in read_csv(CACHE_DIR / CACHE_FILENAME)]
     gen_words(lines, True, 1)
