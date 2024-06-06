@@ -46,34 +46,35 @@ def word(words, overwrite, senses):
 
 
 @click.command()
-@click.argument('indices', nargs=-1, type=int)
+@click.argument('text', nargs=-1)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
               help='Overwrite cache contents if they already exist')
 @click.option('-ss', '--senses', default=1, show_default=True,
               help='Number of sense definitions to include on the card (<=0 means all listed)')
-def token(indices, overwrite, senses):
+def token(text, overwrite, senses):
     """
     Create a card from the jisho.org entry for each of the specified cached tokens.
     """
-    tokens = read_csv(CACHE_DIR / TOKEN_CACHE_FILENAME)[0]
-    selected = [tokens[index] for index in indices] if indices else tokens
-    # generate word cards
-    gen_words(selected, overwrite, senses)
-
-
-@click.command()
-@click.argument('text', nargs=-1)
-def tokenise(text):
-    """
-    Collect and cache tokens from the given Japanese text.
-    After running this command you may want to run `token [INDICES]` to generate cards from these tokens.
-    """
-    token_request = Tokens.request(reduce(lambda a, b: a.__str__() + " " + b.__str__(), text))
+    text = reduce(lambda a, b: a.__str__() + " " + b.__str__(), text)
+    token_request = Tokens.request(text).data
     if token_request is None:
         click.echo('No tokens found.')
         return
-    indexed_string = cache_tokens([tk.token for tk in token_request.data])
-    click.echo(indexed_string)
+    click.echo('Found tokens:')
+    click.echo(reduce(lambda a, b: a + '  ' + b, [f'({token_request.index(tk)}) {tk.token}' for tk in token_request]))
+
+    prompted_indices = (click.prompt('Please enter a list of indices for the tokens you want to generate cards for')
+                        .split())
+    indices = []
+    for i in prompted_indices:
+        try:
+            indices.append(int(i))
+        except ValueError:
+            click.echo(f'Invalid index: {i}')
+            return
+    selected = [token_request[index].token for index in indices] if indices else token_request
+    # generate word cards
+    gen_words(selected, overwrite, senses)
 
 
 @click.group("library")
@@ -138,7 +139,7 @@ def deck(deck):
 
 @config.command()
 @click.argument('fields', nargs=-1)
-@click.option('-v', '--valid-options', is_flag=True, default=False,)
+@click.option('-v', '--valid-options', is_flag=True, default=False, )
 def fields(fields, valid_options):
     # Supply list of valid options
     if valid_options:
