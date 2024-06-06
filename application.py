@@ -5,7 +5,8 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, TOKEN_CACHE_FILENAME, get_config_value
+from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, TOKEN_CACHE_FILENAME, get_config_value, \
+    CONFIG_FILENAME
 from output import (write_rows, cache_tokens, DEFAULT_OUTFILE,
                     write_export)
 import click
@@ -102,8 +103,9 @@ def view():
 def clear():
     """Clear library cache."""
     if os.path.isfile(CACHE_DIR / CACHE_FILENAME):
-        os.remove(CACHE_DIR / CACHE_FILENAME)
-        click.echo('Cache cleared.')
+        if click.confirm('Are you sure you want to clear cache?', abort=True):
+            os.remove(CACHE_DIR / CACHE_FILENAME)
+            click.echo('Cache cleared.')
     else:
         click.echo('No cache to clear.')
 
@@ -195,3 +197,14 @@ def fields(fields, valid_options):
     click.echo('Regenerating cards to match new field configuration')
     lines = [line[original_vocab_field] for line in read_csv(CACHE_DIR / CACHE_FILENAME)]
     gen_words(lines, True, 1)
+
+
+@config.command()
+def clear():
+    """Clear config file."""
+    if os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
+        if click.confirm('Are you sure you want to clear config file?', abort=True):
+            os.remove(CACHE_DIR / CONFIG_FILENAME)
+            click.echo('Config file cleared.')
+    else:
+        click.echo('No config file to clear.')

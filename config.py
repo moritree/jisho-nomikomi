@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 CONFIG_FILENAME = 'config.json'
@@ -8,8 +9,8 @@ TOKEN_CACHE_FILENAME = 'token_cache.csv'
 
 
 def update_settings(items: dict):
-    config = read_config()
-    with open(CACHE_DIR / CONFIG_FILENAME, 'w') as file:
+    config = read_config() or {}
+    with open(CACHE_DIR / CONFIG_FILENAME, 'w+') as file:
         for key, value in items.items():
             if key in config:
                 if value is None:
@@ -24,11 +25,13 @@ def update_settings(items: dict):
         json.dump(config, file)
 
 
-def read_config():
-    with open(CACHE_DIR / CONFIG_FILENAME, 'r') as file:
+def read_config() -> dict | None:
+    if not os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
+        return None
+    with open(CACHE_DIR / CONFIG_FILENAME, 'r+') as file:
         return json.load(file)
 
 
-def get_config_value(key: str) -> str:
+def get_config_value(key: str) -> str | None:
     with open(CACHE_DIR / CONFIG_FILENAME, 'r') as file:
         return json.load(file).get(key)
