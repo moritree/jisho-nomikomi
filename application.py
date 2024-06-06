@@ -165,7 +165,7 @@ def fields(fields, valid_options):
             click.echo(f'Couldn\'t update config, field {field} is invalid.')
             return
 
-    original_vocab_field = get_config_value('columns') or formatting.VALID_FIELDS.index('vocab')
+    original_vocab_field = get_config_value('columns').index('vocab') or formatting.VALID_FIELDS.index('vocab')
 
     # Make update
     update_settings({'columns': fields})
