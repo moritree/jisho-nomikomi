@@ -56,3 +56,15 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
                 return word.data[0].jlpt[0][-2:].upper()
         case _:
             raise RuntimeError('Unknown field: ' + field)
+
+
+def csv_header(tags: str = None, deck: str = None) -> str:  # Anki header data
+    header_data = {
+        'separator': 'comma'
+    }
+    if deck:
+        header_data.update({'deck': deck})
+    if tags:
+        header_data.update({'tags': tags})
+
+    return reduce(lambda a, b: a + '\n' + b, [f'#{item[0]}: {item[1]}' for item in header_data.items()]) + '\n'

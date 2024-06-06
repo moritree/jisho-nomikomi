@@ -13,6 +13,7 @@ setup(
             'token = application:token',
             'tokenise = application:tokenise',
             'tokenize = application:tokenise',
+            'library = application:library',
         ],
     },
 )

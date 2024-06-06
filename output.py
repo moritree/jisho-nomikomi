@@ -4,7 +4,7 @@ import os
 from functools import reduce
 from pathlib import Path
 
-from formatting import CSV_DIALECT
+from formatting import CSV_DIALECT, csv_header
 from reading import line_exists
 
 CACHE_DIR: Path = Path.home() / '.nomikomi'
@@ -22,15 +22,6 @@ def cache_tokens(tokens: list[str]) -> str:
         writer = csv.writer(cache_file, dialect=CSV_DIALECT)
         writer.writerow(tokens)
         return reduce(lambda a, b : a + "  " + b, [f'({tokens.index(token)}) {token}' for token in tokens])
-
-
-def csv_header(tags: str = None, deck: str = None) -> str:  # Anki header data
-    return ''.join([
-        '#separator:comma',
-        f'\n#deck:{deck}' if deck else '',
-        f'\n#tags:{tags}' if tags else '',
-        '\n'
-    ])
 
 
 def csv_formatted_item(item: list[str]) -> str:

@@ -71,3 +71,9 @@ def tokenise(text):
         return
     indexed_string = cache_tokens([tk.token for tk in token_request.data])
     click.echo(indexed_string)
+
+
+@click.command()
+def library():
+    """View the current cached 'library' of cards"""
+    print(read_csv(CACHE_DIR / CACHE_FILENAME))
