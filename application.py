@@ -84,17 +84,22 @@ def library():
 
 @click.command('export-cards')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
-@click.option('-d', '--deck', type=str, help='Deck tag for anki header (optional)')
-def export(output_file, deck=None):
+@click.option('-d', '--deck', type=str, default=None, help='Deck tag for anki header (optional)')
+@click.option('-c', '--clear', is_flag=True, default=False, help='Clear cache after export')
+def export(output_file, deck, clear):
     """Export the current cached 'library' of cards to a CSV file."""
     # Can't export from a nonexistent cache
     if not os.path.isfile(CACHE_DIR / CACHE_FILENAME):
         click.echo('No cached cards to export.')
         return
 
+    # Export to csv file
     click.echo(f'Exporting cached cards to {output_file.name}...')
-    write_export(output_file, read_csv(CACHE_DIR / CACHE_FILENAME))
+    write_export(output_file, read_csv(CACHE_DIR / CACHE_FILENAME), deck=deck)
     click.echo('Done.')
-    click.echo(f'Clearing cache...')
-    os.remove(CACHE_DIR / CACHE_FILENAME)
-    click.echo('Done.')
+
+    # Clear cache
+    if clear:
+        click.echo(f'Clearing cache...')
+        os.remove(CACHE_DIR / CACHE_FILENAME)
+        click.echo('Done.')

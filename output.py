@@ -33,9 +33,9 @@ def csv_formatted_item(item: list[str]) -> str:
     return out.read()
 
 
-def write_export(file, lines: list[list[str]]):
+def write_export(file, lines: list[list[str]], deck=None, tags=None):
     # write header
-    file.write(csv_header())
+    file.write(csv_header(deck=deck, tags=tags))
     for line in lines:
         file.write(csv_formatted_item(line))
 
