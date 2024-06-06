@@ -4,8 +4,10 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from output import write_rows, cache_tokens
+from output import write_rows, cache_tokens, CACHE_PATH
 import click
+
+from reading import read_csv
 
 
 @click.command("word")
@@ -43,6 +45,9 @@ def token(indices):
     """
     Create a card from the jisho.org entry for each of the specified cached tokens.
     """
+    tokens = read_csv(CACHE_PATH)[0]
+    selected = [tokens[index] for index in indices] if indices else tokens
+    print(selected)
     return
 
 
@@ -51,6 +56,7 @@ def token(indices):
 def tokenise(text):
     """
     Collect and cache tokens from the given Japanese text.
+    After running this command you may want to run `token [INDICES]` to generate cards from these tokens.
     """
     token_request = Tokens.request(reduce(lambda a, b: a.__str__() + " " + b.__str__(), text))
     if token_request is None:
