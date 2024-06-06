@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="None handling">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Nest header item commands in from general config commands">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
     </list>
@@ -138,14 +138,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00028" summary="Cache command result">
-      <option name="closed" value="true" />
-      <created>1717624160284</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1717624160284</updated>
     </task>
     <task id="LOCAL-00029" summary="Collect indexed string of tokens, echo back to user">
       <option name="closed" value="true" />
@@ -531,14 +523,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717669721006</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="Nest header item commands in from general config commands">
+      <option name="closed" value="true" />
+      <created>1717670996957</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1717670996957</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Consistent single quotes (aa, I keep doing it!)" />
     <MESSAGE value="Check valid field for formatting right away rather than at the end of match" />
     <MESSAGE value="Clear cache on export is optional" />
     <MESSAGE value="Option to configure deck and tags" />
@@ -563,7 +562,8 @@
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;config.py" />
     <MESSAGE value="Config cache clear command commit" />
     <MESSAGE value="None handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="None handling" />
+    <MESSAGE value="Nest header item commands in from general config commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nest header item commands in from general config commands" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

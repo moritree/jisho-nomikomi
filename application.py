@@ -116,8 +116,8 @@ def clear():
 
 @library.command('export')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
-@click.option('-c', '--clear', is_flag=True, default=False, help='Clear cache after export')
-def export(output_file, clear):
+@click.option('-c', '--clear', 'clear_after_export', is_flag=True, default=False, help='Clear cache after export')
+def export(output_file, clear_after_export):
     """Export the current cached library to a CSV file."""
     # Can't export from a nonexistent cache
     if not os.path.isfile(CACHE_DIR / CACHE_FILENAME):
@@ -130,7 +130,7 @@ def export(output_file, clear):
     click.echo('Done.')
 
     # Clear cache
-    if clear:
+    if clear_after_export:
         click.echo(f'Clearing cache...')
         os.remove(CACHE_DIR / CACHE_FILENAME)
         click.echo('Done.')
@@ -149,7 +149,7 @@ def view():
 
 
 @config.command()
-def clear():
+def clear_after():
     """Clear config file."""
     if os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
         if click.confirm('Are you sure you want to clear config file?', abort=True):
@@ -176,17 +176,17 @@ def tags(all_tags):
 
 
 @header.command()
-@click.argument('deck', required=False, nargs=-1)
-def deck(deck):
-    """Update the deck name. If no name is specified, the field is removed."""
-    update_settings({'deck': ' '.join(deck) if deck else None})
+@click.argument('title', required=False, nargs=-1)
+def deck(title):
+    """Update the deck title. If none is specified, the field is removed."""
+    update_settings({'deck': ' '.join(title) if title else None})
     click.echo('Updated deck.')
 
 
 @header.command()
-@click.argument('fields', nargs=-1)
+@click.argument('order_format', nargs=-1)
 @click.option('-v', '--valid-options', is_flag=True, default=False, )
-def fields(fields, valid_options):
+def fields(order_format, valid_options):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
@@ -194,17 +194,17 @@ def fields(fields, valid_options):
         return
 
     # if no fields, clear item
-    if not fields:
+    if not order_format:
         update_settings({'columns': None})
         return
 
     # need at least two fields
-    if fields.__len__() < 2:
+    if order_format.__len__() < 2:
         click.echo('No fields specified.')
         return
 
     # check each provided field is valid
-    for field in fields:
+    for field in order_format:
         if field not in formatting.VALID_FIELDS:
             click.echo(f'Couldn\'t update config, field {field} is invalid.')
             return
@@ -212,7 +212,7 @@ def fields(fields, valid_options):
     original_vocab_field = get_config_value('columns').index('vocab') or formatting.VALID_FIELDS.index('vocab')
 
     # make config update
-    update_settings({'columns': fields})
+    update_settings({'columns': order_format})
     click.echo('Updated fields.')
 
     # regenerate all cards if fields are changed
