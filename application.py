@@ -1,5 +1,6 @@
 from functools import reduce
 
+from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
@@ -39,5 +40,12 @@ def cards_from_words(words, output_filename, overwrite, senses):
 @click.command()
 @click.argument('text', nargs=-1)
 def tokens(text):
-    print(text)
-    cache_tokens(text)
+    """
+    Collect and cache tokens from the given Japanese text.
+    """
+    token_request = Tokens.request(reduce(lambda a, b: a.__str__() + " " + b.__str__(), text))
+    if token_request is None:
+        click.echo('No tokens found.')
+        return
+    indexed_string = cache_tokens([token.token for token in token_request.data])
+    click.echo(indexed_string)

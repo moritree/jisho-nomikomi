@@ -1,6 +1,8 @@
 import csv
 import io
+import operator
 import os
+from functools import reduce
 from pathlib import Path
 
 
@@ -8,12 +10,15 @@ CACHE_DIR: Path = Path.home() / '.nomikomi'
 CACHE_FILENAME = 'cache.csv'
 
 
-def cache_tokens(tokens: list[str]):
+def cache_tokens(tokens: list[str]) -> str:
+    max_token_length = reduce(lambda a, b: a if a > b else b, [token.__len__() for token in tokens])
+    associated_index = ((tokens.index(token), token) for token in tokens)
+
     CACHE_DIR.mkdir(exist_ok=True)
     with open(CACHE_DIR / CACHE_FILENAME, 'w') as cache_file:
         writer = csv.writer(cache_file, dialect='unix')
         writer.writerow(tokens)
-
+        return reduce(lambda a, b : a + "  " + b, [f'({tokens.index(token)}) {token}' for token in tokens])
 
 def line_exists(filename: str, line: str) -> bool:
     # if there's no file, this line is definitely not in it
