@@ -32,7 +32,7 @@ def gen_words(words: list[str], overwrite, senses):
 @click.command("word")
 @click.argument('words', nargs=-1)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite the contents of any existing output file")
+              help="Overwrite cache contents if they already exist.")
 @click.option('-ss', '--senses', default=1, show_default=True,
               help="Number of sense definitions to include on the card (<=0 means all listed)")
 def word(words, overwrite, senses):
@@ -45,7 +45,7 @@ def word(words, overwrite, senses):
 @click.command()
 @click.argument('indices', nargs=-1, type=int)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite the contents of any existing output file")
+              help="Overwrite cache contents if they already exist.")
 @click.option('-ss', '--senses', default=1, show_default=True,
               help="Number of sense definitions to include on the card (<=0 means all listed)")
 def token(indices, overwrite, senses):
