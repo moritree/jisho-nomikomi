@@ -77,7 +77,8 @@ def tokenise(text):
 @click.command()
 def library():
     """View the current cached 'library' of cards"""
-    print(read_csv(CACHE_DIR / CACHE_FILENAME))
+    result = read_csv(CACHE_DIR / CACHE_FILENAME)
+    click.echo(result if result else "No cached cards.")
 
 
 @click.command("export-cards")
