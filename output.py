@@ -33,6 +33,13 @@ def csv_formatted_item(item: list[str]) -> str:
     return out.read()
 
 
+def write_export(file, lines: list[list[str]]):
+    # write header
+    file.write(csv_header())
+    for line in lines:
+        file.write(csv_formatted_item(line))
+
+
 def write_rows(filename: str, lines: list[list[str]], overwrite: bool = False) -> list[list[str]]:
     """
     Write each item to a csv file.
@@ -41,12 +48,8 @@ def write_rows(filename: str, lines: list[list[str]], overwrite: bool = False) -
     :param overwrite:
     :return: Any lines that were not able to be written
     """
-    already_exists = os.path.isfile(filename)
     failed: list[list[str]] = []
     with (open(filename, 'w' if overwrite else 'a', newline='')) as file:
-        # write Anki header if necessary
-        if not already_exists or overwrite:
-            file.write(csv_header())
         # write each line
         for line in lines:
             formatted = csv_formatted_item(line)
@@ -57,10 +60,3 @@ def write_rows(filename: str, lines: list[list[str]], overwrite: bool = False) -
             # write row in csv format
             file.write(formatted)
     return failed
-
-
-def copy_file(source: Path, dest_file):
-    if not os.path.isfile(source):
-        return
-    src_file = open(source, 'r')
-    dest_file.write(src_file.read())

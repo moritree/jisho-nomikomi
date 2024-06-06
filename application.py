@@ -5,7 +5,8 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from output import write_rows, cache_tokens, DEFAULT_OUTFILE, TOKEN_CACHE_FILENAME, CACHE_DIR, CACHE_FILENAME, copy_file
+from output import (write_rows, cache_tokens, DEFAULT_OUTFILE,
+                    TOKEN_CACHE_FILENAME, CACHE_DIR, CACHE_FILENAME, write_export)
 import click
 
 from reading import read_csv
@@ -33,7 +34,7 @@ def gen_words(words: list[str], overwrite, senses):
 @click.command("word")
 @click.argument('words', nargs=-1)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite cache contents if they already exist.")
+              help="Overwrite cache contents if they already exist")
 @click.option('-ss', '--senses', default=1, show_default=True,
               help="Number of sense definitions to include on the card (<=0 means all listed)")
 def word(words, overwrite, senses):
@@ -46,7 +47,7 @@ def word(words, overwrite, senses):
 @click.command()
 @click.argument('indices', nargs=-1, type=int)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite cache contents if they already exist.")
+              help="Overwrite cache contents if they already exist")
 @click.option('-ss', '--senses', default=1, show_default=True,
               help="Number of sense definitions to include on the card (<=0 means all listed)")
 def token(indices, overwrite, senses):
@@ -83,10 +84,16 @@ def library():
 
 @click.command("export-cards")
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
-def export(output_file):
+@click.option('-d', '--deck', type=str, help='Deck tag for anki header (optional)')
+def export(output_file, deck=None):
     """Export the current cached 'library' of cards to a CSV file."""
-    click.echo(f'Exporting cached cards to {output_file}...')
-    copy_file(CACHE_DIR / CACHE_FILENAME, output_file)
+    # Can't export from a nonexistent cache
+    if not os.path.isfile(CACHE_DIR / CACHE_FILENAME):
+        click.echo('No cached cards to export.')
+        return
+
+    click.echo(f'Exporting cached cards to {output_file.name}...')
+    write_export(output_file, read_csv(CACHE_DIR / CACHE_FILENAME))
     click.echo('Done.')
     click.echo(f'Clearing cache...')
     os.remove(CACHE_DIR / CACHE_FILENAME)
