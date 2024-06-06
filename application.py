@@ -39,7 +39,7 @@ def cards_from_words(words, output_filename, overwrite, senses):
 
 @click.command()
 @click.argument('text', nargs=-1)
-def tokens(text):
+def tokenise(text):
     """
     Collect and cache tokens from the given Japanese text.
     """

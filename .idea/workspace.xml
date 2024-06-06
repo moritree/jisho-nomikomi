@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Collect indexed string of tokens, echo back to user">
-      <change afterPath="$PROJECT_DIR$/reading.py" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Separate file reading utilities from output.py into reading.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +138,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
-      <workItem from="1717392409046" duration="34443000" />
+      <workItem from="1717392409046" duration="34840000" />
     </task>
     <task id="LOCAL-00001" summary="Write single predetermined word to csv file">
       <option name="closed" value="true" />
@@ -374,14 +372,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717637381994</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Separate file reading utilities from output.py into reading.py">
+      <option name="closed" value="true" />
+      <created>1717637792449</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1717637792449</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Option to either append to existing file or overwrite contents" />
     <MESSAGE value="Throw error instead of writing duplicate lines" />
     <MESSAGE value="Echo for consistency with click" />
     <MESSAGE value="More descriptive CLI help text" />
@@ -406,7 +411,8 @@
     <MESSAGE value="More descriptive feedback" />
     <MESSAGE value="Cache command result" />
     <MESSAGE value="Collect indexed string of tokens, echo back to user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Collect indexed string of tokens, echo back to user" />
+    <MESSAGE value="Separate file reading utilities from output.py into reading.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Separate file reading utilities from output.py into reading.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

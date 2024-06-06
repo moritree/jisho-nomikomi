@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='application',
+    name='jisho-nomikomi',
     version='0.1.0',
     py_modules=['application', 'formatting', 'output', 'reading'],
     install_requires=[
@@ -10,7 +10,8 @@ setup(
     entry_points={
         'console_scripts': [
             'word = application:cards_from_words',
-            'tokens = application:tokens',
+            'tokenise = application:tokens',
+            'tokenize = application:tokens',
         ],
     },
 )
