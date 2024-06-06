@@ -105,20 +105,38 @@ def export(output_file, clear):
         click.echo('Done.')
 
 
-@click.command()
-@click.argument('tags', nargs=-1)
-@click.option('-v', '--view', is_flag=True, default=False, help='View the current config options.')
-@click.option('-d', '--deck', type=str, default=None, help='Deck tag for anki header')
-def config(tags, view, deck):
-    if view:
-        click.echo(read_config())
+@click.group("config")
+@click.pass_context
+def config(ctx):
+    return
 
-    updates = {}
-    if deck:
-        updates.update({'deck': deck})
-    if tags:
-        updates.update({'tags': tags})
 
-    if updates:
-        click.echo(f'Updating {reduce(lambda a, b: a + ',' + b, updates.keys())}')
-        update_settings(updates)
+@config.command()
+def view():
+    """View the current config options."""
+    click.echo(read_config())
+
+
+@config.command()
+@click.argument('all-tags', nargs=-1)
+def tags(all_tags):
+    update_settings({'tags': all_tags})
+    click.echo('Updated tags.')
+
+
+@config.command()
+@click.argument('deck', nargs=1)
+def deck(deck):
+    update_settings({'deck': deck})
+    click.echo('Updated deck.')
+
+
+@config.command()
+@click.argument('fields', nargs=-1)
+@click.option('-v', '--valid-options', is_flag=True, default=False,)
+def fields(fields, valid_options):
+    if valid_options:
+        click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
+        return
+    update_settings({'columns': fields})
+    click.echo('Updated fields.')
