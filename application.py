@@ -31,12 +31,12 @@ def gen_words(words: list[str], overwrite, senses):
     click.echo('Done.')
 
 
-@click.command("word")
+@click.command('word')
 @click.argument('words', nargs=-1)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite cache contents if they already exist")
+              help='Overwrite cache contents if they already exist')
 @click.option('-ss', '--senses', default=1, show_default=True,
-              help="Number of sense definitions to include on the card (<=0 means all listed)")
+              help='Number of sense definitions to include on the card (<=0 means all listed)')
 def word(words, overwrite, senses):
     """
     Create a card from the jisho.org entry on each of WORDS - this can be in English or Japanese (kanji, kana, romaji)
@@ -47,9 +47,9 @@ def word(words, overwrite, senses):
 @click.command()
 @click.argument('indices', nargs=-1, type=int)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help="Overwrite cache contents if they already exist")
+              help='Overwrite cache contents if they already exist')
 @click.option('-ss', '--senses', default=1, show_default=True,
-              help="Number of sense definitions to include on the card (<=0 means all listed)")
+              help='Number of sense definitions to include on the card (<=0 means all listed)')
 def token(indices, overwrite, senses):
     """
     Create a card from the jisho.org entry for each of the specified cached tokens.
@@ -79,10 +79,10 @@ def tokenise(text):
 def library():
     """View the current cached 'library' of cards"""
     result = read_csv(CACHE_DIR / CACHE_FILENAME)
-    click.echo(result if result else "No cached cards.")
+    click.echo(result if result else 'No cached cards.')
 
 
-@click.command("export-cards")
+@click.command('export-cards')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
 @click.option('-d', '--deck', type=str, help='Deck tag for anki header (optional)')
 def export(output_file, deck=None):

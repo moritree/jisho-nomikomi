@@ -22,7 +22,7 @@ def cache_tokens(tokens: list[str]) -> str:
     with open(CACHE_DIR / TOKEN_CACHE_FILENAME, 'w') as cache_file:
         writer = csv.writer(cache_file, dialect=CSV_DIALECT)
         writer.writerow(tokens)
-        return reduce(lambda a, b : a + "  " + b, [f'({tokens.index(token)}) {token}' for token in tokens])
+        return reduce(lambda a, b : a + '  ' + b, [f'({tokens.index(token)}) {token}' for token in tokens])
 
 
 def csv_formatted_item(item: list[str]) -> str:
