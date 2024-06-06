@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Option to configure deck and tags">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Comments before it's too late">
       <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,30 +137,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00005" summary="Option to either append to existing file or overwrite contents">
-      <option name="closed" value="true" />
-      <created>1717573680556</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1717573680556</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Throw error instead of writing duplicate lines">
-      <option name="closed" value="true" />
-      <created>1717575153040</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1717575153040</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Echo for consistency with click">
-      <option name="closed" value="true" />
-      <created>1717575347932</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1717575347932</updated>
     </task>
     <task id="LOCAL-00008" summary="More descriptive CLI help text">
       <option name="closed" value="true" />
@@ -534,15 +506,37 @@
       <option name="project" value="LOCAL" />
       <updated>1717651696982</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Format space separated tags in header">
+      <option name="closed" value="true" />
+      <created>1717652455856</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1717652455856</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Comments before it's too late">
+      <option name="closed" value="true" />
+      <created>1717652835672</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1717652835672</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Comments before it's too late">
+      <option name="closed" value="true" />
+      <created>1717653141216</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1717653141216</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Consistent single quotes" />
-    <MESSAGE value="More descriptive feedback" />
     <MESSAGE value="Cache command result" />
     <MESSAGE value="Collect indexed string of tokens, echo back to user" />
     <MESSAGE value="Separate file reading utilities from output.py into reading.py" />
@@ -566,7 +560,9 @@
     <MESSAGE value="Check valid field for formatting right away rather than at the end of match" />
     <MESSAGE value="Clear cache on export is optional" />
     <MESSAGE value="Option to configure deck and tags" />
-    <option name="LAST_COMMIT_MESSAGE" value="Option to configure deck and tags" />
+    <MESSAGE value="Format space separated tags in header" />
+    <MESSAGE value="Comments before it's too late" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comments before it's too late" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

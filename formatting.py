@@ -10,6 +10,7 @@ TYPE_SEPARATOR_STR = ', '
 
 
 def word_formatted(word: WordRequest, csv_format: list[str], senses: int) -> list[str]:
+    """Returns list of formatted fields for the given word, in the order of csv_format"""
     it_list = []
     for field in csv_format:
         it_list.append(get_field(word, field, senses))
@@ -26,14 +27,16 @@ def char_separated_str(ss: list[str], separator: str) -> str:
 
 
 def get_field(word: WordRequest, field: str, senses: int) -> str:
+    """Returns the correct field value for the supplied word."""
     # check valid field name
     if field not in VALID_FIELDS:
         raise ValueError(f'Field {field} not in {VALID_FIELDS}')
 
-    sense_count = word.data[0].senses.__len__()
     # sublist of senses list according to n sought
+    sense_count = word.data[0].senses.__len__()
     sublist = word.data[0].senses[:min(senses, sense_count - 1)] if senses > 0 \
         else word.data[0].senses
+
     match field:
         case 'vocab':
             return word.data[0].japanese[0].word
@@ -66,6 +69,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
 
 
 def csv_header() -> str:  # Anki header data
+    """Returns a `#key:value` formatted Anki file header based on configured values."""
     header_data = {'separator': 'comma'}
     header_data.update(read_config())
 
@@ -73,4 +77,4 @@ def csv_header() -> str:  # Anki header data
     if header_data['tags']:
         header_data['tags'] = reduce(lambda a, b: a + ' ' + b, header_data['tags'])
 
-    return reduce(lambda a, b: a + '\n' + b, [f'#{item[0]}: {item[1]}' for item in header_data.items()]) + '\n'
+    return reduce(lambda a, b: a + '\n' + b, [f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'

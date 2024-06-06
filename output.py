@@ -10,6 +10,7 @@ DEFAULT_OUTFILE = 'out.csv'
 
 
 def cache_tokens(tokens: list[str]) -> str:
+    """Caches the tokens so they can be used later."""
     max_token_length = reduce(lambda a, b: a if a > b else b, [token.__len__() for token in tokens])
     associated_index = ((tokens.index(token), token) for token in tokens)
 
@@ -21,6 +22,7 @@ def cache_tokens(tokens: list[str]) -> str:
 
 
 def csv_formatted_item(item: list[str]) -> str:
+    """Returns the item formatted as a valid row to write to a .csv file."""
     out = io.StringIO()
     writer = csv.writer(out, dialect=CSV_DIALECT)
     writer.writerow(item)
@@ -29,6 +31,7 @@ def csv_formatted_item(item: list[str]) -> str:
 
 
 def write_export(file, lines: list[list[str]]):
+    """Exports the cached cards into an anki formatted file."""
     # write header
     file.write(csv_header())
     for line in lines:
@@ -37,11 +40,8 @@ def write_export(file, lines: list[list[str]]):
 
 def write_rows(filename: str, lines: list[list[str]], overwrite: bool = False) -> list[list[str]]:
     """
-    Write each item to a csv file.
-    :param filename:
-    :param lines:
-    :param overwrite:
-    :return: Any lines that were not able to be written
+    Writes each item to a file in .csv format.
+    :returns: The list of any items which could not be written.
     """
     failed: list[list[str]] = []
     with (open(filename, 'w' if overwrite else 'a', newline='')) as file:

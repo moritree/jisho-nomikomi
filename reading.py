@@ -5,6 +5,7 @@ from formatting import CSV_DIALECT
 
 
 def read_csv(filename: str) -> list[list[str]]:
+    """Returns contents of .csv file."""
     # don't even try if there's no file
     if not os.path.isfile(filename):
         return []
@@ -13,6 +14,7 @@ def read_csv(filename: str) -> list[list[str]]:
 
 
 def line_exists(filename: str, line: str) -> bool:
+    """Returns whether the given line already exists in the given file."""
     # if there's no file, this line is definitely not in it
     if not os.path.isfile(filename):
         return False
