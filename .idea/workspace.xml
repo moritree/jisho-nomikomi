@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Tidy, limit shadowing">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="-rm options for header config commands, rather than deleting when no argument given">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,14 +138,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00030" summary="Separate file reading utilities from output.py into reading.py">
-      <option name="closed" value="true" />
-      <created>1717637792449</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1717637792449</updated>
     </task>
     <task id="LOCAL-00031" summary="renaming">
       <option name="closed" value="true" />
@@ -531,14 +523,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717671333297</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="-rm options for header config commands, rather than deleting when no argument given">
+      <option name="closed" value="true" />
+      <created>1717672198548</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1717672198548</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Clear cache on export is optional" />
     <MESSAGE value="Option to configure deck and tags" />
     <MESSAGE value="Format space separated tags in header" />
     <MESSAGE value="Comments before it's too late" />
@@ -563,7 +562,8 @@
     <MESSAGE value="None handling" />
     <MESSAGE value="Nest header item commands in from general config commands" />
     <MESSAGE value="Tidy, limit shadowing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tidy, limit shadowing" />
+    <MESSAGE value="-rm options for header config commands, rather than deleting when no argument given" />
+    <option name="LAST_COMMIT_MESSAGE" value="-rm options for header config commands, rather than deleting when no argument given" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
