@@ -1,5 +1,5 @@
 # jisho-nomikomi 👹 辞書・飲み込み
-A command line tool for generating Anki cards with information from [jisho.org](https://jisho.org/) (an online Japanese dictionary).
+A command line tool for generating [Anki](https://apps.ankiweb.net/) cards with information from [jisho.org](https://jisho.org/) (an online Japanese dictionary).
 
 > **辞書・飲み込み → jisho nomikomi → dictionary swallowing**
 >
@@ -11,7 +11,7 @@ A command line tool for generating Anki cards with information from [jisho.org](
 You can run any command with the option `--help` for documentation.
 
 ### generation
-- `token [OPTIONS] [INDICES]...` &ndash; identify the tokens in a Japanese text, and generate cards for those you select.
+- `token [OPTIONS] [TEXT]...` &ndash; identify the tokens in a Japanese text, and generate cards for those you select.
 - `word [OPTIONS] [WORDS]...` &ndash; generate and cache cards for each of the given words
 
 ### library
@@ -22,10 +22,10 @@ You can run any command with the option `--help` for documentation.
 - `config header` &ndash; configuring fields to be written in the 
   [Anki header file](https://docs.ankiweb.net/importing/text-files.html#file-headers) on export. \
   All fields have the flag option `-rm` to remove the field from the header entirely, instead of updating values.
-  - `config header columns [OPTIONS] [FIELDS]...` &ndash; what each exported .csv column corresponds to
+  - `config header columns [OPTIONS] [ORDER_FORMAT]...` &ndash; what each exported .csv column corresponds to
     - The option `-v` displays a list of all valid column field types.
     - Will regenerate library cache data with updated fields.
-  - `config header deck [DECK]`&ndash; presets the deck to import into, if it exists
+  - `config header deck [TITLE]`&ndash; presets the deck to import into, if it exists
   - `config header tags [ALL_TAGS]...` &ndash; list of tags, separated by spaces, to be applied to every card on import
 - `config view`&ndash; view the current config settings.
 
