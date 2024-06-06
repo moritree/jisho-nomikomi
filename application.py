@@ -76,13 +76,16 @@ def tokenise(text):
     click.echo(indexed_string)
 
 
-@click.group("library", invoke_without_command=True)
-@click.pass_context
-def library(ctx):
+@click.group("library")
+def library():
+    return
+
+
+@library.command()
+def view():
     """View the current cached 'library' of cards."""
-    if ctx.invoked_subcommand is None:
-        result = read_csv(CACHE_DIR / CACHE_FILENAME)
-        click.echo(result if result else 'No cached cards.')
+    result = read_csv(CACHE_DIR / CACHE_FILENAME)
+    click.echo(result if result else 'No cached cards.')
 
 
 @library.command('export')
