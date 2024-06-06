@@ -1,6 +1,7 @@
 import csv
 import io
 import os
+import shutil
 from functools import reduce
 from pathlib import Path
 
@@ -56,3 +57,10 @@ def write_rows(filename: str, lines: list[list[str]], overwrite: bool = False) -
             # write row in csv format
             file.write(formatted)
     return failed
+
+
+def copy_file(source: Path, dest_file):
+    if not os.path.isfile(source):
+        return
+    src_file = open(source, 'r')
+    dest_file.write(src_file.read())

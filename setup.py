@@ -14,6 +14,7 @@ setup(
             'tokenise = application:tokenise',
             'tokenize = application:tokenise',
             'library = application:library',
+            'export-cards = application:export',
         ],
     },
 )

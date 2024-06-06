@@ -1,10 +1,11 @@
+import os
 from functools import reduce
 
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from output import write_rows, cache_tokens, DEFAULT_OUTFILE, TOKEN_CACHE_FILENAME, CACHE_DIR, CACHE_FILENAME
+from output import write_rows, cache_tokens, DEFAULT_OUTFILE, TOKEN_CACHE_FILENAME, CACHE_DIR, CACHE_FILENAME, copy_file
 import click
 
 from reading import read_csv
@@ -79,7 +80,13 @@ def library():
     print(read_csv(CACHE_DIR / CACHE_FILENAME))
 
 
-@click.command()
+@click.command("export-cards")
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
 def export(output_file):
     """Export the current cached 'library' of cards to a CSV file."""
+    click.echo(f'Exporting cached cards to {output_file}...')
+    copy_file(CACHE_DIR / CACHE_FILENAME, output_file)
+    click.echo('Done.')
+    click.echo(f'Clearing cache...')
+    os.remove(CACHE_DIR / CACHE_FILENAME)
+    click.echo('Done.')
