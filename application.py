@@ -98,6 +98,16 @@ def view():
     click.echo(result if result else 'No cached cards.')
 
 
+@library.command()
+def clear():
+    """Clear library cache."""
+    if os.path.isfile(CACHE_DIR / CACHE_FILENAME):
+        os.remove(CACHE_DIR / CACHE_FILENAME)
+        click.echo('Cache cleared.')
+    else:
+        click.echo('No cache to clear.')
+
+
 @library.command('export')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
 @click.option('-c', '--clear', is_flag=True, default=False, help='Clear cache after export')
