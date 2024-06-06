@@ -69,8 +69,9 @@ def csv_header() -> str:  # Anki header data
     header_data = {'separator': 'comma'}
     header_data.update(read_config())
 
-    # space separated tags
-    if header_data.__contains__('tags'):
-        header_data['tags'] = reduce(lambda a, b: a + ' ' + b, header_data['tags'])
+    # space separated list items in header
+    for key, value in header_data.items():
+        if isinstance(value, list):
+            header_data[key] = ' '.join(value)
 
     return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
