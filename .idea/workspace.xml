@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Comments &amp; docstrings">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Move csv item formatting function to formatting.py">
       <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,14 +138,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00036" summary="Constant for csv dialect, no more duplicate string literals">
-      <option name="closed" value="true" />
-      <created>1717639055777</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1717639055777</updated>
     </task>
     <task id="LOCAL-00037" summary="Select specified tokens">
       <option name="closed" value="true" />
@@ -533,14 +523,21 @@
       <option name="project" value="LOCAL" />
       <updated>1717673823202</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Move csv item formatting function to formatting.py">
+      <option name="closed" value="true" />
+      <created>1717673953455</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1717673953455</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Config nested command, more flexible" />
     <MESSAGE value="Validate fields before updating config" />
     <MESSAGE value="Update README.md with config command information." />
     <MESSAGE value="Make export a subcommand of library" />
@@ -565,7 +562,8 @@
     <MESSAGE value="Update README.md with command documentation for new &amp; nested commands. Also, it's prettier and more compact." />
     <MESSAGE value="Update README.md with fixed parameter names" />
     <MESSAGE value="Comments &amp; docstrings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comments &amp; docstrings" />
+    <MESSAGE value="Move csv item formatting function to formatting.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move csv item formatting function to formatting.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

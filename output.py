@@ -8,18 +8,6 @@ from reading import line_exists
 DEFAULT_OUTFILE = 'out.csv'
 
 
-def cache_tokens(tokens: list[str]) -> str:
-    """Caches the tokens so they can be used later."""
-    max_token_length = reduce(lambda a, b: a if a > b else b, [token.__len__() for token in tokens])
-    associated_index = ((tokens.index(token), token) for token in tokens)
-
-    CACHE_DIR.mkdir(exist_ok=True)
-    with open(CACHE_DIR / TOKEN_CACHE_FILENAME, 'w') as cache_file:
-        writer = csv.writer(cache_file, dialect=CSV_DIALECT)
-        writer.writerow(tokens)
-        return reduce(lambda a, b : a + '  ' + b, [f'({tokens.index(token)}) {token}' for token in tokens])
-
-
 def write_export(file, lines: list[list[str]]):
     """Exports the cached cards into an anki formatted file."""
     # write header
