@@ -69,6 +69,7 @@ class HeaderConfig:
         self.columns = columns or VALID_FIELDS
         self.deck = deck
         self.tags = tags
+        self.separator = 'comma'
 
 
 class Config:
@@ -81,11 +82,7 @@ class Config:
             file.write(jsonpickle.encode(self))
 
     def __str__(self):
-        return (f'header:'
-                + f'\n\tcolumns: {' '.join(self.header.columns)}'
-                + (f'\n\tdeck: {self.header.deck}' if self.header.deck else '')
-                + (f'\n\ttags: {' '.join(self.header.tags)}' if self.header.tags else '')
-                + f'\nsenses: {self.senses}')
+        return f'header: {self.header.__dict__},\nsense: {self.senses}'
 
 
 def get_config() -> Config:

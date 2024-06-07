@@ -14,7 +14,7 @@ import click
 from reading import read_csv
 
 
-def gen_words(words: list[str], overwrite: bool):
+def gen_words(words: list[str]):
     """Get and cache info on each word in the provided list of words."""
     data_chunks = {wr.data[0].japanese[0].word: jsonpickle.encode(wr.data[0]) for wr in
                    filter(lambda x: x is not None, [Word.request(w) for w in words])}
@@ -28,23 +28,19 @@ def gen_words(words: list[str], overwrite: bool):
 
 @click.command('word')
 @click.argument('words', nargs=-1)
-@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help='Overwrite cache contents if they already exist')
-def word(words, overwrite):
+def word(words):
     """
     Create a card from the jisho.org entry on each of WORDS.
     This can be in English or Japanese (kanji, kana, romaji).
     """
-    gen_words(words, overwrite)
+    gen_words(words)
 
 
 @click.command()
 @click.argument('text', nargs=-1)
-@click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
-              help='Overwrite cache contents if they already exist.')
 @click.option('-all', 'all_tokens', is_flag=True, default=False,
               help='Cache every found token without first asking user to specify indices.')
-def token(text, overwrite, all_tokens):
+def token(text, all_tokens):
     """
     Split the provided text into Japanese tokens, and write user determined set of these to cache.
     """
@@ -77,7 +73,7 @@ def token(text, overwrite, all_tokens):
     selected = [token_request[index].token for index in indices] if indices else [tk.token for tk in token_request]
 
     # generate word cards
-    gen_words(selected, overwrite)
+    gen_words(selected)
 
 
 @click.group("library")

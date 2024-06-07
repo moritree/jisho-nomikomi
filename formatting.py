@@ -5,7 +5,7 @@ from functools import reduce
 from jisho_api.word.cfg import WordConfig
 from jisho_api.word.request import WordRequest
 from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, config_columns, CSV_DIALECT, VALID_FIELDS, \
-    DEFINITION_SEPARATOR_STR, TYPE_SEPARATOR_STR
+    DEFINITION_SEPARATOR_STR, TYPE_SEPARATOR_STR, Config
 
 
 def char_separated_str(ss: list[str], separator: str) -> str:
@@ -56,24 +56,25 @@ def get_field(word: WordConfig, field: str, senses: int) -> str:
             return ''
 
 
-def csv_header() -> str:  # Anki header data
+def csv_header(config: Config) -> str:  # Anki header data
     """Returns a `#key:value` formatted Anki file header based on configured values."""
-    header_data = {'separator': 'comma'}
-    header_data.update(load_json(CACHE_DIR / CONFIG_FILENAME) or {})
+    header_data = {}
 
-    # space separated list items in header
-    for key, value in header_data.items():
+    for key, value in config.header.__dict__.items():
         if isinstance(value, list):
+            # space separated list items in header
             header_data[key] = ' '.join(value)
+        else:
+            header_data[key] = value
 
     return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
 
 
-def word_to_csv(item: WordConfig)-> str:
+def word_to_csv(item: WordConfig, config: Config) -> str:
     out = io.StringIO()
     writer = csv.writer(out, dialect=CSV_DIALECT)
     cols = []
-    for col in config_columns():
+    for col in config.header.columns:
         cols.append(get_field(item, col, 1))
     writer.writerow(cols)
     out.seek(0)
