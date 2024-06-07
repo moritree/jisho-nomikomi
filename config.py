@@ -8,32 +8,26 @@ CACHE_FILENAME = 'cache.csv'
 TOKEN_CACHE_FILENAME = 'token_cache.csv'
 
 
-def update_settings(items: dict):
-    config = read_config() or {}  # current settings
-    with open(CACHE_DIR / CONFIG_FILENAME, 'w+') as file:
+def update_json(items: dict, path: Path):
+    loaded_dict = load_json(path) or {}  # current settings
+    with open(path, 'w+') as file:
         for key, value in items.items():
-            if key in config:
+            if key in loaded_dict:
                 if value is None:
                     # delete dict item
-                    config.pop(key)
+                    loaded_dict.pop(key)
                 else:
                     # update with new value
-                    config[key] = value
+                    loaded_dict[key] = value
             else:
-                config.update({key: value})
+                loaded_dict.update({key: value})
         # write to config file
-        json.dump(config, file)
+        json.dump(loaded_dict, file)
 
 
-def read_config() -> dict | None:
-    """Returns a dictionary with config values, or None if config file does not exist."""
-    if not os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
+def load_json(path: Path) -> dict | None:
+    """Returns a dictionary, or None if the file does not exist."""
+    if not os.path.isfile(path):
         return None
-    with open(CACHE_DIR / CONFIG_FILENAME, 'r+') as file:
+    with open(path, 'r') as file:
         return json.load(file)
-
-
-def get_config_value(key: str) -> str | None:
-    """Returns a value from a specific key in the config file, or None if config file or key does not exist."""
-    with open(CACHE_DIR / CONFIG_FILENAME, 'r') as file:
-        return json.load(file).get(key)

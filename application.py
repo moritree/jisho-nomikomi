@@ -5,7 +5,7 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from config import update_settings, read_config, CACHE_DIR, CACHE_FILENAME, get_config_value, CONFIG_FILENAME
+from config import update_json, load_json, CACHE_DIR, CACHE_FILENAME, CONFIG_FILENAME
 from output import write_rows, DEFAULT_OUTFILE, write_export
 import click
 
@@ -16,22 +16,25 @@ def gen_words(words: list[str], overwrite: bool, senses):
     """Get and cache info on each word in the provided list of words."""
     # generate csv rows for each word
     rows: list[list[str]] = []
-    conf_cols = get_config_value('columns')
-    card_fields = conf_cols if conf_cols is not None else formatting.VALID_FIELDS
-    for w in words:
-        wr = Word.request(w)
-        if wr.data[0].japanese[0].word:
-            click.echo(f'Found: {wr.data[0].japanese[0].word}（{wr.data[0].japanese[0].reading}）')
-        else:
-            click.echo(f'Found: {wr.data[0].japanese[0].reading}')
-        rows.append(formatting.word_formatted(wr, card_fields, senses))
+    card_fields = load_json(CACHE_DIR / CONFIG_FILENAME).get('columns') or formatting.VALID_FIELDS
+
+    data_chunks = [wr.data[0] for wr in filter(lambda x: x is not None, [Word.request(w) for w in words])]
+    click.echo(f'Found {', '.join(w.japanese[0].word for w in data_chunks)}')
+    #
+    # for w in words:
+    #     wr = Word.request(w)
+    #     if wr.data[0].japanese[0].word:
+    #         click.echo(f'Found: {wr.data[0].japanese[0].word}（{wr.data[0].japanese[0].reading}）')
+    #     else:
+    #         click.echo(f'Found: {wr.data[0].japanese[0].reading}')
+    #     rows.append(formatting.word_formatted(wr, card_fields, senses))
 
     # write rows
     click.echo(f'Writing {rows.__len__()} words to cache...')
     failed = write_rows(CACHE_DIR / CACHE_FILENAME, rows, overwrite)
     if failed:
         click.echo(f'Failed to write row(s) {reduce(lambda a, b: a.__str__() + ", " + b.__str__(),
-                                               [rows.index(line) for line in failed])} (duplicate).')
+                                                    [rows.index(line) for line in failed])} (duplicate).')
     click.echo('Done.')
 
 
@@ -147,7 +150,7 @@ def config(ctx):
 @config.command()
 def view():
     """View the current config options."""
-    click.echo(read_config() or 'No config file to view.')
+    click.echo(load_json(CACHE_DIR / CONFIG_FILENAME) or 'No config file to view.')
 
 
 @config.command()
@@ -174,10 +177,10 @@ def header(ctx):
 def tags(all_tags, remove):
     """Update the tags list. For tags that will be automatically applied to each card on import."""
     if remove:
-        update_settings({'tags': None})
+        update_json({'tags': None}, CACHE_DIR / CONFIG_FILENAME)
         click.echo('Removed tags field.')
     elif all_tags:
-        update_settings({'tags': all_tags})
+        update_json({'tags': all_tags}, CACHE_DIR / CONFIG_FILENAME)
         click.echo('Updated tags.')
     else:
         click.echo('No tags to update. Include at least one tag argument.')
@@ -189,10 +192,10 @@ def tags(all_tags, remove):
 def deck(title, remove):
     """Update the deck title."""
     if remove:
-        update_settings({'deck': None})
+        update_json({'deck': None}, CACHE_DIR / CONFIG_FILENAME)
         click.echo('Removed deck field.')
     elif title:
-        update_settings({'deck': ' '.join(title)})
+        update_json({'deck': ' '.join(title)}, CACHE_DIR / CONFIG_FILENAME)
         click.echo('Updated deck.')
     else:
         click.echo('No deck to update. Include at least one deck argument.')
@@ -210,7 +213,7 @@ def columns(order_format, valid_options, remove):
         return
 
     if remove:
-        update_settings({'columns': None})
+        update_json({'columns': None}, CACHE_DIR / CONFIG_FILENAME)
         click.echo('Removed fields field.')
     elif not order_format:
         # if no fields, clear item
@@ -227,16 +230,13 @@ def columns(order_format, valid_options, remove):
                 return
 
         # index in cache of vocab field
-        original_vocab_field = get_config_value('columns').index('vocab') or formatting.VALID_FIELDS.index('vocab')
+        cols: list = load_json(CACHE_DIR / CONFIG_FILENAME).get('columns')
+        original_vocab_field = cols.index('vocab') if cols and cols.__contains__('vocab') \
+            else formatting.VALID_FIELDS.index('vocab')
 
         # make config update
-        update_settings({'columns': order_format})
+        update_json({'columns': order_format}, CACHE_DIR / CONFIG_FILENAME)
         click.echo('Updated fields.')
-
-        # regenerate all cached cards
-        click.echo('Regenerating cards to match new field configuration')
-        lines = [line[original_vocab_field] for line in read_csv(CACHE_DIR / CACHE_FILENAME)]
-        gen_words(lines, True, 1)
 
 
 config.add_command(header)

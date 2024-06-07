@@ -3,7 +3,7 @@ import io
 from functools import reduce
 from jisho_api.word.request import WordRequest
 
-from config import read_config
+from config import load_json
 
 CSV_DIALECT = 'unix'
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
@@ -69,7 +69,7 @@ def get_field(word: WordRequest, field: str, senses: int) -> str:
 def csv_header() -> str:  # Anki header data
     """Returns a `#key:value` formatted Anki file header based on configured values."""
     header_data = {'separator': 'comma'}
-    header_data.update(read_config() or {})
+    header_data.update(load_json() or {})
 
     # space separated list items in header
     for key, value in header_data.items():
