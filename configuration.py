@@ -37,11 +37,11 @@ def load_json(path: Path) -> dict | None:
 
 
 class HeaderConfig:
-    def __init__(self, columns=None, deck: str = None, tags: list[str] = None):
+    def __init__(self, columns=None, deck: str = None, tags: list[str] = None, separator: str = 'comma'):
         self.columns = columns or VALID_FIELDS
         self.deck = deck
         self.tags = tags
-        self.separator = 'comma'
+        self.separator = separator
 
 
 class Config:
