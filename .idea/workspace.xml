@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Include separator specifier in output header">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Missed an awkward lambda">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,22 +140,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00056" summary="Comments before it's too late">
-      <option name="closed" value="true" />
-      <created>1717653141216</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1717653141216</updated>
-    </task>
-    <task id="LOCAL-00057" summary="Comments before it's too late">
-      <option name="closed" value="true" />
-      <created>1717653188602</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1717653188602</updated>
     </task>
     <task id="LOCAL-00058" summary="Config nested command, more flexible">
       <option name="closed" value="true" />
@@ -532,7 +517,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717739750512</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="Remove old entry points">
+      <option name="closed" value="true" />
+      <created>1717740236066</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1717740236066</updated>
+    </task>
+    <task id="LOCAL-00106" summary="Missed an awkward lambda">
+      <option name="closed" value="true" />
+      <created>1717740348029</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1717740348029</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -550,8 +551,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="None handling" />
-    <MESSAGE value="Nest header item commands in from general config commands" />
     <MESSAGE value="Tidy, limit shadowing" />
     <MESSAGE value="-rm options for header config commands, rather than deleting when no argument given" />
     <MESSAGE value="Update README.md with command documentation for new &amp; nested commands. Also, it's prettier and more compact." />
@@ -575,7 +574,9 @@
     <MESSAGE value="Fix error adding words without kanji" />
     <MESSAGE value="Don't write empty value header rows" />
     <MESSAGE value="Include separator specifier in output header" />
-    <option name="LAST_COMMIT_MESSAGE" value="Include separator specifier in output header" />
+    <MESSAGE value="Remove old entry points" />
+    <MESSAGE value="Missed an awkward lambda" />
+    <option name="LAST_COMMIT_MESSAGE" value="Missed an awkward lambda" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

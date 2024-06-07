@@ -7,7 +7,7 @@ from jisho_api.word import Word
 
 import configuration
 from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
-from output import DEFAULT_OUTFILE, export_to_csv
+from formatting import word_to_csv, csv_header
 import click
 
 
@@ -97,7 +97,7 @@ def clear():
 
 
 @library.command('export')
-@click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
+@click.option('-o', '--output-file', type=click.File('w'), default='out.csv')
 @click.option('-c', '--clear', 'clear_after_export', is_flag=True, default=False,
               help='Clear library cache after exporting.')
 def export(output_file, clear_after_export):
@@ -106,9 +106,17 @@ def export(output_file, clear_after_export):
     if not os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
         click.echo('No cached cards to export.')
         return
+    configs = configuration.get_config()
 
-    # do export
-    export_to_csv(CACHE_DIR / LIBRARY_FILENAME, output_file)
+    # gather card data
+    data = {}
+    with open(CACHE_DIR / LIBRARY_FILENAME, 'r') as file:
+        data = jsonpickle.decode(file.read())
+
+    # write export
+    output_file.write(csv_header(configs))
+    for row in [word_to_csv(jsonpickle.decode(v), configs) for k, v in data.items()]:
+        output_file.write(row)
 
     # clear cache
     if clear_after_export:
