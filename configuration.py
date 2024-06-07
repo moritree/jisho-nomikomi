@@ -80,6 +80,13 @@ class Config:
         with open(CACHE_DIR / CONFIG_FILENAME, 'w') as file:
             file.write(jsonpickle.encode(self))
 
+    def __str__(self):
+        return (f'header:'
+                + f'\n\tcolumns: {' '.join(self.header.columns)}'
+                + (f'\n\tdeck: {self.header.deck}' if self.header.deck else '')
+                + (f'\n\ttags: {' '.join(self.header.tags)}' if self.header.tags else '')
+                + f'\nsenses: {self.senses}')
+
 
 def get_config() -> Config:
     """Load config object. Generates default configuration if no config file exists."""

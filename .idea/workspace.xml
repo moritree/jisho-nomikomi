@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Store config state in python object">
-      <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="Slightly prettier config view">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,22 +139,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00046" summary="Descriptive message if trying to view empty cache.">
-      <option name="closed" value="true" />
-      <created>1717647818705</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1717647818705</updated>
-    </task>
-    <task id="LOCAL-00047" summary="Add export command to README.md">
-      <option name="closed" value="true" />
-      <created>1717647888151</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1717647888151</updated>
     </task>
     <task id="LOCAL-00048" summary="Clean output logic">
       <option name="closed" value="true" />
@@ -531,7 +516,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717734957046</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="Store config state in python object">
+      <option name="closed" value="true" />
+      <created>1717735081563</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1717735081563</updated>
+    </task>
+    <task id="LOCAL-00096" summary="Slightly prettier config view">
+      <option name="closed" value="true" />
+      <created>1717735354601</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1717735354601</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -549,7 +550,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Lists in header fields are all space separated" />
     <MESSAGE value="Regenerate all cards if fields are changed" />
     <MESSAGE value="Get actual index, not the whole list" />
     <MESSAGE value="More comments" />
@@ -574,7 +574,8 @@
     <MESSAGE value="Nest header item configs inside config json" />
     <MESSAGE value="Command to update export word senses count" />
     <MESSAGE value="Store config state in python object" />
-    <option name="LAST_COMMIT_MESSAGE" value="Store config state in python object" />
+    <MESSAGE value="Slightly prettier config view" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slightly prettier config view" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

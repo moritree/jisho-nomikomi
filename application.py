@@ -133,7 +133,7 @@ def config(ctx):
 @config.command()
 def view():
     """View the current config options."""
-    click.echo(jsonpickle.encode(configuration.get_config(), indent=2) or 'No config file to view.')
+    click.echo(configuration.get_config().__str__() or 'No config file to view.')
 
 
 @config.command()
