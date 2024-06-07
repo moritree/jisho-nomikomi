@@ -1,35 +1,22 @@
 import csv
 from functools import reduce
+from pathlib import Path
 
-from config import CACHE_DIR, TOKEN_CACHE_FILENAME
-from formatting import CSV_DIALECT, csv_header, csv_formatted_item
+import jsonpickle
+from jisho_api.word.cfg import WordConfig
+
+from config import CACHE_DIR, TOKEN_CACHE_FILENAME, load_json, CSV_DIALECT
+from formatting import csv_header, csv_formatted_item, csv_row_from_json
 from reading import line_exists
 
 DEFAULT_OUTFILE = 'out.csv'
 
 
-def write_export(file, lines: list[list[str]]):
-    """Exports the cached cards into an anki formatted file."""
-    # write header
-    file.write(csv_header())
-    for line in lines:
-        file.write(csv_formatted_item(line))
+def export_to_csv(src: Path, out):
+    data = {}
+    with open (src, 'r') as file:
+        data = jsonpickle.decode(file.read())
 
-
-def write_rows(filename: str, lines: list[list[str]], overwrite: bool = False) -> list[list[str]]:
-    """
-    Writes each item to a file in .csv format.
-    :returns: The list of any items which could not be written.
-    """
-    failed: list[list[str]] = []
-    with (open(filename, 'w' if overwrite else 'a', newline='')) as file:
-        # write each line
-        for line in lines:
-            formatted = csv_formatted_item(line)
-            # don't need to write anything if this item already exists in the file
-            if line_exists(filename, formatted):
-                failed.append(line)
-                continue
-            # write row in csv format
-            file.write(formatted)
-    return failed
+    out.write(csv_header())
+    for row in [csv_row_from_json(jsonpickle.decode(v)) for k, v in data.items()]:
+        out.write(row)

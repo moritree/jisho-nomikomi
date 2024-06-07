@@ -6,6 +6,10 @@ CONFIG_FILENAME = 'config.json'
 LIBRARY_FILENAME = 'library.json'
 CACHE_DIR: Path = Path.home() / '.nomikomi'
 TOKEN_CACHE_FILENAME = 'token_cache.csv'
+CSV_DIALECT = 'unix'
+VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
+DEFINITION_SEPARATOR_STR = '; '
+TYPE_SEPARATOR_STR = ', '
 
 
 def update_json(items: dict, path: Path):
@@ -31,3 +35,8 @@ def load_json(path: Path) -> dict | None:
         return None
     with open(path, 'r') as file:
         return json.load(file)
+
+
+def config_columns() -> list[str]:
+    loaded = load_json(CACHE_DIR / CONFIG_FILENAME)
+    return loaded.get('columns') if loaded.__contains__('columns') else VALID_FIELDS

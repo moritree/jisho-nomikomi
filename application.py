@@ -5,9 +5,10 @@ import jsonpickle
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
+import config
 import formatting
 from config import update_json, load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
-from output import write_rows, DEFAULT_OUTFILE, write_export
+from output import DEFAULT_OUTFILE, export_to_csv
 import click
 
 from reading import read_csv
@@ -108,22 +109,21 @@ def clear():
 
 @library.command('export')
 @click.option('-o', '--output-file', type=click.File('w'), default=DEFAULT_OUTFILE)
-@click.option('-c', '--clear', 'clear_after_export', is_flag=True, default=False, help='Clear cache after export')
+@click.option('-c', '--clear', 'clear_after_export', is_flag=True, default=False,
+              help='Clear library cache after exporting.')
 def export(output_file, clear_after_export):
     """Export the current cached library to a CSV file."""
-    # Can't export from a nonexistent cache
+    # can't export from a nonexistent library
     if not os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
         click.echo('No cached cards to export.')
         return
 
-    # Export to csv file
-    click.echo(f'Exporting cached cards to {output_file.name}...')
-    write_export(output_file, read_csv(CACHE_DIR / LIBRARY_FILENAME))
-    click.echo('Done.')
+    # do export
+    export_to_csv(CACHE_DIR / LIBRARY_FILENAME, output_file)
 
-    # Clear cache
+    # clear cache
     if clear_after_export:
-        click.echo(f'Clearing cache...')
+        click.echo(f'Clearing library cache...')
         os.remove(CACHE_DIR / LIBRARY_FILENAME)
         click.echo('Done.')
 
@@ -196,7 +196,7 @@ def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
-        click.echo(f'Valid field options: {formatting.VALID_FIELDS}')
+        click.echo(f'Valid field options: {config.VALID_FIELDS}')
         return
 
     if remove:
@@ -212,7 +212,7 @@ def columns(order_format, valid_options, remove):
         # try to write fields
         # check each provided field is valid
         for field in order_format:
-            if field not in formatting.VALID_FIELDS:
+            if field not in config.VALID_FIELDS:
                 click.echo(f'Couldn\'t update config, field {field} is invalid.')
                 return
 
