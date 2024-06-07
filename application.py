@@ -5,16 +5,16 @@ import jsonpickle
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
-import config
 import formatting
-from config import update_json, load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
+import configuration
+from configuration import update_json, load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
 from output import DEFAULT_OUTFILE, export_to_csv
 import click
 
 from reading import read_csv
 
 
-def gen_words(words: list[str], overwrite: bool, senses):
+def gen_words(words: list[str], overwrite: bool):
     """Get and cache info on each word in the provided list of words."""
     data_chunks = {wr.data[0].japanese[0].word: jsonpickle.encode(wr.data[0]) for wr in
                    filter(lambda x: x is not None, [Word.request(w) for w in words])}
@@ -30,25 +30,21 @@ def gen_words(words: list[str], overwrite: bool, senses):
 @click.argument('words', nargs=-1)
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
               help='Overwrite cache contents if they already exist')
-@click.option('-ss', '--senses', default=1, show_default=True,
-              help='Number of sense definitions to include on the card (<=0 means all listed)')
-def word(words, overwrite, senses):
+def word(words, overwrite):
     """
     Create a card from the jisho.org entry on each of WORDS.
     This can be in English or Japanese (kanji, kana, romaji).
     """
-    gen_words(words, overwrite, senses)
+    gen_words(words, overwrite)
 
 
 @click.command()
 @click.argument('text', nargs=-1)
-@click.option('-ss', '--senses', default=1, show_default=True,
-              help='Number of sense definitions to include on the card (less than 1 means all listed).')
 @click.option('-ow', '--overwrite/--no-overwrite', is_flag=True, default=False,
               help='Overwrite cache contents if they already exist.')
 @click.option('-all', 'all_tokens', is_flag=True, default=False,
               help='Cache every found token without first asking user to specify indices.')
-def token(text, senses, overwrite, all_tokens):
+def token(text, overwrite, all_tokens):
     """
     Split the provided text into Japanese tokens, and write user determined set of these to cache.
     """
@@ -81,7 +77,7 @@ def token(text, senses, overwrite, all_tokens):
     selected = [token_request[index].token for index in indices] if indices else [tk.token for tk in token_request]
 
     # generate word cards
-    gen_words(selected, overwrite, senses)
+    gen_words(selected, overwrite)
 
 
 @click.group("library")
@@ -196,7 +192,7 @@ def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
-        click.echo(f'Valid field options: {config.VALID_FIELDS}')
+        click.echo(f'Valid field options: { configuration.VALID_FIELDS }')
         return
 
     if remove:
@@ -212,7 +208,7 @@ def columns(order_format, valid_options, remove):
         # try to write fields
         # check each provided field is valid
         for field in order_format:
-            if field not in config.VALID_FIELDS:
+            if field not in configuration.VALID_FIELDS:
                 click.echo(f'Couldn\'t update config, field {field} is invalid.')
                 return
 

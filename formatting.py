@@ -4,7 +4,7 @@ from functools import reduce
 
 from jisho_api.word.cfg import WordConfig
 from jisho_api.word.request import WordRequest
-from config import load_json, CACHE_DIR, CONFIG_FILENAME, config_columns, CSV_DIALECT, VALID_FIELDS, \
+from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, config_columns, CSV_DIALECT, VALID_FIELDS, \
     DEFINITION_SEPARATOR_STR, TYPE_SEPARATOR_STR
 
 
@@ -29,9 +29,9 @@ def get_field(word: WordConfig, field: str, senses: int) -> str:
 
     match field:
         case 'vocab':
-            return word.japanese[0].word
+            return word.japanese[0].word or word.japanese[0].reading
         case 'kana':
-            return word.japanese[0].reading
+            return '' if not word.japanese[0].word else word.japanese[0].reading
         case 'translation':
             if senses == 1 or sense_count == 1:
                 return char_separated_str(word.senses[0].english_definitions, DEFINITION_SEPARATOR_STR)
@@ -49,6 +49,8 @@ def get_field(word: WordConfig, field: str, senses: int) -> str:
         case 'jlpt_level':
             if word.jlpt.__len__() > 0:
                 return word.jlpt[0][-2:].upper()
+        case 'tags':
+            return ' '.join(word.tags)
         case _:
             # this field may be populated later, but cannot be filled from the WordRequest data, so empty
             return ''

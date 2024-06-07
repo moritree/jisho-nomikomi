@@ -1,7 +1,7 @@
 import csv
 import os
 
-from config import CSV_DIALECT
+from configuration import CSV_DIALECT
 
 
 def read_csv(filename: str) -> list[list[str]]:
