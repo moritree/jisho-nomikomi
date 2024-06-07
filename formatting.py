@@ -1,6 +1,8 @@
 import csv
 import io
 from functools import reduce
+
+from jisho_api.word.cfg import WordConfig
 from jisho_api.word.request import WordRequest
 
 from config import load_json
@@ -86,3 +88,26 @@ def csv_formatted_item(item: list[str]) -> str:
     writer.writerow(item)
     out.seek(0)
     return out.read()
+
+
+def word_config_dict(word: WordConfig):
+    return {
+        'slug': word.slug,
+        'is_common': word.is_common,
+        'tags': word.tags,
+        'jlpt': word.jlpt,
+        'japanese': [{
+            'word': ja.word,
+            'reading': ja.reading
+        } for ja in word.japanese],
+        'senses': [{
+            'english': sense.english_definitions,
+            'parts_of_speech': sense.parts_of_speech,
+            'tags': sense.tags,
+            'restrictions': sense.restrictions,
+            'see_also': sense.see_also,
+            'antonyms': sense.antonyms,
+            'source': sense.source,
+            'info': sense.info
+        } for sense in word.senses]
+    }

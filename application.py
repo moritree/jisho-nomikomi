@@ -5,7 +5,7 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
 import formatting
-from config import update_json, load_json, CACHE_DIR, CACHE_FILENAME, CONFIG_FILENAME
+from config import update_json, load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
 from output import write_rows, DEFAULT_OUTFILE, write_export
 import click
 
@@ -18,23 +18,14 @@ def gen_words(words: list[str], overwrite: bool, senses):
     rows: list[list[str]] = []
     card_fields = load_json(CACHE_DIR / CONFIG_FILENAME).get('columns') or formatting.VALID_FIELDS
 
-    data_chunks = [wr.data[0] for wr in filter(lambda x: x is not None, [Word.request(w) for w in words])]
-    click.echo(f'Found {', '.join(w.japanese[0].word for w in data_chunks)}')
-    #
-    # for w in words:
-    #     wr = Word.request(w)
-    #     if wr.data[0].japanese[0].word:
-    #         click.echo(f'Found: {wr.data[0].japanese[0].word}（{wr.data[0].japanese[0].reading}）')
-    #     else:
-    #         click.echo(f'Found: {wr.data[0].japanese[0].reading}')
-    #     rows.append(formatting.word_formatted(wr, card_fields, senses))
+    data_chunks = {wr.data[0].japanese[0].word: formatting.word_config_dict(wr.data[0]) for wr in
+                   filter(lambda x: x is not None, [Word.request(w) for w in words])}
+    click.echo(f'Found {', '.join(w for w in data_chunks.keys())}')
+    print(data_chunks)
 
     # write rows
-    click.echo(f'Writing {rows.__len__()} words to cache...')
-    failed = write_rows(CACHE_DIR / CACHE_FILENAME, rows, overwrite)
-    if failed:
-        click.echo(f'Failed to write row(s) {reduce(lambda a, b: a.__str__() + ", " + b.__str__(),
-                                                    [rows.index(line) for line in failed])} (duplicate).')
+    click.echo(f'Writing {data_chunks.__len__()} words to cache...')
+    update_json(data_chunks, CACHE_DIR / LIBRARY_FILENAME)
     click.echo('Done.')
 
 
@@ -103,20 +94,20 @@ def library():
 
 @library.command()
 def view():
-    """View information on the current cached library of words to be translated into cards."""
-    result = read_csv(CACHE_DIR / CACHE_FILENAME)
-    click.echo(result if result else 'No cached cards.')
+    """View information on the current cached library of words."""
+    result = load_json(CACHE_DIR / LIBRARY_FILENAME)
+    click.echo(result.keys().__str__() if result else 'No cached cards.')
 
 
 @library.command()
 def clear():
     """Clear library cache."""
-    if os.path.isfile(CACHE_DIR / CACHE_FILENAME):
-        if click.confirm('Are you sure you want to clear cache?', abort=True):
-            os.remove(CACHE_DIR / CACHE_FILENAME)
-            click.echo('Cache cleared.')
+    if os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
+        if click.confirm('Are you sure you want to clear library?', abort=True):
+            os.remove(CACHE_DIR / LIBRARY_FILENAME)
+            click.echo('Library cache cleared.')
     else:
-        click.echo('No cache to clear.')
+        click.echo('No library cache to clear.')
 
 
 @library.command('export')
@@ -125,19 +116,19 @@ def clear():
 def export(output_file, clear_after_export):
     """Export the current cached library to a CSV file."""
     # Can't export from a nonexistent cache
-    if not os.path.isfile(CACHE_DIR / CACHE_FILENAME):
+    if not os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
         click.echo('No cached cards to export.')
         return
 
     # Export to csv file
     click.echo(f'Exporting cached cards to {output_file.name}...')
-    write_export(output_file, read_csv(CACHE_DIR / CACHE_FILENAME))
+    write_export(output_file, read_csv(CACHE_DIR / LIBRARY_FILENAME))
     click.echo('Done.')
 
     # Clear cache
     if clear_after_export:
         click.echo(f'Clearing cache...')
-        os.remove(CACHE_DIR / CACHE_FILENAME)
+        os.remove(CACHE_DIR / LIBRARY_FILENAME)
         click.echo('Done.')
 
 
@@ -228,11 +219,6 @@ def columns(order_format, valid_options, remove):
             if field not in formatting.VALID_FIELDS:
                 click.echo(f'Couldn\'t update config, field {field} is invalid.')
                 return
-
-        # index in cache of vocab field
-        cols: list = load_json(CACHE_DIR / CONFIG_FILENAME).get('columns')
-        original_vocab_field = cols.index('vocab') if cols and cols.__contains__('vocab') \
-            else formatting.VALID_FIELDS.index('vocab')
 
         # make config update
         update_json({'columns': order_format}, CACHE_DIR / CONFIG_FILENAME)
