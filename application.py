@@ -109,7 +109,6 @@ def export(output_file, clear_after_export):
     configs = configuration.get_config()
 
     # gather card data
-    data = {}
     with open(CACHE_DIR / LIBRARY_FILENAME, 'r') as file:
         data = jsonpickle.decode(file.read())
 
@@ -149,12 +148,12 @@ def clear():
 
 
 @config.command()
-@click.argument('senses', nargs=1, type=int)
+@click.argument('sense-count', nargs=1, type=int)
 @click.option('-rm', '--remove', is_flag=True, default=False, help='')
-def senses(senses, remove):
+def senses(sense_count, remove):
     """The (max) number of senses to export for each word."""
     configs = configuration.get_config()
-    configs.senses = None if remove else senses
+    configs.senses = None if remove else sense_count
     configs.save()
     click.echo('Senses value updated.')
 
