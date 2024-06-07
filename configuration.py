@@ -12,6 +12,26 @@ DEFINITION_SEPARATOR_STR = '; '
 TYPE_SEPARATOR_STR = ', '
 
 
+def update_header_config(items: dict):
+    loaded_dict = load_json(CACHE_DIR / CONFIG_FILENAME) or {}
+    with open(CACHE_DIR / CONFIG_FILENAME, 'w+') as file:
+        if loaded_dict.__contains__('header'):
+            for key, value in items.items():
+                if key in loaded_dict.get('header'):
+                    if value is None:
+                        # delete dict item
+                        loaded_dict.get('header').pop(key)
+                    else:
+                        # update with new value
+                        loaded_dict.get('header')[key] = value
+                else:
+                    loaded_dict.get('header').update({key: value})
+        else:
+            loaded_dict.update({'header': items})
+        # write to config file
+        json.dump(loaded_dict, file)
+
+
 def update_json(items: dict, path: Path):
     loaded_dict = load_json(path) or {}  # current settings
     with open(path, 'w+') as file:

@@ -7,7 +7,7 @@ from jisho_api.word import Word
 
 import formatting
 import configuration
-from configuration import update_json, load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
+from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
 from output import DEFAULT_OUTFILE, export_to_csv
 import click
 
@@ -22,7 +22,7 @@ def gen_words(words: list[str], overwrite: bool):
 
     # write rows
     click.echo(f'Writing {data_chunks.__len__()} words to cache...')
-    update_json(data_chunks, CACHE_DIR / LIBRARY_FILENAME)
+    configuration.update_json(data_chunks, CACHE_DIR / LIBRARY_FILENAME)
     click.echo('Done.')
 
 
@@ -137,7 +137,7 @@ def view():
 
 
 @config.command()
-def clear_after():
+def clear():
     """Clear config file."""
     if os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
         if click.confirm('Are you sure you want to clear config file?', abort=True):
@@ -145,6 +145,12 @@ def clear_after():
             click.echo('Config file cleared.')
     else:
         click.echo('No config file to clear.')
+
+
+@config.command()
+def senses():
+    """The (max) number of senses to export for each word."""
+
 
 
 @click.group('header')
@@ -160,10 +166,10 @@ def header(ctx):
 def tags(all_tags, remove):
     """Update the tags list. For tags that will be automatically applied to each card on import."""
     if remove:
-        update_json({'tags': None}, CACHE_DIR / CONFIG_FILENAME)
+        configuration.update_header_config({'tags': None})
         click.echo('Removed tags field.')
     elif all_tags:
-        update_json({'tags': all_tags}, CACHE_DIR / CONFIG_FILENAME)
+        configuration.update_header_config({'tags': all_tags})
         click.echo('Updated tags.')
     else:
         click.echo('No tags to update. Include at least one tag argument.')
@@ -175,10 +181,10 @@ def tags(all_tags, remove):
 def deck(title, remove):
     """Update the deck title."""
     if remove:
-        update_json({'deck': None}, CACHE_DIR / CONFIG_FILENAME)
+        configuration.update_header_config({'deck': None})
         click.echo('Removed deck field.')
     elif title:
-        update_json({'deck': ' '.join(title)}, CACHE_DIR / CONFIG_FILENAME)
+        configuration.update_header_config({'deck': ' '.join(title)})
         click.echo('Updated deck.')
     else:
         click.echo('No deck to update. Include at least one deck argument.')
@@ -196,7 +202,7 @@ def columns(order_format, valid_options, remove):
         return
 
     if remove:
-        update_json({'columns': None}, CACHE_DIR / CONFIG_FILENAME)
+        configuration.update_header_config({'columns': None})
         click.echo('Removed fields field.')
     elif not order_format:
         # if no fields, clear item
@@ -213,7 +219,7 @@ def columns(order_format, valid_options, remove):
                 return
 
         # make config update
-        update_json({'columns': order_format}, CACHE_DIR / CONFIG_FILENAME)
+        configuration.update_header_config({'columns': order_format})
         click.echo('Updated fields.')
 
 
