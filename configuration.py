@@ -8,10 +8,7 @@ CONFIG_FILENAME = 'config.json'
 LIBRARY_FILENAME = 'library.json'
 CACHE_DIR: Path = Path.home() / '.nomikomi'
 TOKEN_CACHE_FILENAME = 'token_cache.csv'
-CSV_DIALECT = 'unix'
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
-DEFINITION_SEPARATOR_STR = '; '
-TYPE_SEPARATOR_STR = ', '
 
 
 def update_json(items: dict, path: Path):
@@ -57,7 +54,7 @@ class Config:
             file.write(jsonpickle.encode(self))
 
     def __str__(self):
-        return f'header: {self.header.__dict__},\nsense: {self.senses}'
+        return f'header: {self.header.__dict__},\nsenses: {self.senses}'
 
 
 def get_config() -> Config:

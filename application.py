@@ -5,13 +5,10 @@ import jsonpickle
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
-import formatting
 import configuration
 from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
 from output import DEFAULT_OUTFILE, export_to_csv
 import click
-
-from reading import read_csv
 
 
 def gen_words(words: list[str]):
@@ -197,7 +194,7 @@ def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
-        click.echo(f'Valid field options: { configuration.VALID_FIELDS }')
+        click.echo(f'Valid field options: {configuration.VALID_FIELDS}')
         return
 
     configs = configuration.get_config()

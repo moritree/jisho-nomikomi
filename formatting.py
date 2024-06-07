@@ -3,9 +3,11 @@ import io
 from functools import reduce
 
 from jisho_api.word.cfg import WordConfig
-from jisho_api.word.request import WordRequest
-from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, CSV_DIALECT, VALID_FIELDS, \
-    DEFINITION_SEPARATOR_STR, TYPE_SEPARATOR_STR, Config
+from configuration import VALID_FIELDS, Config
+
+CSV_DIALECT = 'unix'
+DEFINITION_SEPARATOR_STR = '; '
+TYPE_SEPARATOR_STR = ', '
 
 
 def char_separated_str(ss: list[str], separator: str) -> str:
@@ -37,8 +39,8 @@ def get_field(word: WordConfig, field: str, senses: int) -> str:
                 return char_separated_str(word.senses[0].english_definitions, DEFINITION_SEPARATOR_STR)
             # one string with <br> separating sense definitions
             return '<br>'.join([f'({(word.senses.index(line) + 1).__str__()}) '
-                           + char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
-                           for line in sublist])
+                                + char_separated_str(line.english_definitions, DEFINITION_SEPARATOR_STR)
+                                for line in sublist])
         case 'part_of_speech':
             if senses == 1 or sense_count == 1:
                 return char_separated_str(word.senses[0].parts_of_speech, TYPE_SEPARATOR_STR)
