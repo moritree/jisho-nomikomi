@@ -13,9 +13,9 @@ import click
 
 def gen_words(words: list[str]):
     """Get and cache info on each word in the provided list of words."""
-    data_chunks = {wr.data[0].japanese[0].word: jsonpickle.encode(wr.data[0]) for wr in
-                   filter(lambda x: x is not None, [Word.request(w) for w in words])}
-    click.echo(f'Found {', '.join(w for w in data_chunks.keys())}')
+    data_chunks = {wr.data[0].slug: jsonpickle.encode(wr.data[0]) for wr in
+                   filter(lambda x: x is not None, [Word.request(w) for w in filter(lambda y: y is not None, words)])}
+    click.echo(f'Found {', '.join(data_chunks.keys())}')
 
     # write rows
     click.echo(f'Writing {data_chunks.__len__()} words to cache...')
@@ -67,7 +67,7 @@ def token(text, all_tokens):
         except ValueError:
             click.echo(f'Invalid index: {i}')
             return
-    selected = [token_request[index].token for index in indices] if indices else [tk.token for tk in token_request]
+    selected = [data[index].token for index in indices] if indices else [tk.token for tk in data]
 
     # generate word cards
     gen_words(selected)
