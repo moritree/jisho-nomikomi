@@ -133,7 +133,7 @@ def config(ctx):
 @config.command()
 def view():
     """View the current config options."""
-    click.echo(load_json(CACHE_DIR / CONFIG_FILENAME) or 'No config file to view.')
+    click.echo(jsonpickle.encode(configuration.get_config(), indent=2) or 'No config file to view.')
 
 
 @config.command()
@@ -152,12 +152,10 @@ def clear():
 @click.option('-rm', '--remove', is_flag=True, default=False, help='')
 def senses(senses, remove):
     """The (max) number of senses to export for each word."""
-    if remove:
-        configuration.update_json({'senses': None}, CACHE_DIR / CONFIG_FILENAME)
-        click.echo('Removed senses field.')
-    else:
-        configuration.update_json({'senses': senses}, CACHE_DIR / CONFIG_FILENAME)
-        click.echo('Updated senses.')
+    configs = configuration.get_config()
+    configs.senses = None if remove else senses
+    configs.save()
+    click.echo('Senses value updated.')
 
 
 @click.group('header')
@@ -172,14 +170,13 @@ def header(ctx):
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def tags(all_tags, remove):
     """Update the tags list. For tags that will be automatically applied to each card on import."""
+    configs = configuration.get_config()
     if remove:
-        configuration.update_header_config({'tags': None})
-        click.echo('Removed tags field.')
+        configs.header.tags = None
     elif all_tags:
-        configuration.update_header_config({'tags': all_tags})
-        click.echo('Updated tags.')
-    else:
-        click.echo('No tags to update. Include at least one tag argument.')
+        configs.header.tags = all_tags
+    configs.save()
+    click.echo('Header tags updated.')
 
 
 @header.command()
@@ -187,18 +184,17 @@ def tags(all_tags, remove):
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def deck(title, remove):
     """Update the deck title."""
+    configs = configuration.get_config()
     if remove:
-        configuration.update_header_config({'deck': None})
-        click.echo('Removed deck field.')
+        configs.header.deck = None
     elif title:
-        configuration.update_header_config({'deck': ' '.join(title)})
-        click.echo('Updated deck.')
-    else:
-        click.echo('No deck to update. Include at least one deck argument.')
+        configs.header.deck = title
+    configs.save()
+    click.echo('Header deck updated.')
 
 
 @header.command()
-@click.argument('order_format', nargs=-1)
+@click.argument('order_format', nargs=-1, required=True)
 @click.option('-v', '--valid-options', is_flag=True, default=False)
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def columns(order_format, valid_options, remove):
@@ -208,12 +204,10 @@ def columns(order_format, valid_options, remove):
         click.echo(f'Valid field options: { configuration.VALID_FIELDS }')
         return
 
+    configs = configuration.get_config()
     if remove:
-        configuration.update_header_config({'columns': None})
-        click.echo('Removed fields field.')
-    elif not order_format:
-        # if no fields, clear item
-        click.echo('No columns to update. Include at least one column argument.')
+        configs.header.tags = None
+        configs.save()
     elif order_format.__len__() < 2:
         # need at least two fields
         click.echo('No fields specified.')
@@ -226,8 +220,9 @@ def columns(order_format, valid_options, remove):
                 return
 
         # make config update
-        configuration.update_header_config({'columns': order_format})
+        configs.header.columns = order_format
         click.echo('Updated fields.')
+        configs.save()
 
 
 config.add_command(header)

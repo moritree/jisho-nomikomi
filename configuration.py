@@ -2,6 +2,8 @@ import json
 import os
 from pathlib import Path
 
+import jsonpickle
+
 CONFIG_FILENAME = 'config.json'
 LIBRARY_FILENAME = 'library.json'
 CACHE_DIR: Path = Path.home() / '.nomikomi'
@@ -60,3 +62,32 @@ def load_json(path: Path) -> dict | None:
 def config_columns() -> list[str]:
     loaded = load_json(CACHE_DIR / CONFIG_FILENAME)
     return loaded.get('columns') if loaded.__contains__('columns') else VALID_FIELDS
+
+
+class HeaderConfig:
+    def __init__(self, columns=None, deck: str = None, tags: list[str] = None):
+        self.columns = columns or VALID_FIELDS
+        self.deck = deck
+        self.tags = tags
+
+
+class Config:
+    def __init__(self, header: HeaderConfig = HeaderConfig, senses: int = 1):
+        self.header = HeaderConfig()
+        self.senses = senses
+
+    def save(self):
+        with open(CACHE_DIR / CONFIG_FILENAME, 'w') as file:
+            file.write(jsonpickle.encode(self))
+
+
+def get_config() -> Config:
+    """Load config object. Generates default configuration if no config file exists."""
+    path = CACHE_DIR / CONFIG_FILENAME
+    # If there is no config file, generate a default config object
+    if not os.path.isfile(path):
+        return Config()
+
+    # Otherwise load from file
+    with open(path, 'r') as file:
+        return jsonpickle.decode(file.read())
