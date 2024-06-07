@@ -148,9 +148,16 @@ def clear():
 
 
 @config.command()
-def senses():
+@click.argument('senses', nargs=1, type=int)
+@click.option('-rm', '--remove', is_flag=True, default=False, help='')
+def senses(senses, remove):
     """The (max) number of senses to export for each word."""
-
+    if remove:
+        configuration.update_json({'senses': None}, CACHE_DIR / CONFIG_FILENAME)
+        click.echo('Removed senses field.')
+    else:
+        configuration.update_json({'senses': senses}, CACHE_DIR / CONFIG_FILENAME)
+        click.echo('Updated senses.')
 
 
 @click.group('header')
