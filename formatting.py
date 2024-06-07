@@ -4,7 +4,7 @@ from functools import reduce
 
 from jisho_api.word.cfg import WordConfig
 from jisho_api.word.request import WordRequest
-from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, config_columns, CSV_DIALECT, VALID_FIELDS, \
+from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, CSV_DIALECT, VALID_FIELDS, \
     DEFINITION_SEPARATOR_STR, TYPE_SEPARATOR_STR, Config
 
 
