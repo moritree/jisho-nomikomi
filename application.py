@@ -45,7 +45,7 @@ def token(text, all_tokens):
         click.echo('No text provided.')
         return
 
-    text = reduce(lambda a, b: a.__str__() + " " + b.__str__(), text)
+    text = ' '.join(text)
     token_request = Tokens.request(text)
 
     # abort if there are no matching tokens
@@ -73,7 +73,7 @@ def token(text, all_tokens):
     gen_words(selected)
 
 
-@click.group("library")
+@click.group('library')
 def library():
     return
 
