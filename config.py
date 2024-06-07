@@ -9,7 +9,6 @@ TOKEN_CACHE_FILENAME = 'token_cache.csv'
 
 
 def update_json(items: dict, path: Path):
-    # print(items)
     loaded_dict = load_json(path) or {}  # current settings
     with open(path, 'w+') as file:
         for key, value in items.items():
@@ -23,7 +22,6 @@ def update_json(items: dict, path: Path):
             else:
                 loaded_dict.update({key: value})
         # write to config file
-        # print('DICT: ' + loaded_dict.__str__())
         json.dump(loaded_dict, file)
 
 

@@ -1,6 +1,7 @@
 import os
 from functools import reduce
 
+import jsonpickle
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 
@@ -14,14 +15,9 @@ from reading import read_csv
 
 def gen_words(words: list[str], overwrite: bool, senses):
     """Get and cache info on each word in the provided list of words."""
-    # generate csv rows for each word
-    rows: list[list[str]] = []
-    card_fields = load_json(CACHE_DIR / CONFIG_FILENAME).get('columns') or formatting.VALID_FIELDS
-
-    data_chunks = {wr.data[0].japanese[0].word: formatting.word_config_dict(wr.data[0]) for wr in
+    data_chunks = {wr.data[0].japanese[0].word: jsonpickle.encode(wr.data[0]) for wr in
                    filter(lambda x: x is not None, [Word.request(w) for w in words])}
     click.echo(f'Found {', '.join(w for w in data_chunks.keys())}')
-    print(data_chunks)
 
     # write rows
     click.echo(f'Writing {data_chunks.__len__()} words to cache...')
@@ -96,7 +92,7 @@ def library():
 def view():
     """View information on the current cached library of words."""
     result = load_json(CACHE_DIR / LIBRARY_FILENAME)
-    click.echo(result.keys().__str__() if result else 'No cached cards.')
+    click.echo(', '.join(result.keys()) if result else 'No cached cards.')
 
 
 @library.command()

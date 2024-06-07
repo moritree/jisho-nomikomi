@@ -5,7 +5,7 @@ setup(
     version='0.1.0',
     py_modules=['application', 'formatting', 'output', 'reading', 'config'],
     install_requires=[
-        'Click', 'jisho-api'
+        'Click', 'jisho-api', 'jsonpickle'
     ],
     entry_points={
         'console_scripts': [
