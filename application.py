@@ -1,14 +1,10 @@
 import os
-from functools import reduce
-
 import jsonpickle
+import click
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
-
-import configuration
-from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME
+from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, update_json
 from formatting import word_to_csv, csv_header
-import click
 
 
 def gen_words(words: list[str]):
@@ -19,7 +15,7 @@ def gen_words(words: list[str]):
 
     # write rows
     click.echo(f'Writing {data_chunks.__len__()} words to cache...')
-    configuration.update_json(data_chunks, CACHE_DIR / LIBRARY_FILENAME)
+    update_json(data_chunks, CACHE_DIR / LIBRARY_FILENAME)
     click.echo('Done.')
 
 
@@ -106,7 +102,7 @@ def export(output_file, clear_after_export):
     if not os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
         click.echo('No cached cards to export.')
         return
-    configs = configuration.get_config()
+    configs = get_config()
 
     # gather card data
     with open(CACHE_DIR / LIBRARY_FILENAME, 'r') as file:
@@ -133,7 +129,7 @@ def config(ctx):
 @config.command()
 def view():
     """View the current config options."""
-    click.echo(configuration.get_config().__str__() or 'No config file to view.')
+    click.echo(get_config().__str__() or 'No config file to view.')
 
 
 @config.command()
@@ -152,7 +148,7 @@ def clear():
 @click.option('-rm', '--remove', is_flag=True, default=False, help='')
 def senses(sense_count, remove):
     """The (max) number of senses to export for each word."""
-    configs = configuration.get_config()
+    configs = get_config()
     configs.senses = None if remove else sense_count
     configs.save()
     click.echo('Senses value updated.')
@@ -170,7 +166,7 @@ def header(ctx):
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def tags(all_tags, remove):
     """Update the tags list. For tags that will be automatically applied to each card on import."""
-    configs = configuration.get_config()
+    configs = get_config()
     if remove:
         configs.header.tags = None
     elif all_tags:
@@ -184,7 +180,7 @@ def tags(all_tags, remove):
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def deck(title, remove):
     """Update the deck title."""
-    configs = configuration.get_config()
+    configs = get_config()
     if remove:
         configs.header.deck = None
     elif title:
@@ -201,10 +197,10 @@ def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
-        click.echo(f'Valid field options: {configuration.VALID_FIELDS}')
+        click.echo(f'Valid field options: {VALID_FIELDS}')
         return
 
-    configs = configuration.get_config()
+    configs = get_config()
     if remove:
         configs.header.tags = None
         configs.save()
@@ -215,7 +211,7 @@ def columns(order_format, valid_options, remove):
         # try to write fields
         # check each provided field is valid
         for field in order_format:
-            if field not in configuration.VALID_FIELDS:
+            if field not in VALID_FIELDS:
                 click.echo(f'Couldn\'t update config, field {field} is invalid.')
                 return
 
