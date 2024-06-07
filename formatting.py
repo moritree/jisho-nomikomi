@@ -8,15 +8,6 @@ from config import load_json, CACHE_DIR, CONFIG_FILENAME, config_columns, CSV_DI
     DEFINITION_SEPARATOR_STR, TYPE_SEPARATOR_STR
 
 
-def word_formatted(word: WordRequest, csv_format: list[str], senses: int) -> list[str]:
-    """Returns list of formatted fields for the given word, in the order of csv_format"""
-    it_list = []
-    for field in csv_format:
-        it_list.append(get_field(word, field, senses))
-
-    return it_list
-
-
 def char_separated_str(ss: list[str], separator: str) -> str:
     if ss.__len__() == 0:
         return ""
@@ -76,16 +67,7 @@ def csv_header() -> str:  # Anki header data
     return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
 
 
-def csv_formatted_item(item: list[str]) -> str:
-    """Returns the item formatted as a valid row to write to a .csv file."""
-    out = io.StringIO()
-    writer = csv.writer(out, dialect=CSV_DIALECT)
-    writer.writerow(item)
-    out.seek(0)
-    return out.read()
-
-
-def csv_row_from_json(item: WordConfig)-> str:
+def word_to_csv(item: WordConfig)-> str:
     out = io.StringIO()
     writer = csv.writer(out, dialect=CSV_DIALECT)
     cols = []
