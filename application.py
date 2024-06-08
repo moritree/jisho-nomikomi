@@ -3,8 +3,8 @@ import jsonpickle
 import click
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
-from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
-    update_json, get_library, LibraryCache
+from configuration import CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
+    get_library, LibraryCache
 from formatting import word_to_csv, csv_header
 
 
@@ -77,10 +77,11 @@ def library():
 
 @library.command()
 def view():
-    """View information on the current cached library of words."""
-    result = load_json(CACHE_DIR / LIBRARY_FILENAME)
+    """Echo information on the current cached library of words."""
     result = get_library()
-    click.echo(', '.join([c.slug for c in result.cards]) if result.cards[0] else 'No cached cards.')
+    click.echo(', '.join([f'{c.japanese[0].word}（{c.japanese[0].reading}）' if c.japanese[0].word
+                          else c.japanese[0].reading for c in result.cards])
+               if result.cards.__len__() > 0 else 'No cached cards.')
 
 
 @library.command()
