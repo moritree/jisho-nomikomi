@@ -3,20 +3,21 @@ import jsonpickle
 import click
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
-from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, update_json
+from configuration import load_json, CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
+    update_json, get_library, LibraryCache
 from formatting import word_to_csv, csv_header
 
 
 def gen_words(words: list[str]):
     """Get and cache info on each word in the provided list of words."""
-    data_chunks = {wr.data[0].slug: jsonpickle.encode(wr.data[0]) for wr in
-                   filter(lambda x: x is not None, [Word.request(w) for w in filter(lambda y: y is not None, words)])}
-    click.echo(f'Found {', '.join(data_chunks.keys())}')
+    got = list(w.data[0] for w in filter(lambda x: x is not None, [Word.request(w) for w in words]))
+    click.echo(f'Found {', '.join([c.slug for c in got])}')
 
-    # write rows
-    click.echo(f'Writing {data_chunks.__len__()} words to cache...')
-    update_json(data_chunks, CACHE_DIR / LIBRARY_FILENAME)
-    click.echo('Done.')
+    library_cache: LibraryCache = get_library()
+    for c in got:
+        library_cache.cards.append(c)
+    library_cache.save()
+    click.echo('Added to library.')
 
 
 @click.command('word')
@@ -78,7 +79,8 @@ def library():
 def view():
     """View information on the current cached library of words."""
     result = load_json(CACHE_DIR / LIBRARY_FILENAME)
-    click.echo(', '.join(result.keys()) if result else 'No cached cards.')
+    result = get_library()
+    click.echo(', '.join([c.slug for c in result.cards]) if result.cards[0] else 'No cached cards.')
 
 
 @library.command()
@@ -106,11 +108,11 @@ def export(output_file, clear_after_export):
 
     # gather card data
     with open(CACHE_DIR / LIBRARY_FILENAME, 'r') as file:
-        data = jsonpickle.decode(file.read())
+        data: LibraryCache = jsonpickle.decode(file.read())
 
     # write export
     output_file.write(csv_header(configs))
-    for row in [word_to_csv(jsonpickle.decode(v), configs) for k, v in data.items()]:
+    for row in [word_to_csv(c, configs) for c in data.cards]:
         output_file.write(row)
 
     # clear cache

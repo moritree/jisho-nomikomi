@@ -1,8 +1,9 @@
 import json
 import os
+import jsonpickle
 from pathlib import Path
 
-import jsonpickle
+from jisho_api.word.cfg import WordConfig
 
 CONFIG_FILENAME = 'config.json'
 LIBRARY_FILENAME = 'library.json'
@@ -34,6 +35,27 @@ def load_json(path: Path) -> dict | None:
         return None
     with open(path, 'r') as file:
         return json.load(file)
+
+
+class LibraryCache:
+    def __init__(self, cards: list[WordConfig] = None):
+        self.cards = cards or []
+
+    def save(self):
+        with open(CACHE_DIR / LIBRARY_FILENAME, 'w') as file:
+            file.write(jsonpickle.encode(self, warn=True))
+
+
+def get_library() -> LibraryCache:
+    """Load config object. Generates default configuration if no config file exists."""
+    path = CACHE_DIR / LIBRARY_FILENAME
+
+    # If there is no config file, generate a default config object
+    if not os.path.isfile(path):
+        return LibraryCache()
+    # Otherwise load from file
+    with open(path, 'r') as file:
+        return jsonpickle.decode(file.read())
 
 
 class HeaderConfig:
