@@ -78,7 +78,7 @@ def word_to_csv(item: WordConfig, config: Config) -> str:
     writer = csv.writer(out, dialect=CSV_DIALECT)
     cols = []
     for col in config.header.columns:
-        cols.append(get_field(item, col, 1))
+        cols.append(get_field(item, col, config.senses))
     writer.writerow(cols)
     out.seek(0)
     return out.read()
