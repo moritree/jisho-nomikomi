@@ -17,6 +17,7 @@ class LibraryCache:
         self.cards = cards or []
 
     def save(self):
+        self.cards.sort(key=lambda x: (x.japanese[0].reading or x.japanese[0].word))
         with open(CACHE_DIR / LIBRARY_FILENAME, 'w') as file:
             file.write(jsonpickle.encode(self, warn=True))
 
