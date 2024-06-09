@@ -47,10 +47,10 @@ def get_library() -> LibraryCache:
 
 class HeaderConfig:
     def __init__(self, columns=None, deck: str = None, tags: list[str] = None, separator: str = 'comma'):
+        self.separator = separator
         self.columns = columns or VALID_FIELDS
         self.deck = deck
         self.tags = tags
-        self.separator = separator
 
 
 class Config:

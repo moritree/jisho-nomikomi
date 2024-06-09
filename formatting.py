@@ -63,13 +63,14 @@ def csv_header(config: Config) -> str:  # Anki header data
     header_data = {}
 
     for key, value in config.header.__dict__.items():
-        if value:
+        if key == 'columns':
+            header_data[key] = ', '.join(value)
+        elif value:
             if isinstance(value, list):
                 # space separated list items in header
                 header_data[key] = ' '.join(value)
             else:
                 header_data[key] = value
-
     return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
 
 
