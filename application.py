@@ -27,7 +27,11 @@ def word(words):
     Create a card from the jisho.org entry on each of WORDS.
     This can be in English or Japanese (kanji, kana, romaji).
     """
-    gen_words(words)
+    # words may be split by Japanese space character,
+    # in which case they won't be separated. so, we do it ourselves
+    ww: list[str] = sum([w.split('\u3000') for w in words], [])
+
+    gen_words(ww)
 
 
 @click.command()
