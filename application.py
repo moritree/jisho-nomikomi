@@ -193,7 +193,7 @@ def deck(title, remove):
 
 
 @header.command()
-@click.argument('order_format', nargs=-1, required=True)
+@click.argument('order_format', nargs=-1)
 @click.option('-v', '--valid-options', is_flag=True, default=False)
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def columns(order_format, valid_options, remove):
@@ -207,7 +207,7 @@ def columns(order_format, valid_options, remove):
     if remove:
         configs.header.tags = None
         configs.save()
-    elif order_format.__len__() < 2:
+    elif (not order_format) or order_format.__len__() < 2:
         # need at least two fields
         click.echo('No fields specified.')
     else:
