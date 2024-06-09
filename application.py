@@ -112,12 +112,11 @@ def export(output_file, clear_after_export):
     configs = get_config()
 
     # gather card data
-    with open(CACHE_DIR / LIBRARY_FILENAME, 'r') as file:
-        data: LibraryCache = jsonpickle.decode(file.read())
+    library_cache = get_library()
 
     # write export
     output_file.write(csv_header(configs))
-    for row in [word_to_csv(c, configs) for c in data.cards]:
+    for row in [word_to_csv(c, configs) for c in library_cache.cards]:
         output_file.write(row)
 
     # clear cache
