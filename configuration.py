@@ -17,7 +17,18 @@ class LibraryCache:
         self.cards = cards or []
 
     def save(self):
+        # sort cards
         self.cards.sort(key=lambda x: (x.japanese[0].reading or x.japanese[0].word))
+
+        # remove duplicates (sorted so only need to check neighbors
+        # can't use turning into set/dict, because WordConfig type. this is fine
+        to_remove: list[WordConfig] = []
+        for i in range(self.cards.__len__() - 1):
+            if self.cards[i] == self.cards[i + 1]:
+                to_remove.append(self.cards[i])
+        for c in to_remove:
+            self.cards.remove(c)
+
         with open(CACHE_DIR / LIBRARY_FILENAME, 'w') as file:
             file.write(jsonpickle.encode(self, warn=True))
 
