@@ -10,7 +10,9 @@ setup(
     entry_points={
         'console_scripts': [
             'word = application:word',
+            'words = application:word',
             'token = application:token',
+            'tokens = application:token',
             'library = application:library',
             'config = application:config',
         ],
