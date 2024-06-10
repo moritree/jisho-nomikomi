@@ -129,6 +129,10 @@ def export(output_file, clear_after_export):
 @library.command()
 @click.argument('words', nargs=-1)
 def delete(words):
+    if not words:
+        click.echo('Specify words to delete.')
+        return
+
     library_cache = get_library()
     removed: list[str] = []
     not_found: list[str] = []

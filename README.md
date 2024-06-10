@@ -28,6 +28,7 @@ You can run any command with the option `--help` for documentation.
 - `library export [OPTIONS]` &ndash; export the cached library to a csv file, 
   according to the format described in the config file
 - `library view` &ndash; view the current cached library of generated cards
+- `library delete [WORDS]...` &ndash; delete specified words from the library
 
 ### config
 - `config header` &ndash; configuring fields to be written in the 
