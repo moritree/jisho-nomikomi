@@ -126,6 +126,28 @@ def export(output_file, clear_after_export):
         click.echo('Done.')
 
 
+@library.command()
+@click.argument('words', nargs=-1)
+def delete(words):
+    library_cache = get_library()
+    removed: list[str] = []
+    not_found: list[str] = []
+    for w in sum([w.split('\u3000') for w in words], []):
+        match = list(filter(lambda x: x.japanese[0].word == w or x.japanese[0].reading == w, library_cache.cards))
+        if match:
+            library_cache.cards.remove(match[0])
+            removed.append(match[0].japanese[0].word or match[0].japanese[0].reading)
+        else:
+            not_found.append(w)
+    if removed:
+        click.echo(f'Removed {', '.join(removed)} from library.')
+        if not_found:
+            click.echo(f'Couldn\'t find {', '.join(not_found)}, so not removed.')
+        library_cache.save()
+    else:
+        click.echo('Couldn\'t find any matching words to delete.')
+
+
 @click.group('config')
 @click.pass_context
 def config(ctx):
