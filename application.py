@@ -159,7 +159,10 @@ def delete(words):
               help='Automatically choose the first available example sentence.')
 @click.option('-ow', '--overwrite', is_flag=True, default=False,
               help='Overwrite existing examples.')
-def example(words, choose_first, overwrite):
+@click.option('-n', '--num-options', type=int, default=5,
+              help='(Maximum) Number of example sentences to offer as options.')
+def example(words, choose_first, overwrite, num_options):
+    """Warning: Sentence scraping API often returns incomplete sentences. Read carefully before choosing."""
     library_cache = get_library()
 
     # get matching words from library
@@ -171,19 +174,41 @@ def example(words, choose_first, overwrite):
                 match += matched
             else:
                 click.echo(f'Couldn\'t find "{w}" in library')
+    # get all words if none specified
     else:
         match = library_cache.cards
+    # can't do much with no words
     if not match:
         click.echo('No matching words in library')
         return
 
     examples = get_examples()
 
-    print([m.slug for m in match])
+    # don't try to get examples for cards that already have them (unless we're overwriting)
+    if not overwrite:
+        match = list(filter(lambda x: not examples.examples.get(x.slug), match))
+
+    # process sentence requests for each word
     for w in match:
-        click.echo(f'Example sentences for {word_japanese(w)}')
-        r = Sentence.request(w.slug)
-        # print(r.data)
+        requests = Sentence.request(w.slug).data[:num_options]  # capped
+
+        # user chooses index of sentence to add
+        i = 0
+        if not choose_first:
+            i = None
+            click.echo(f'Example sentences for {word_japanese(w)}:\n'
+                       f'{'\n'.join([f'({i})\t{r.japanese} ({r.en_translation})' for i, r in enumerate(requests)])}')
+            # get user input, keep asking until they give a valid integer
+            while not i:
+                i = click.prompt('Please enter the index for the example sentence you want to include', type=int)
+                if i >= len(requests):
+                    click.echo(f'Index {i} out of bounds for range [0, {len(requests)})')
+                    i = None
+        # update examples object
+        examples.examples.update({w.slug: requests[i]})
+    # save to disk
+    click.echo(f'{match.__len__()} examples updated.')
+    examples.save()
 
 
 @click.group('config')
