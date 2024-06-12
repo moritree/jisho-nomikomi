@@ -14,7 +14,7 @@ VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 
 
 
 class ExamplesCache:
-    def __init__(self, examples: dict[WordConfig, SentenceConfig] = None):
+    def __init__(self, examples: dict[str, SentenceConfig] = None):
         self.examples = examples or {}
 
     def save(self):
