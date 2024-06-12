@@ -173,7 +173,7 @@ def example(words, choose_first, overwrite):
     else:
         match = library_cache.cards
     if not match:
-        click.echo('No matching words.')
+        click.echo('No matching words in library')
         return
 
     print([m.slug for m in match])
