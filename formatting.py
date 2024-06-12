@@ -18,6 +18,11 @@ def char_separated_str(ss: list[str], separator: str) -> str:
     return reduce(lambda x, y: x + separator + y, ss)
 
 
+def word_japanese(word: WordConfig) -> str:
+    """Returns the primary written form of this word - kana if no kanji is available"""
+    return word.japanese[0].word or word.japanese[0].reading
+
+
 def get_field(word: WordConfig, field: str, senses: int) -> str:
     """Returns the correct field value for the supplied word."""
     # check valid field name

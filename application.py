@@ -1,11 +1,12 @@
 import os
-import jsonpickle
 import click
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
+from jisho_api.word.cfg import WordConfig
+
 from configuration import CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
     get_library, LibraryCache
-from formatting import word_to_csv, csv_header
+from formatting import word_to_csv, csv_header, word_japanese
 
 
 def gen_words(words: list[str]):
@@ -83,8 +84,7 @@ def library():
 def view():
     """Echo information on the current cached library of words."""
     result = get_library()
-    click.echo(', '.join([f'{c.japanese[0].word}（{c.japanese[0].reading}）' if c.japanese[0].word
-                          else c.japanese[0].reading for c in result.cards])
+    click.echo(', '.join([word_japanese(c) for c in result.cards])
                if result.cards.__len__() > 0 else 'No cached cards.')
 
 
@@ -137,10 +137,10 @@ def delete(words):
     removed: list[str] = []
     not_found: list[str] = []
     for w in sum([w.split('\u3000') for w in words], []):
-        match = list(filter(lambda x: x.japanese[0].word == w or x.japanese[0].reading == w, library_cache.cards))
+        match = list(filter(lambda x: x == word_japanese(w), library_cache.cards))
         if match:
             library_cache.cards.remove(match[0])
-            removed.append(match[0].japanese[0].word or match[0].japanese[0].reading)
+            removed.append(word_japanese(match[0]))
         else:
             not_found.append(w)
     if removed:
@@ -150,6 +150,35 @@ def delete(words):
         library_cache.save()
     else:
         click.echo('Couldn\'t find any matching words to delete.')
+
+
+@library.command()
+@click.argument('words', nargs=-1)
+@click.option('-cf', '--choose-first', is_flag=True, default=False,
+              help='Automatically choose the first available example sentence.')
+@click.option('-ow', '--overwrite', is_flag=True, default=False,
+              help='Overwrite existing examples.')
+def example(words, choose_first, overwrite):
+    library_cache = get_library()
+
+    # get matching words from library
+    match: list[WordConfig] = []
+    if words:
+        for w in words:
+            matched = list(filter(lambda x: w == word_japanese(x), library_cache.cards))
+            if matched:
+                match += matched
+            else:
+                click.echo(f'Couldn\'t find "{w}" in library')
+    else:
+        match = library_cache.cards
+    if not match:
+        click.echo('No matching words.')
+        return
+
+    print([m.slug for m in match])
+    for w in match:
+        click.echo(f'Example sentences for {word_japanese(w)}')
 
 
 @click.group('config')
