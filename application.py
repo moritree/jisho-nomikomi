@@ -1,11 +1,12 @@
 import os
 import click
+from jisho_api.sentence import Sentence
 from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 from jisho_api.word.cfg import WordConfig
 
 from configuration import CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
-    get_library, LibraryCache
+    get_library, LibraryCache, get_examples
 from formatting import word_to_csv, csv_header, word_japanese
 
 
@@ -176,9 +177,13 @@ def example(words, choose_first, overwrite):
         click.echo('No matching words in library')
         return
 
+    examples = get_examples()
+
     print([m.slug for m in match])
     for w in match:
         click.echo(f'Example sentences for {word_japanese(w)}')
+        r = Sentence.request(w.slug)
+        # print(r.data)
 
 
 @click.group('config')

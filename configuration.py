@@ -2,13 +2,38 @@ import os
 import jsonpickle
 from pathlib import Path
 
+from jisho_api.sentence.cfg import SentenceConfig
 from jisho_api.word.cfg import WordConfig
 
 CONFIG_FILENAME = 'config.json'
 LIBRARY_FILENAME = 'library.json'
+EXAMPLES_FILENAME = 'examples.json'
 CACHE_DIR: Path = Path.home() / '.nomikomi'
 TOKEN_CACHE_FILENAME = 'token_cache.csv'
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
+
+
+class ExamplesCache:
+    def __init__(self, examples: dict[WordConfig, SentenceConfig] = None):
+        self.examples = examples or {}
+
+    def save(self):
+        # remove duplicates (sorted so only need to check neighbors
+        # can't use turning into set/dict, because WordConfig type. this is fine
+        with open(CACHE_DIR / EXAMPLES_FILENAME, 'w') as file:
+            file.write(jsonpickle.encode(self, warn=True))
+
+
+def get_examples() -> ExamplesCache:
+    """Load config object. Generates default configuration if no config file exists."""
+    path = CACHE_DIR / EXAMPLES_FILENAME
+
+    # If there is no config file, generate a default config object
+    if not os.path.isfile(path):
+        return ExamplesCache()
+    # Otherwise load from file
+    with open(path, 'r') as file:
+        return jsonpickle.decode(file.read())
 
 
 class LibraryCache:
