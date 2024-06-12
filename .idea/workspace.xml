@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="examples cache file &amp; object">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="examples cache file only uses slug as dict key rather than the entire WordConfig file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,22 +140,6 @@
       <option name="presentableId" value="Default" />
       <updated>1717392407594</updated>
       <workItem from="1717392409046" duration="38036000" />
-    </task>
-    <task id="LOCAL-00079" summary="-rm options for header config commands, rather than deleting when no argument given">
-      <option name="closed" value="true" />
-      <created>1717672198548</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1717672198548</updated>
-    </task>
-    <task id="LOCAL-00080" summary="Update README.md with command documentation for new &amp; nested commands. Also, it's prettier and more compact.">
-      <option name="closed" value="true" />
-      <created>1717673042259</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1717673042259</updated>
     </task>
     <task id="LOCAL-00081" summary="Update README.md with command documentation for new &amp; nested commands. Also, it's prettier and more compact.">
       <option name="closed" value="true" />
@@ -533,7 +517,23 @@
       <option name="project" value="LOCAL" />
       <updated>1718176205611</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="user selects example sentence by index">
+      <option name="closed" value="true" />
+      <created>1718178232694</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1718178232694</updated>
+    </task>
+    <task id="LOCAL-00129" summary="examples cache file only uses slug as dict key rather than the entire WordConfig file">
+      <option name="closed" value="true" />
+      <created>1718178267631</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1718178267631</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -551,8 +551,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update README.md" />
-    <MESSAGE value="Minor cleanup, remove unused imports" />
     <MESSAGE value="Fix error adding words without kanji" />
     <MESSAGE value="Don't write empty value header rows" />
     <MESSAGE value="Include separator specifier in output header" />
@@ -576,7 +574,9 @@
     <MESSAGE value="library delete command to remove specific words (by Japanese kanji or kana)" />
     <MESSAGE value="skeleton for examples command" />
     <MESSAGE value="examples cache file &amp; object" />
-    <option name="LAST_COMMIT_MESSAGE" value="examples cache file &amp; object" />
+    <MESSAGE value="user selects example sentence by index" />
+    <MESSAGE value="examples cache file only uses slug as dict key rather than the entire WordConfig file" />
+    <option name="LAST_COMMIT_MESSAGE" value="examples cache file only uses slug as dict key rather than the entire WordConfig file" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

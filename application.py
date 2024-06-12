@@ -110,14 +110,15 @@ def export(output_file, clear_after_export):
     if not os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
         click.echo('No cached cards to export.')
         return
-    configs = get_config()
 
     # gather card data
     library_cache = get_library()
+    configs = get_config()
+    examples = get_examples()
 
     # write export
     output_file.write(csv_header(configs))
-    for row in [word_to_csv(c, configs) for c in library_cache.cards]:
+    for row in [word_to_csv(c, configs, examples.examples.get(c.slug)) for c in library_cache.cards]:
         output_file.write(row)
 
     # clear cache

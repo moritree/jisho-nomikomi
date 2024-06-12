@@ -2,8 +2,9 @@ import csv
 import io
 from functools import reduce
 
+from jisho_api.sentence.cfg import SentenceConfig
 from jisho_api.word.cfg import WordConfig
-from configuration import VALID_FIELDS, Config
+from configuration import VALID_FIELDS, Config, ExamplesCache
 
 CSV_DIALECT = 'unix'
 DEFINITION_SEPARATOR_STR = '; '
@@ -23,7 +24,7 @@ def word_japanese(word: WordConfig) -> str:
     return word.japanese[0].word or word.japanese[0].reading
 
 
-def get_field(word: WordConfig, field: str, senses: int) -> str:
+def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig=None) -> str:
     """Returns the correct field value for the supplied word."""
     # check valid field name
     if field not in VALID_FIELDS:
@@ -58,9 +59,10 @@ def get_field(word: WordConfig, field: str, senses: int) -> str:
                 return word.jlpt[0][-2:].upper()
         case 'tags':
             return ' '.join(word.tags)
+        case 'example':
+            return '' if not example else f'{example.japanese}<br>{example.en_translation}'
         case _:
-            # this field may be populated later, but cannot be filled from the WordRequest data, so empty
-            return ''
+            raise ValueError(f'Field {field} not in {VALID_FIELDS}')
 
 
 def csv_header(config: Config) -> str:  # Anki header data
@@ -79,12 +81,13 @@ def csv_header(config: Config) -> str:  # Anki header data
     return '\n'.join([f'#{item[0]}:{item[1]}' for item in header_data.items()]) + '\n'
 
 
-def word_to_csv(item: WordConfig, config: Config) -> str:
-    out = io.StringIO()
+def word_to_csv(item: WordConfig, config: Config, example: SentenceConfig = None) -> str:
+    """Converts a word into a CSV row for an Anki card."""
+    out = io.StringIO()  # StringIO not str, for csv writer
     writer = csv.writer(out, dialect=CSV_DIALECT)
     cols = []
     for col in config.header.columns:
-        cols.append(get_field(item, col, config.senses))
+        cols.append(get_field(item, col, config.senses, example))
     writer.writerow(cols)
     out.seek(0)
     return out.read()
