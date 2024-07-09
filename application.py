@@ -6,7 +6,7 @@ from jisho_api.word import Word
 from jisho_api.word.cfg import WordConfig
 
 from configuration import CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
-    get_library, LibraryCache, get_examples
+    get_library, LibraryCache, get_examples, EXAMPLES_FILENAME
 from formatting import word_to_csv, csv_header, word_japanese
 
 
@@ -93,9 +93,12 @@ def view(indices):
 @library.command()
 def clear():
     """Clear library cache."""
-    if os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
+    cache_files = [CACHE_DIR / LIBRARY_FILENAME, CACHE_DIR / EXAMPLES_FILENAME]
+    if list(filter(lambda x: x is True, [os.path.isfile(path) for path in cache_files])).__len__() > 0:
         if click.confirm('Are you sure you want to clear library?', abort=True):
-            os.remove(CACHE_DIR / LIBRARY_FILENAME)
+            for path in cache_files:
+                if os.path.isfile(path):
+                    os.remove(path)
             click.echo('Library cache cleared.')
     else:
         click.echo('No library cache to clear.')

@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="option to show indices with library view">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="clear examples cache along with library">
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -142,31 +141,7 @@
       <workItem from="1717392409046" duration="38036000" />
       <workItem from="1719121331123" duration="602000" />
       <workItem from="1719203457327" duration="1972000" />
-      <workItem from="1720412551708" duration="3809000" />
-    </task>
-    <task id="LOCAL-00087" summary="library cache now json with full word request data">
-      <option name="closed" value="true" />
-      <created>1717721792265</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1717721792265</updated>
-    </task>
-    <task id="LOCAL-00088" summary="json more easily with jsonpickle">
-      <option name="closed" value="true" />
-      <created>1717723037617</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1717723037617</updated>
-    </task>
-    <task id="LOCAL-00089" summary="Export csv from json cache">
-      <option name="closed" value="true" />
-      <created>1717731356755</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1717731356756</updated>
+      <workItem from="1720412551708" duration="4805000" />
     </task>
     <task id="LOCAL-00090" summary="Remove unused functions (RIP)">
       <option name="closed" value="true" />
@@ -536,7 +511,31 @@
       <option name="project" value="LOCAL" />
       <updated>1720487297060</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <task id="LOCAL-00136" summary="option to generate examples from indices">
+      <option name="closed" value="true" />
+      <created>1720487905336</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1720487905336</updated>
+    </task>
+    <task id="LOCAL-00137" summary="clear examples cache along with library">
+      <option name="closed" value="true" />
+      <created>1720488128622</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1720488128622</updated>
+    </task>
+    <task id="LOCAL-00138" summary="clear examples cache along with library">
+      <option name="closed" value="true" />
+      <created>1720488651743</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1720488651743</updated>
+    </task>
+    <option name="localTasksCounter" value="139" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,8 +553,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Missed an awkward lambda" />
-    <MESSAGE value="Refactor single method left in output.py into application.py" />
     <MESSAGE value="Delete now unused file, RIP" />
     <MESSAGE value="Rename to remove shadowing" />
     <MESSAGE value="Tidy up imports" />
@@ -579,7 +576,9 @@
     <MESSAGE value="update readme" />
     <MESSAGE value="delete from library by index" />
     <MESSAGE value="option to show indices with library view" />
-    <option name="LAST_COMMIT_MESSAGE" value="option to show indices with library view" />
+    <MESSAGE value="option to generate examples from indices" />
+    <MESSAGE value="clear examples cache along with library" />
+    <option name="LAST_COMMIT_MESSAGE" value="clear examples cache along with library" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
