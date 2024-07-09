@@ -167,25 +167,36 @@ def delete(words, indices):
 
 @library.command()
 @click.argument('words', nargs=-1)
+@click.option('-in', '--indices', is_flag=True, default=False,
+              help='Take list of (zero indexed) indices instead of full words.')
 @click.option('-cf', '--choose-first', is_flag=True, default=False,
-              help='Automatically choose the first available example sentence.')
+              help='Automatically choose the first available example sentence. WARNING: Don\'t trust they\'ll be good.')
 @click.option('-ow', '--overwrite', is_flag=True, default=False,
               help='Overwrite existing examples.')
 @click.option('-n', '--num-options', type=int, default=5,
               help='(Maximum) Number of example sentences to offer as options.')
-def example(words, choose_first, overwrite, num_options):
-    """Warning: Sentence scraping API often returns incomplete sentences. Read carefully before choosing."""
+def example(words, choose_first, overwrite, num_options, indices):
+    """ Generate examples to associate with the given words in the library.
+    \nWARNING: The sentence scraping API often returns incomplete sentences.
+    It's not my fault. Read carefully before choosing."""
     library_cache = get_library()
 
     # get matching words from library
     match: list[WordConfig] = []
     if words:
         for w in words:
-            matched = list(filter(lambda x: w == word_japanese(x), library_cache.cards))
-            if matched:
-                match += matched
+            if not indices:
+                matched = list(filter(lambda x: w == word_japanese(x), library_cache.cards))
+                if matched:
+                    match += matched
+                else:
+                    click.echo(f'Couldn\'t find "{w}" in library')
             else:
-                click.echo(f'Couldn\'t find "{w}" in library')
+                if not w.isdigit() or int(w) >= library_cache.cards.__len__() or int(w) < 0:
+                    click.echo(f'Invalid index: {w}')
+                    break
+                match += library_cache.cards[int(w)]
+
     # get all words if none specified
     else:
         match = library_cache.cards
