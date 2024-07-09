@@ -182,9 +182,9 @@ def example(words, choose_first, overwrite, num_options, indices):
     """ Generate examples to associate with the given words in the library.
     \nWARNING: The sentence scraping API often returns incomplete sentences.
     It's not my fault. Read carefully before choosing."""
-    library_cache = get_library()
 
     # get matching words from library
+    library_cache = get_library()
     match: list[WordConfig] = []
     if words:
         for w in words:
@@ -222,7 +222,8 @@ def example(words, choose_first, overwrite, num_options, indices):
         if not choose_first:
             i = None
             click.echo(f'Example sentences for {word_japanese(w)}:\n'
-                       f'{'\n'.join([f'({i + 1})\t{r.japanese} ({r.en_translation})' for i, r in enumerate(requests)])}')
+                       f'{'\n'.join([f'({i + 1})\t{r.japanese} ({r.en_translation})' 
+                                     for i, r in enumerate(requests)])}')
             # get user input, keep asking until they give a valid integer
             while not i:
                 i = click.prompt('Please enter the index for the example sentence you want to include',

@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="clear examples cache along with library">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="formatting">
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -142,31 +141,7 @@
       <workItem from="1717392409046" duration="38036000" />
       <workItem from="1719121331123" duration="602000" />
       <workItem from="1719203457327" duration="1972000" />
-      <workItem from="1720412551708" duration="7193000" />
-    </task>
-    <task id="LOCAL-00091" summary="Rename config.py to configuration.py">
-      <option name="closed" value="true" />
-      <created>1717732145676</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1717732145676</updated>
-    </task>
-    <task id="LOCAL-00092" summary="Nest header item configs inside config json">
-      <option name="closed" value="true" />
-      <created>1717732649799</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1717732649799</updated>
-    </task>
-    <task id="LOCAL-00093" summary="Command to update export word senses count">
-      <option name="closed" value="true" />
-      <created>1717733280837</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1717733280837</updated>
+      <workItem from="1720412551708" duration="7535000" />
     </task>
     <task id="LOCAL-00094" summary="Store config state in python object">
       <option name="closed" value="true" />
@@ -536,7 +511,31 @@
       <option name="project" value="LOCAL" />
       <updated>1720488776061</updated>
     </task>
-    <option name="localTasksCounter" value="140" />
+    <task id="LOCAL-00140" summary="don't add (or remove) example if no index given">
+      <option name="closed" value="true" />
+      <created>1720506295787</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1720506295787</updated>
+    </task>
+    <task id="LOCAL-00141" summary="delete file(s) instead of writing empty cache">
+      <option name="closed" value="true" />
+      <created>1720506379385</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1720506379385</updated>
+    </task>
+    <task id="LOCAL-00142" summary="formatting">
+      <option name="closed" value="true" />
+      <created>1720506471195</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1720506471195</updated>
+    </task>
+    <option name="localTasksCounter" value="143" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,9 +553,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Delete now unused file, RIP" />
-    <MESSAGE value="Rename to remove shadowing" />
-    <MESSAGE value="Tidy up imports" />
     <MESSAGE value="Library cache now also uses json" />
     <MESSAGE value="csv formatting uses configured sense count, not default" />
     <MESSAGE value="For library view, show readings for words with kanji" />
@@ -579,7 +575,10 @@
     <MESSAGE value="option to show indices with library view" />
     <MESSAGE value="option to generate examples from indices" />
     <MESSAGE value="clear examples cache along with library" />
-    <option name="LAST_COMMIT_MESSAGE" value="clear examples cache along with library" />
+    <MESSAGE value="don't add (or remove) example if no index given" />
+    <MESSAGE value="delete file(s) instead of writing empty cache" />
+    <MESSAGE value="formatting" />
+    <option name="LAST_COMMIT_MESSAGE" value="formatting" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
