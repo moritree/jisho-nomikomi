@@ -130,7 +130,9 @@ def export(output_file, clear_after_export):
 
 @library.command()
 @click.argument('words', nargs=-1)
-def delete(words):
+@click.option('-in', '--indices', is_flag=True, default=False,
+              help='Take list of (zero indexed) indices for words to delete from the library, instead of whole words')
+def delete(words, indices):
     if not words:
         click.echo('Specify words to delete.')
         return
@@ -139,12 +141,20 @@ def delete(words):
     removed: list[str] = []
     not_found: list[str] = []
     for w in sum([w.split('\u3000') for w in words], []):
-        match = list(filter(lambda x: x == word_japanese(w), library_cache.cards))
-        if match:
-            library_cache.cards.remove(match[0])
-            removed.append(word_japanese(match[0]))
+        if not indices:
+            match = list(filter(lambda x: x == word_japanese(w), library_cache.cards))
+            if match:
+                removed.append(word_japanese(match[0]))
+                library_cache.cards.remove(match[0])
+            else:
+                not_found.append(w)
         else:
-            not_found.append(w)
+            if not w.isdigit() or int(w) >= library_cache.cards.__len__() or int(w) < 0:
+                click.echo(f'Invalid index: {w}')
+                break
+            removed.append(word_japanese(library_cache.cards[int(w)]))
+            library_cache.cards.remove(library_cache.cards[int(w)])
+
     if removed:
         click.echo(f'Removed {', '.join(removed)} from library.')
         if not_found:
