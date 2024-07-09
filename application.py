@@ -82,10 +82,11 @@ def library():
 
 
 @library.command()
-def view():
+@click.option('-in', '--indices', is_flag=True, default=False, help='Display cards with indices')
+def view(indices):
     """Echo information on the current cached library of words."""
     result = get_library()
-    click.echo(', '.join([word_japanese(c) for c in result.cards])
+    click.echo(', '.join([(f'[{result.cards.index(c)}] ' if indices else '') + word_japanese(c) for c in result.cards])
                if result.cards.__len__() > 0 else 'No cached cards.')
 
 
