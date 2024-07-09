@@ -198,8 +198,7 @@ def example(words, choose_first, overwrite, num_options, indices):
                 if not w.isdigit() or int(w) >= library_cache.cards.__len__() or int(w) < 0:
                     click.echo(f'Invalid index: {w}')
                     break
-                match += library_cache.cards[int(w)]
-
+                match.append(library_cache.cards[int(w)])
     # get all words if none specified
     else:
         match = library_cache.cards
@@ -223,15 +222,20 @@ def example(words, choose_first, overwrite, num_options, indices):
         if not choose_first:
             i = None
             click.echo(f'Example sentences for {word_japanese(w)}:\n'
-                       f'{'\n'.join([f'({i})\t{r.japanese} ({r.en_translation})' for i, r in enumerate(requests)])}')
+                       f'{'\n'.join([f'({i + 1})\t{r.japanese} ({r.en_translation})' for i, r in enumerate(requests)])}')
             # get user input, keep asking until they give a valid integer
             while not i:
-                i = click.prompt('Please enter the index for the example sentence you want to include', type=int)
-                if i >= len(requests):
-                    click.echo(f'Index {i} out of bounds for range [0, {len(requests)})')
+                i = click.prompt('Please enter the index for the example sentence you want to include',
+                                 type=int, default=-1)
+
+                if i > len(requests):
+                    click.echo(f'Index {i} out of bounds for range [1, {len(requests)}]')
                     i = None
         # update examples object
-        examples.examples.update({w.slug: requests[i]})
+        if i > 0:
+            examples.examples.update({w.slug: requests[i]})
+        elif overwrite:
+            examples.examples.pop(w.slug, None)
     # save to disk
     click.echo(f'{match.__len__()} examples updated.')
     examples.save()
