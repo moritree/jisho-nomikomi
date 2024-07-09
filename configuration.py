@@ -18,10 +18,12 @@ class ExamplesCache:
         self.examples = examples or {}
 
     def save(self):
-        # remove duplicates (sorted so only need to check neighbors
-        # can't use turning into set/dict, because WordConfig type. this is fine
-        with open(CACHE_DIR / EXAMPLES_FILENAME, 'w') as file:
-            file.write(jsonpickle.encode(self, warn=True))
+        path = CACHE_DIR / EXAMPLES_FILENAME
+        if self.examples:
+            with open(path, 'w') as file:
+                file.write(jsonpickle.encode(self, warn=True))
+        elif os.path.isfile(path):
+            os.remove(path)
 
 
 def get_examples() -> ExamplesCache:
@@ -53,8 +55,12 @@ class LibraryCache:
         for c in to_remove:
             self.cards.remove(c)
 
-        with open(CACHE_DIR / LIBRARY_FILENAME, 'w') as file:
-            file.write(jsonpickle.encode(self, warn=True))
+        path = CACHE_DIR / LIBRARY_FILENAME
+        if self.cards:
+            with open(path, 'w') as file:
+                file.write(jsonpickle.encode(self, warn=True))
+        elif os.path.isfile(path):
+            os.remove(path)
 
 
 def get_library() -> LibraryCache:
