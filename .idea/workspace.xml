@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="fix comments, remove unused vars">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,15 +141,7 @@
       <workItem from="1717392409046" duration="38036000" />
       <workItem from="1719121331123" duration="602000" />
       <workItem from="1719203457327" duration="1972000" />
-      <workItem from="1720412551708" duration="11146000" />
-    </task>
-    <task id="LOCAL-00096" summary="Slightly prettier config view">
-      <option name="closed" value="true" />
-      <created>1717735354601</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1717735354601</updated>
+      <workItem from="1720412551708" duration="11286000" />
     </task>
     <task id="LOCAL-00097" summary="Slightly prettier config view">
       <option name="closed" value="true" />
@@ -537,7 +527,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720657098448</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="fix comments, remove unused vars">
+      <option name="closed" value="true" />
+      <created>1720657215110</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1720657215110</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

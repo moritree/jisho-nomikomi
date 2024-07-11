@@ -84,8 +84,8 @@ class HeaderConfig:
 
 
 class Config:
-    def __init__(self, header: HeaderConfig = HeaderConfig, senses: int = 1):
-        self.header = HeaderConfig()
+    def __init__(self, header: HeaderConfig = HeaderConfig(), senses: int = 1):
+        self.header = header
         self.senses = senses
 
     def save(self):
