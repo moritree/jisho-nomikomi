@@ -323,11 +323,6 @@ def columns(order_format, valid_options, remove):
     if remove:
         configs.header.tags = None
         configs.save()
-    elif not order_format:
-        # need at least two fields
-        click.echo('No fields specified.')
-    elif order_format.__len__() < 2:
-        click.echo('Needs at least two fields.')
     else:
         # make config update
         try:

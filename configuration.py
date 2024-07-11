@@ -100,10 +100,17 @@ class Config:
 
         @columns.setter
         def columns(self, columns: list[str]):
+            # need at least two fields
+            if not columns:
+                raise KeyError('Fields cannot be empty.')
+            elif columns.__len__() < 2:
+                raise KeyError('There need to be at least two fields.')
+
+            # check each field is valid
             for col in columns:
                 if col not in self.VALID_FIELDS:
-                    raise KeyError(f'Field "{col}" is not valid')
-            self.columns = columns
+                    raise KeyError(f'Field "{col}" is not valid.')
+            self._columns = columns
 
     def __init__(self, header: HeaderConfig = HeaderConfig(), senses: int = 1):
         self.header = header
