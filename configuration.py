@@ -94,7 +94,12 @@ class Config:
             self.deck = deck
             self.tags = tags
 
-        def update_columns(self, columns: list[str]):
+        @property
+        def columns(self):
+            return self.columns
+
+        @columns.setter
+        def columns(self, columns: list[str]):
             for col in columns:
                 if col not in self.VALID_FIELDS:
                     raise KeyError(f'Field "{col}" is not valid')

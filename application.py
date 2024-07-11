@@ -323,7 +323,7 @@ def columns(order_format, valid_options, remove):
     if remove:
         configs.header.tags = None
         configs.save()
-    elif (not order_format):
+    elif not order_format:
         # need at least two fields
         click.echo('No fields specified.')
     elif order_format.__len__() < 2:
@@ -331,7 +331,7 @@ def columns(order_format, valid_options, remove):
     else:
         # make config update
         try:
-            configs.header.update_columns(order_format)
+            configs.header.columns = order_format
             click.echo('Updated fields.')
             configs.save()
         except KeyError as e:

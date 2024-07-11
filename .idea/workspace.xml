@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="column updating code belongs to config object">
+    <list default="true" id="7a831bca-2213-4abf-8779-6bdb7b12089f" name="Changes" comment="remove unneeded context parameters">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,23 +142,7 @@
       <workItem from="1717392409046" duration="38036000" />
       <workItem from="1719121331123" duration="602000" />
       <workItem from="1719203457327" duration="1972000" />
-      <workItem from="1720412551708" duration="16928000" />
-    </task>
-    <task id="LOCAL-00102" summary="Fix error adding words without kanji">
-      <option name="closed" value="true" />
-      <created>1717739427175</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1717739427175</updated>
-    </task>
-    <task id="LOCAL-00103" summary="Don't write empty value header rows">
-      <option name="closed" value="true" />
-      <created>1717739651467</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1717739651467</updated>
+      <workItem from="1720412551708" duration="17876000" />
     </task>
     <task id="LOCAL-00104" summary="Include separator specifier in output header">
       <option name="closed" value="true" />
@@ -536,7 +520,23 @@
       <option name="project" value="LOCAL" />
       <updated>1720663114648</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="replace unnecessary clunky formatting method with join statements">
+      <option name="closed" value="true" />
+      <created>1720667155504</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1720667155504</updated>
+    </task>
+    <task id="LOCAL-00152" summary="remove unneeded context parameters">
+      <option name="closed" value="true" />
+      <created>1720667620854</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1720667620854</updated>
+    </task>
+    <option name="localTasksCounter" value="153" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,8 +554,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove duplicate cards when saving" />
-    <MESSAGE value="header columns list needs to be comma-separated" />
     <MESSAGE value="allow config header columns to run without args in the case of -v option" />
     <MESSAGE value="make 'words'/'tokens' allowed alternative command spellings" />
     <MESSAGE value="accept words list separated by japanese space character \u3000" />
@@ -579,7 +577,9 @@
     <MESSAGE value="refactor configuration.py structure, better OOword" />
     <MESSAGE value="refactor configuration.py structure, better OO" />
     <MESSAGE value="column updating code belongs to config object" />
-    <option name="LAST_COMMIT_MESSAGE" value="column updating code belongs to config object" />
+    <MESSAGE value="replace unnecessary clunky formatting method with join statements" />
+    <MESSAGE value="remove unneeded context parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove unneeded context parameters" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jisho_nomikomi$main.coverage" NAME="application Coverage Results" MODIFIED="1717572154072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
