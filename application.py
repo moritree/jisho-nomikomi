@@ -316,7 +316,7 @@ def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
-        click.echo(f'Valid field options: {Config.VALID_HEADER_FIELDS}')
+        click.echo(f'Valid field options: {Config.HeaderConfig.VALID_FIELDS}')
         return
 
     configs = Config.get()

@@ -85,7 +85,7 @@ class Library:
 class Config:
     PATH = CACHE_DIR / 'config.json'
 
-    class _HeaderConfig:
+    class HeaderConfig:
         VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
 
         def __init__(self, columns=None, deck: str = None, tags: list[str] = None, separator: str = 'comma'):
@@ -105,9 +105,7 @@ class Config:
                     raise KeyError(f'Field "{col}" is not valid')
             self.columns = columns
 
-    VALID_HEADER_FIELDS = _HeaderConfig.VALID_FIELDS
-
-    def __init__(self, header: _HeaderConfig = _HeaderConfig(), senses: int = 1):
+    def __init__(self, header: HeaderConfig = HeaderConfig(), senses: int = 1):
         self.header = header
         self.senses = senses
 
