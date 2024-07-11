@@ -4,7 +4,7 @@ from functools import reduce
 
 from jisho_api.sentence.cfg import SentenceConfig
 from jisho_api.word.cfg import WordConfig
-from configuration import VALID_FIELDS, Config
+from configuration import Config
 
 DEFINITION_SEPARATOR_STR = '; '
 TYPE_SEPARATOR_STR = ', '
@@ -26,8 +26,8 @@ def word_japanese(word: WordConfig) -> str:
 def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig = None) -> str:
     """Returns the correct field value for the supplied word."""
     # check valid field name
-    if field not in VALID_FIELDS:
-        raise ValueError(f'Field {field} not in {VALID_FIELDS}')
+    if field not in Config.VALID_HEADER_FIELDS:
+        raise ValueError(f'Field {field} not in {Config.VALID_HEADER_FIELDS}')
 
     # sublist of senses list according to n sought
     sense_count = word.senses.__len__()
@@ -60,7 +60,7 @@ def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig
         case 'example':
             return '' if not example else f'{example.japanese}<br>{example.en_translation}'
         case _:
-            raise ValueError(f'Field {field} not in {VALID_FIELDS}')
+            raise ValueError(f'Field {field} not in {Config.VALID_HEADER_FIELDS}')
 
 
 def csv_header(config: Config) -> str:  # Anki header data

@@ -5,8 +5,7 @@ from jisho_api.tokenize import Tokens
 from jisho_api.word import Word
 from jisho_api.word.cfg import WordConfig
 
-from configuration import CACHE_DIR, CONFIG_FILENAME, LIBRARY_FILENAME, get_config, VALID_FIELDS, \
-    get_library, LibraryCache, get_examples, EXAMPLES_FILENAME
+from configuration import Config, Examples, Library
 from formatting import word_to_csv, csv_header, word_japanese
 
 
@@ -15,7 +14,7 @@ def gen_words(words: list[str]):
     got = list(w.data[0] for w in filter(lambda x: x is not None, [Word.request(w) for w in words]))
     click.echo(f'Found {', '.join([c.slug for c in got])}')
 
-    library_cache: LibraryCache = get_library()
+    library_cache: Library = Library.get()
     for c in got:
         library_cache.cards.append(c)
     library_cache.save()
@@ -85,7 +84,7 @@ def library():
 @click.option('-in', '--indices', is_flag=True, default=False, help='Display cards with indices')
 def view(indices):
     """Echo information on the current cached library of words."""
-    result = get_library()
+    result = Library.get()
     click.echo(', '.join([(f'[{result.cards.index(c)}] ' if indices else '') + word_japanese(c) for c in result.cards])
                if result.cards.__len__() > 0 else 'No cached cards.')
 
@@ -93,15 +92,15 @@ def view(indices):
 @library.command()
 def clear():
     """Clear library cache."""
-    cache_files = [CACHE_DIR / LIBRARY_FILENAME, CACHE_DIR / EXAMPLES_FILENAME]
-    if list(filter(lambda x: x is True, [os.path.isfile(path) for path in cache_files])).__len__() > 0:
-        if click.confirm('Are you sure you want to clear library?', abort=True):
-            for path in cache_files:
-                if os.path.isfile(path):
-                    os.remove(path)
-            click.echo('Library cache cleared.')
-    else:
+    if list(filter(lambda x: x is True,
+                   [os.path.isfile(path) for path in [Library.PATH, Examples.PATH]])).__len__() == 0:
         click.echo('No library cache to clear.')
+        return
+
+    caches = Library, Examples
+    if click.confirm('Are you sure you want to clear library?', abort=True):
+        for cache in caches:
+            cache.delete_file()
 
 
 @library.command('export')
@@ -111,14 +110,14 @@ def clear():
 def export(output_file, clear_after_export):
     """Export the current cached library to a CSV file."""
     # can't export from a nonexistent library
-    if not os.path.isfile(CACHE_DIR / LIBRARY_FILENAME):
+    if not os.path.isfile(Library.PATH):
         click.echo('No cached cards to export.')
         return
 
     # gather card data
-    library_cache = get_library()
-    configs = get_config()
-    examples = get_examples()
+    library_cache = Library.get()
+    configs = Config.get()
+    examples = Examples.get()
 
     # write export
     output_file.write(csv_header(configs))
@@ -128,7 +127,7 @@ def export(output_file, clear_after_export):
     # clear cache
     if clear_after_export:
         click.echo(f'Clearing library cache...')
-        os.remove(CACHE_DIR / LIBRARY_FILENAME)
+        os.remove(Library.PATH)
         click.echo('Done.')
 
 
@@ -141,12 +140,12 @@ def delete(words, indices):
         click.echo('Specify words to delete.')
         return
 
-    library_cache = get_library()
+    library_cache = Library.get()
     removed: list[str] = []
     not_found: list[str] = []
     for w in sum([w.split('\u3000') for w in words], []):
         if not indices:
-            match = list(filter(lambda x: x == word_japanese(w), library_cache.cards))
+            match = list(filter(lambda x: w == word_japanese(x), library_cache.cards))
             if match:
                 removed.append(word_japanese(match[0]))
                 library_cache.cards.remove(match[0])
@@ -184,7 +183,7 @@ def example(words, choose_first, overwrite, num_options, indices):
     It's not my fault. Read carefully before choosing."""
 
     # get matching words from library
-    library_cache = get_library()
+    library_cache = Library.get()
     match: list[WordConfig] = []
     if words:
         for w in words:
@@ -207,7 +206,7 @@ def example(words, choose_first, overwrite, num_options, indices):
         click.echo('No matching words in library')
         return
 
-    examples = get_examples()
+    examples = Examples.get()
 
     # don't try to get examples for cards that already have them (unless we're overwriting)
     if not overwrite:
@@ -251,15 +250,15 @@ def config(ctx):
 @config.command()
 def view():
     """View the current config options."""
-    click.echo(get_config().__str__() or 'No config file to view.')
+    click.echo(Config.get().__str__() or 'No config file to view.')
 
 
 @config.command()
 def clear():
     """Clear config file."""
-    if os.path.isfile(CACHE_DIR / CONFIG_FILENAME):
+    if os.path.isfile(Config.PATH):
         if click.confirm('Are you sure you want to clear config file?', abort=True):
-            os.remove(CACHE_DIR / CONFIG_FILENAME)
+            os.remove(Config.PATH)
             click.echo('Config file cleared.')
     else:
         click.echo('No config file to clear.')
@@ -270,7 +269,7 @@ def clear():
 @click.option('-rm', '--remove', is_flag=True, default=False, help='')
 def senses(sense_count, remove):
     """The (max) number of senses to export for each word."""
-    configs = get_config()
+    configs = Config.get()
     configs.senses = None if remove else sense_count
     configs.save()
     click.echo('Senses value updated.')
@@ -288,7 +287,7 @@ def header(ctx):
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def tags(all_tags, remove):
     """Update the tags list. For tags that will be automatically applied to each card on import."""
-    configs = get_config()
+    configs = Config.get()
     if remove:
         configs.header.tags = None
     elif all_tags:
@@ -302,7 +301,7 @@ def tags(all_tags, remove):
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
 def deck(title, remove):
     """Update the deck title."""
-    configs = get_config()
+    configs = Config.get()
     if remove:
         configs.header.deck = None
     elif title:
@@ -319,10 +318,10 @@ def columns(order_format, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
-        click.echo(f'Valid field options: {VALID_FIELDS}')
+        click.echo(f'Valid field options: {Config.VALID_HEADER_FIELDS}')
         return
 
-    configs = get_config()
+    configs = Config.get()
     if remove:
         configs.header.tags = None
         configs.save()
@@ -333,7 +332,7 @@ def columns(order_format, valid_options, remove):
         # try to write fields
         # check each provided field is valid
         for field in order_format:
-            if field not in VALID_FIELDS:
+            if field not in Config.VALID_HEADER_FIELDS:
                 click.echo(f'Couldn\'t update config, field {field} is invalid.')
                 return
 
