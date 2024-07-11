@@ -9,7 +9,6 @@ CONFIG_FILENAME = 'config.json'
 LIBRARY_FILENAME = 'library.json'
 EXAMPLES_FILENAME = 'examples.json'
 CACHE_DIR: Path = Path.home() / '.nomikomi'
-TOKEN_CACHE_FILENAME = 'token_cache.csv'
 VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
 
 
@@ -30,7 +29,7 @@ def get_examples() -> ExamplesCache:
     """Load config object. Generates default configuration if no config file exists."""
     path = CACHE_DIR / EXAMPLES_FILENAME
 
-    # If there is no config file, generate a default config object
+    # If there is no config file, generate a config object with default values
     if not os.path.isfile(path):
         return ExamplesCache()
     # Otherwise load from file
@@ -46,7 +45,7 @@ class LibraryCache:
         # sort cards
         self.cards.sort(key=lambda x: (x.japanese[0].reading or x.japanese[0].word))
 
-        # remove duplicates (sorted so only need to check neighbors
+        # remove duplicates (sorted so only need to check neighbors)
         # can't use turning into set/dict, because WordConfig type. this is fine
         to_remove: list[WordConfig] = []
         for i in range(self.cards.__len__() - 1):
@@ -59,12 +58,13 @@ class LibraryCache:
         if self.cards:
             with open(path, 'w') as file:
                 file.write(jsonpickle.encode(self, warn=True))
+        # if there are no cards, don't bother writing an empty file, delete anything that's there
         elif os.path.isfile(path):
             os.remove(path)
 
 
 def get_library() -> LibraryCache:
-    """Load config object. Generates default configuration if no config file exists."""
+    """Load library object. Generates empty object if no library file exists."""
     path = CACHE_DIR / LIBRARY_FILENAME
 
     # If there is no config file, generate a default config object

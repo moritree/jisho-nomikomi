@@ -4,9 +4,8 @@ from functools import reduce
 
 from jisho_api.sentence.cfg import SentenceConfig
 from jisho_api.word.cfg import WordConfig
-from configuration import VALID_FIELDS, Config, ExamplesCache
+from configuration import VALID_FIELDS, Config
 
-CSV_DIALECT = 'unix'
 DEFINITION_SEPARATOR_STR = '; '
 TYPE_SEPARATOR_STR = ', '
 
@@ -24,7 +23,7 @@ def word_japanese(word: WordConfig) -> str:
     return word.japanese[0].word or word.japanese[0].reading
 
 
-def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig=None) -> str:
+def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig = None) -> str:
     """Returns the correct field value for the supplied word."""
     # check valid field name
     if field not in VALID_FIELDS:
@@ -32,8 +31,7 @@ def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig
 
     # sublist of senses list according to n sought
     sense_count = word.senses.__len__()
-    sublist = word.senses[:min(senses, sense_count - 1)] if senses > 0 \
-        else word.senses
+    sublist = word.senses[:min(senses, sense_count - 1)] if senses > 0 else word.senses
 
     match field:
         case 'vocab':
@@ -84,7 +82,7 @@ def csv_header(config: Config) -> str:  # Anki header data
 def word_to_csv(item: WordConfig, config: Config, example: SentenceConfig = None) -> str:
     """Converts a word into a CSV row for an Anki card."""
     out = io.StringIO()  # StringIO not str, for csv writer
-    writer = csv.writer(out, dialect=CSV_DIALECT)
+    writer = csv.writer(out, dialect='unix')
     cols = []
     for col in config.header.columns:
         cols.append(get_field(item, col, config.senses, example))
