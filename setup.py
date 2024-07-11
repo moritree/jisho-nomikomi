@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='jisho-nomikomi',
     version='0.1.0',
-    py_modules=['application', 'formatting', 'output', 'reading', 'configuration'],
+    py_modules=['application', 'formatting', 'configuration'],
     install_requires=[
         'Click', 'jisho-api', 'jsonpickle'
     ],

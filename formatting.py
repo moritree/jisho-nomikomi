@@ -1,6 +1,5 @@
 import csv
 import io
-from functools import reduce
 
 from jisho_api.sentence.cfg import SentenceConfig
 from jisho_api.word.cfg import WordConfig
@@ -18,8 +17,8 @@ def word_japanese(word: WordConfig) -> str:
 def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig = None) -> str:
     """Returns the correct field value for the supplied word."""
     # check valid field name
-    if field not in Config.VALID_HEADER_FIELDS:
-        raise ValueError(f'Field {field} not in {Config.VALID_HEADER_FIELDS}')
+    if field not in Config.HeaderConfig.VALID_FIELDS:
+        raise ValueError(f'Field {field} not in {Config.HeaderConfig.VALID_FIELDS}')
 
     # sublist of senses list according to n sought
     sense_count = word.senses.__len__()
@@ -52,7 +51,7 @@ def get_field(word: WordConfig, field: str, senses: int, example: SentenceConfig
         case 'example':
             return '' if not example else f'{example.japanese}<br>{example.en_translation}'
         case _:
-            raise ValueError(f'Field {field} not in {Config.VALID_HEADER_FIELDS}')
+            raise ValueError(f'Field {field} not in {Config.HeaderConfig.VALID_FIELDS}')
 
 
 def csv_header(config: Config) -> str:  # Anki header data
@@ -60,8 +59,8 @@ def csv_header(config: Config) -> str:  # Anki header data
     header_data = {}
 
     for key, value in config.header.__dict__.items():
-        if key == 'columns':
-            header_data[key] = ', '.join(value)
+        if key == '_fields':
+            header_data['columns'] = ', '.join(value)
         elif value:
             if isinstance(value, list):
                 # space separated list items in header
@@ -75,9 +74,9 @@ def word_to_csv(item: WordConfig, config: Config, example: SentenceConfig = None
     """Converts a word into a CSV row for an Anki card."""
     out = io.StringIO()  # StringIO not str, for csv writer
     writer = csv.writer(out, dialect='unix')
-    cols = []
-    for col in config.header.columns:
-        cols.append(get_field(item, col, config.senses, example))
-    writer.writerow(cols)
+    fields = []
+    for f in config.header.fields:
+        fields.append(get_field(item, f, config.senses, example))
+    writer.writerow(fields)
     out.seek(0)
     return out.read()
