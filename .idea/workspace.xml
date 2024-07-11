@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/application.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/configuration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/formatting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,15 +143,7 @@
       <workItem from="1717392409046" duration="38036000" />
       <workItem from="1719121331123" duration="602000" />
       <workItem from="1719203457327" duration="1972000" />
-      <workItem from="1720412551708" duration="15488000" />
-    </task>
-    <task id="LOCAL-00100" summary="Update README.md">
-      <option name="closed" value="true" />
-      <created>1717736551524</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1717736551524</updated>
+      <workItem from="1720412551708" duration="16618000" />
     </task>
     <task id="LOCAL-00101" summary="Minor cleanup, remove unused imports">
       <option name="closed" value="true" />
@@ -538,7 +529,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720659407305</updated>
     </task>
-    <option name="localTasksCounter" value="149" />
+    <task id="LOCAL-00149" summary="refactor configuration.py structure, better OO">
+      <option name="closed" value="true" />
+      <created>1720662119762</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1720662119762</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,7 +555,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove generic json functions, RIP" />
     <MESSAGE value="Sort library when updated" />
     <MESSAGE value="Remove duplicate cards when saving" />
     <MESSAGE value="header columns list needs to be comma-separated" />
@@ -580,6 +578,7 @@
     <MESSAGE value="formatting" />
     <MESSAGE value="fix comments, remove unused vars" />
     <MESSAGE value="config init uses provided header object param" />
+    <MESSAGE value="refactor configuration.py structure, better OOword" />
     <MESSAGE value="refactor configuration.py structure, better OO" />
     <option name="LAST_COMMIT_MESSAGE" value="refactor configuration.py structure, better OO" />
   </component>

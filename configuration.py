@@ -29,14 +29,14 @@ class Examples:
         if os.path.isfile(Examples.PATH):
             os.remove(Examples.PATH)
 
-    @staticmethod
-    def get() -> Self:
+    @classmethod
+    def get(cls) -> Self:
         """Load config object. Generates default configuration if no config file exists."""
         # If there is no config file, generate a config object with default values
-        if not os.path.isfile(Examples.PATH):
-            return Examples()
+        if not os.path.isfile(cls.PATH):
+            return cls()
         # Otherwise load from file
-        with open(Examples.PATH, 'r') as file:
+        with open(cls.PATH, 'r') as file:
             return jsonpickle.decode(file.read())
 
 
@@ -71,14 +71,14 @@ class Library:
         if os.path.isfile(Library.PATH):
             os.remove(Library.PATH)
 
-    @staticmethod
-    def get() -> Self:
+    @classmethod
+    def get(cls) -> Self:
         """Load library object. Generates empty object if no library file exists."""
         # If there is no config file, generate a default config object
-        if not os.path.isfile(Library.PATH):
-            return Library()
+        if not os.path.isfile(cls.PATH):
+            return cls()
         # Otherwise load from file
-        with open(Library.PATH, 'r') as file:
+        with open(cls.PATH, 'r') as file:
             return jsonpickle.decode(file.read())
 
 
@@ -93,6 +93,12 @@ class Config:
             self.columns = columns or self.VALID_FIELDS
             self.deck = deck
             self.tags = tags
+
+        def update_columns(self, columns: list[str]):
+            for col in columns:
+                if col not in self.VALID_FIELDS:
+                    raise KeyError(f'Field "{col}" is not valid')
+            self.columns = columns
 
     VALID_HEADER_FIELDS = _HeaderConfig.VALID_FIELDS
 
@@ -112,13 +118,13 @@ class Config:
         if os.path.isfile(Config.PATH):
             os.remove(Config.PATH)
 
-    @staticmethod
-    def get() -> Self:
+    @classmethod
+    def get(cls) -> Self:
         """Load config object. Generates default configuration if no config file exists."""
         # If there is no config file, generate a default config object
         if not os.path.isfile(Config.PATH):
-            return Config()
+            return cls()
 
         # Otherwise load from file
-        with open(Config.PATH, 'r') as file:
+        with open(cls.PATH, 'r') as file:
             return jsonpickle.decode(file.read())

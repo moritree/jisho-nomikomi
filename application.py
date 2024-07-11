@@ -325,21 +325,19 @@ def columns(order_format, valid_options, remove):
     if remove:
         configs.header.tags = None
         configs.save()
-    elif (not order_format) or order_format.__len__() < 2:
+    elif (not order_format):
         # need at least two fields
         click.echo('No fields specified.')
+    elif order_format.__len__() < 2:
+        click.echo('Needs at least two fields.')
     else:
-        # try to write fields
-        # check each provided field is valid
-        for field in order_format:
-            if field not in Config.VALID_HEADER_FIELDS:
-                click.echo(f'Couldn\'t update config, field {field} is invalid.')
-                return
-
         # make config update
-        configs.header.columns = order_format
-        click.echo('Updated fields.')
-        configs.save()
+        try:
+            configs.header.update_columns(order_format)
+            click.echo('Updated fields.')
+            configs.save()
+        except KeyError as e:
+            click.echo(f'Couldn\'t update config: {e}')
 
 
 config.add_command(header)
