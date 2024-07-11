@@ -242,8 +242,7 @@ def example(words, choose_first, overwrite, num_options, indices):
 
 
 @click.group('config')
-@click.pass_context
-def config(ctx):
+def config():
     return
 
 
@@ -276,8 +275,7 @@ def senses(sense_count, remove):
 
 
 @click.group('header')
-@click.pass_context
-def header(ctx):
+def header():
     """Configure items for Anki file header."""
     return
 
