@@ -309,10 +309,10 @@ def deck(title, remove):
 
 
 @header.command()
-@click.argument('order_format', nargs=-1)
+@click.argument('word-fields', nargs=-1)
 @click.option('-v', '--valid-options', is_flag=True, default=False)
 @click.option('-rm', '--remove', is_flag=True, default=False, help='Remove field from header')
-def columns(order_format, valid_options, remove):
+def fields(word_fields, valid_options, remove):
     """Update the fields list. If no values are specified, the field is removed."""
     # supply list of valid options
     if valid_options:
@@ -326,7 +326,7 @@ def columns(order_format, valid_options, remove):
     else:
         # make config update
         try:
-            configs.header.columns = order_format
+            configs.header.fields = word_fields
             click.echo('Updated fields.')
             configs.save()
         except KeyError as e:

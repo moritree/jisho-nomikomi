@@ -88,29 +88,29 @@ class Config:
     class HeaderConfig:
         VALID_FIELDS = ['vocab', 'kana', 'translation', 'part_of_speech', 'jlpt_level', 'example']
 
-        def __init__(self, columns=None, deck: str = None, tags: list[str] = None, separator: str = 'comma'):
+        def __init__(self, fields=None, deck: str = None, tags: list[str] = None, separator: str = 'comma'):
             self.separator = separator
-            self.columns = columns or self.VALID_FIELDS
+            self.fields = fields or self.VALID_FIELDS
             self.deck = deck
             self.tags = tags
 
         @property
-        def columns(self):
-            return self.columns
+        def fields(self):
+            return self.fields
 
-        @columns.setter
-        def columns(self, columns: list[str]):
+        @fields.setter
+        def fields(self, fields: list[str]):
             # need at least two fields
-            if not columns:
+            if not fields:
                 raise KeyError('Fields cannot be empty.')
-            elif columns.__len__() < 2:
+            elif fields.__len__() < 2:
                 raise KeyError('There need to be at least two fields.')
 
             # check each field is valid
-            for col in columns:
-                if col not in self.VALID_FIELDS:
-                    raise KeyError(f'Field "{col}" is not valid.')
-            self._columns = columns
+            for f in fields:
+                if f not in self.VALID_FIELDS:
+                    raise KeyError(f'Field "{f}" is not valid.')
+            self._fields = fields
 
     def __init__(self, header: HeaderConfig = HeaderConfig(), senses: int = 1):
         self.header = header
